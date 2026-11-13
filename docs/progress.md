@@ -2,6 +2,18 @@
 
 Newest first. One entry per slice session. The Studio reads this file.
 
+## 2026-11-13 · S17 · Light theme that follows the device
+- Built: a light palette that switches on when the device (or the Claude app) is in light mode. Same colour meanings; darker shades for amber, blue, green and red text, and a deeper amber for markers so they stay visible. Icons take their colours from the theme. Also fixed the mobile bottom bar floating up on short pages.
+- Tests: every text colour pair checked for contrast (all pass AA; markers 3:1); light screenshots at 1440 × 900 and 390 × 844; S16 checks (26 passed) and the S0 flow re-run in dark mode. No script errors.
+- Check on your phone: switch the phone between light and dark mode; The Studio should follow.
+- Next: S3 · AI triage and inbox
+
+## 2026-11-13 · S16 · Fixes from the phone check
+- Built: each slice row on mobile shows its last commit and date under the title; commit dates now include the time. Slice rows open and close (tap on mobile, click or Enter on desktop) to list every commit that mentions the slice, with hash, date, time and message. The check note in the callout and the log entries are no longer cut off.
+- Tests: S16 browser checks re-run (26 passed), plus expand and collapse at 1440 × 900 and 390 × 844, by mouse, tap and keyboard. No script errors.
+- Check on your phone: open the Build tab, check the hash, date and time under S0, then tap S16 to see its commits.
+- Next: S3 · AI triage and inbox
+
 ## 2026-11-13 · S16 · Build monitor with progress sync from the repo
 - Built: the Build tab is now the build monitor. In the Claude desktop app it reads docs/stories.md, docs/progress.md, .git/HEAD and the last commits from git's reflog in the project's folder, when you open the project and when you press Sync now (or S). It shows slices with status, last commit and date, the progress log, and a callout for slices waiting on you with Mark done, which writes [x] into stories.md after the Claude app asks. Each sync is saved to your account, so the phone shows the last snapshot and its time. On the phone, Mark done is kept until you press Write it on the laptop. Also: paste a Studio update (read by a parser, not Claude: the block has a fixed format, so it's instant and exact), a setup prompt for other repos, connecting, failed, missing-file and no-file-server states, Needs you and the board following the slices for projects in Build, and "Move the project to Build" on later phase tabs. Claude Code side: Stop hook (.claude/hooks/studio-check.cjs and .claude/settings.json), the protocol in CLAUDE.md, ADR 0003.
 - Tests: 26 browser checks with mocked storage and a mocked file server at 1440×900, 1024×768, 390×844 and 360×800: sync, slow first call, Mark done write, errors by code, missing file, setup prompt, paste update, phone marks, log tab. S0 flow re-run. Stop hook run against 8 git scenarios. No script errors.

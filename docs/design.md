@@ -1,6 +1,6 @@
 # Design system
 
-Dark, dense, square. Areas are set apart by background tone and 1 px dividers, not boxes. Each colour has exactly one meaning. Approved screens: https://claude.ai/artifact/TUiuZvdvSz2HYGnZLCkRRh (reviewed against Impeccable and gstack's design rules).
+Dark by default, light when the device is in light mode (S17); dense and square in both. Areas are set apart by background tone and 1 px dividers, not boxes. Each colour has exactly one meaning. Approved screens: https://claude.ai/artifact/TUiuZvdvSz2HYGnZLCkRRh (reviewed against Impeccable and gstack's design rules).
 
 | Token | Value | Use |
 | --- | --- | --- |
@@ -14,6 +14,22 @@ Dark, dense, square. Areas are set apart by background tone and 1 px dividers, n
 | Blue | `#7FB2F0`, tint `#121B26` | Anything Claude did or is doing |
 | Green | `#5DBB8A` | Done |
 | Red | `#E0626B`, tint `#24151A` | Killed, failed, errors |
+
+## Light theme
+Switches on with `prefers-color-scheme: light`, which follows the device or the Claude app. Meanings don't change; only the values do.
+
+| Token | Light value |
+| --- | --- |
+| Ground / rail / raised and sunk | `#F6F5F2` / `#ECEAE5` / `#FFFFFF` |
+| Line / line strong / line hover | `#E0DDD6` / `#BDB8AE` / `#8F8A80` |
+| Text / text 2 / text 3 | `#1A1C1F` / `#4A4F56` / `#626870` |
+| Amber fill / amber text / amber marker | `#F0B43C` / `#8A5A00` / `#B57B0C`, tint `#FBF0D9` |
+| Blue | `#1F5FAE`, tint `#E7EFF9` |
+| Green | `#1A7347` |
+| Red | `#B32D3A`, tint `#FBEAEC` |
+
+- Amber has three roles. `--amber` is the fill for the primary button and the Capture button, the same in both themes. `--amber-ink` is for amber text, the caret and focus rings. `--amber-mark` is for markers: tab underlines, status squares, the logo bar. In dark mode all three are `#F0B43C`; in light mode the text and marker shades are darker so text passes AA and markers reach 3:1.
+- Never hard-code a colour in the page. Icons use `style="fill:var(--...)"` or `style="stroke:var(--...)"` so they follow the theme.
 
 ## Type
 - Schibsted Grotesk 400–700 for everything. JetBrains Mono only for IDs, counts, scores, dates and file paths.

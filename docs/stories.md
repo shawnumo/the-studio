@@ -7,8 +7,8 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 
 ## Must
 - [x] S0 · Walking skeleton: board, capture, projects saved to your account, published
-- [~] S2 · Quick capture from any screen (C on desktop, sheet on mobile)
-- [~] S8 · Phase checklists, finish gate and progress on the board
+- [x] S2 · Quick capture from any screen (C on desktop, sheet on mobile)
+- [x] S8 · Phase checklists, finish gate and progress on the board
 - [~] S16 · Build monitor with progress sync from the repo
 - [ ] S3 · AI triage and inbox
 - [ ] S4 · Discover coach with auto-interview
@@ -22,4 +22,5 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 - [ ] S9 · Rendered Mermaid diagrams
 - [ ] S12 · Claude Code prompt per slice
 - [ ] S14 · Ship checklist, feedback and changelog
-- [~] S15 · Keyboard shortcuts (C, N, B, I, 1–9 and ? are in; review shortcuts come with S7)
+- [x] S15 · Keyboard shortcuts (C, N, B, I, 1–9 and ? are in; review shortcuts come with S7)
+- [~] S17 · Follow the device's light or dark theme
