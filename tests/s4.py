@@ -197,7 +197,14 @@ async def main():
 
         # 10. Reload: chat comes back from the db
         await d.wait_for_timeout(1500)   # let Chrome flush the mock db's localStorage before the reload
-        await d.reload(); await d.wait_for_selector('.coach .msgs[data-ready]', timeout=8000); await d.wait_for_timeout(300)
+        snap = await d.evaluate('localStorage.getItem("__mockdb")')
+        ok('mock db saved before the reload', bool(snap))
+        # Chrome sometimes drops a page's last localStorage writes when it reloads, so a fresh page gets the mock db's copy instead.
+        await d.close()
+        d = await ctx.new_page(); d.on('pageerror', lambda e: errs.append('desk: ' + str(e)))
+        await d.add_init_script('if (!window.name){ window.name = "seeded"; localStorage.setItem("__mockdb", %s); }' % json.dumps(snap))
+        await d.add_init_script(MOCK)
+        await d.goto(URL + '#p-p5'); await d.wait_for_selector('.coach .msgs[data-ready]', timeout=8000); await d.wait_for_timeout(300)
         t = await d.inner_text('.msgs')
         ok('chat restored after reload', 'Matchbook' in t and 'The two captains' in t and 'Stopped' in t)
         ok('latest message in view above the composer', await d.evaluate('(() => { const b = document.querySelector(".msgs").lastElementChild.getBoundingClientRect(); return b.bottom <= document.querySelector(".compose").getBoundingClientRect().top + 1 && b.bottom > 100; })()'))

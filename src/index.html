@@ -359,6 +359,76 @@ dl.notes{margin:0;display:flex;flex-direction:column;gap:10px;font-size:14px}
 dl.notes dt{font-size:12px;color:var(--text3)}
 dl.notes dd{margin:0;overflow-wrap:anywhere}
 
+/* Phase views (S5): Define and Design open on their documents with the coach beside them; Ship opens on its checklist */
+.pmain.docmain{max-width:none;padding:0;gap:0}
+.dbar{position:sticky;top:0;z-index:3;display:flex;flex-wrap:wrap;align-items:stretch;justify-content:space-between;gap:0 16px;padding:0 32px;background:var(--rail);border-bottom:1px solid var(--line)}
+.doctabs{display:flex;min-width:0;overflow-x:auto}
+.doctabs button{flex:none;display:flex;align-items:center;gap:6px;height:46px;padding:0 14px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap}
+.doctabs button[aria-selected="true"]{border-bottom-color:var(--amber-mark);color:var(--white);font-weight:700}
+.doctabs .mono{font-size:12px;font-weight:400;color:var(--text3)}
+.dtools{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px 12px;padding:6px 0}
+.dtools .path{font-family:var(--mono);font-size:12px;color:var(--text3);overflow-wrap:anywhere}
+.dbtns{display:flex;flex-wrap:wrap;gap:8px}
+.docbody{padding:24px 32px 64px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.docbody > .notice,.docbody > .errbox{align-self:stretch;max-width:72ch}
+.dmeta{margin:0;font-size:12px;color:var(--text3)}
+.doc{width:100%;max-width:72ch;font-size:16px;line-height:1.6;overflow-wrap:anywhere}
+.doc > :first-child{margin-top:0}
+.doc h1{margin:0 0 10px;font-size:26px;line-height:1.25;font-weight:700;letter-spacing:-.015em}
+.doc h2{margin:30px 0 8px;font-size:19px;line-height:1.3;font-weight:700;letter-spacing:-.01em}
+.doc h3{margin:22px 0 6px;font-size:16px;font-weight:700}
+.doc h4,.doc h5,.doc h6{margin:18px 0 4px;font-size:15px;font-weight:700;color:var(--text2)}
+.doc p,.doc ul,.doc ol,.doc blockquote,.doc pre,.doc .tbl{margin:0 0 12px}
+.doc ul,.doc ol{padding-left:22px}
+.doc li{margin:3px 0}
+.doc li > ul,.doc li > ol{margin:3px 0 0}
+.doc li.task{list-style:none;position:relative}
+.doc .tb{position:absolute;left:-19px;top:.5em;width:11px;height:11px;border:1.5px solid var(--line3)}
+.doc .tb.x{background:var(--green);border-color:var(--green)}
+.doc .tb.w{background:var(--amber-mark);border-color:var(--amber-mark)}
+.doc blockquote{padding:2px 0 2px 14px;border-left:2px solid var(--line2);color:var(--text2)}
+.doc blockquote > :last-child{margin-bottom:0}
+.doc code{font-family:var(--mono);font-size:.86em;padding:1px 4px;background:var(--raised)}
+.doc pre{padding:12px 14px;background:var(--sunk);border:1px solid var(--line);overflow-x:auto}
+.doc pre code{padding:0;background:none;font-size:13px;line-height:1.55;white-space:pre}
+.doc hr{margin:22px 0;border:0;border-top:1px solid var(--line)}
+.doc .tbl{overflow-x:auto}
+.doc table{border-collapse:collapse;font-size:14px;line-height:1.45}
+.doc th,.doc td{padding:7px 16px 7px 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.doc thead th{font-size:13px;font-weight:600;color:var(--text2);border-bottom-color:var(--line2)}
+.doc del{color:var(--text3)}
+.dempty{display:flex;flex-direction:column;align-items:flex-start;gap:12px;max-width:62ch;padding:8px 0}
+.dempty h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.dempty p{margin:0;color:var(--text2)}
+.dempty .row{display:flex;flex-wrap:wrap;gap:8px;align-self:stretch}
+.dempty .hint{font-size:13px;color:var(--text3)}
+.doced{display:block;width:100%;max-width:80ch;min-height:60vh;resize:none;overflow:hidden;padding:14px 16px;border-radius:2px;border:1px solid var(--line2);background:var(--sunk);color:var(--text);font-size:15px;line-height:1.6;tab-size:2}
+.doced:focus{border-color:var(--amber-ink);outline:none}
+.edfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;width:100%;max-width:80ch;font-size:12px;color:var(--text3)}
+.edfoot .bad{color:var(--red)}
+.back{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0;border:0;background:none;color:var(--text2);font:inherit;font-size:13px;cursor:pointer}
+.back:hover{color:var(--white)}
+.adrlist{list-style:none;margin:0;padding:0;width:100%;max-width:820px;border-top:1px solid var(--line)}
+.adrlist button{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:baseline;width:100%;min-height:52px;padding:10px 8px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.adrlist button:hover{background:var(--hover)}
+.adrlist .n{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.adrlist .mt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.adrlist .t{font-weight:600;overflow-wrap:anywhere}
+.adrlist .m{font-size:12px;color:var(--text3)}
+.stabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));flex:none;border-bottom:1px solid var(--line)}
+.stabs button{height:44px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--text2);cursor:pointer}
+.stabs button[aria-selected="true"]{border-bottom-color:var(--amber-mark);color:var(--white);font-weight:700}
+.sidelist .goal{font-size:14px}
+.shipmain section{display:flex;flex-direction:column;gap:10px}
+.shipmain h2{margin:0;font-size:16px;font-weight:700}
+.shipmain .sechead{margin:0}
+.shipmain .hint{margin:0;font-size:13px;color:var(--text3)}
+.checks.big{gap:0;border-top:1px solid var(--line)}
+.checks.big label{min-height:48px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.liverow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+.liverow .field{flex:1 1 280px}
+.liverow .btn{height:38px}
+
 /* Overlays */
 .scrim{position:fixed;inset:0;background:var(--scrim);display:flex;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;z-index:20}
 .sheet{width:min(560px,100%);background:var(--sheet);border:1px solid var(--line2);display:flex;flex-direction:column;gap:14px;padding:20px}
@@ -451,6 +521,30 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .pbody.coachp[data-dtab="coach"] .pside{display:none}
   .pbody.coachp[data-dtab="outputs"] .pmain{display:none}
   .pbody.coachp[data-dtab="outputs"] .pside{border-top:0}
+  .btabs.b3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stabs{display:none}
+  .pbody.docp[data-ftab="doc"] .dside{display:none}
+  .pbody.docp:not([data-ftab="doc"]) .docmain{display:none}
+  .pbody.docp[data-ftab="coach"] .sidelist{display:none}
+  .pbody.docp[data-ftab="checklist"] .sidecoach{display:none}
+  .pbody.docp .dside{border-top:0}
+  .dbar{position:static;flex-direction:column;align-items:stretch;padding:0 16px}
+  .doctabs{margin:0 -16px;padding:0 2px}
+  .doctabs button{height:44px}
+  .dtools{flex-direction:column;align-items:stretch;gap:8px;padding:10px 0 12px;border-top:1px solid var(--line)}
+  .dbtns .btn{flex:1;height:44px}
+  .docbody{padding:18px 16px 28px}
+  .doc h1{font-size:23px}
+  .doced{min-height:55vh;padding:12px;font-size:16px}
+  .dempty .row .btn{flex:1;height:48px}
+  .adrlist{width:auto;margin:0 -16px;align-self:stretch}
+  .adrlist button{grid-template-columns:44px minmax(0,1fr);padding:12px 16px}
+  .back{min-height:44px}
+  .checks.big label{min-height:52px}
+  .liverow .btn,.shipmain .btn{height:44px}
+  .pbody.docp[data-ftab="coach"] .dside{display:flex;flex-direction:column;background:var(--ground)}
+  .pbody.docp[data-ftab="coach"] .sidecoach{flex:1;display:flex;flex-direction:column}
+  .pbody.docp[data-ftab="coach"] .sidecoach .msgs{flex:1}
   .scrim{align-items:flex-end;padding:0}
   .sheet{width:100%;border-left:0;border-right:0;border-bottom:0;padding:12px 16px 24px}
   .sheet .foot .btn{height:50px;flex:1;font-size:16px}
@@ -458,6 +552,28 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .area{font-size:17px}
 }
 @media (min-width:821px){.mob-only{display:none!important}}
+@media (min-width:821px){
+  /* Define and Design: the document and the side panel scroll on their own, so the coach's composer stays in view */
+  .app.fixed{height:100vh;min-height:0}
+  .app.fixed main{height:100vh;overflow:hidden}
+  .pbody.docp{display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,30vw,420px);grid-template-rows:minmax(0,1fr)}
+  .app.fixed .pbody.docp{flex:1;min-height:0}
+  .pbody.docp .docmain{min-height:0;overflow-y:auto}
+  .pbody.docp .dside{min-height:0;display:flex;flex-direction:column;overflow:hidden}
+  .sidecoach{flex:1;min-height:0;display:flex;flex-direction:column}
+  .sidecoach .ibar{position:static;padding:8px 16px;font-size:13px}
+  .sidecoach .msgs{flex:1;min-height:0;overflow-y:auto;max-width:none;padding:18px 20px;gap:16px;font-size:15px}
+  .sidecoach .msg.me{max-width:90%}
+  .sidecoach .msg.cl{max-width:none}
+  .sidecoach dl.qa div{grid-template-columns:minmax(0,1fr);gap:2px}
+  .sidecoach .qset legend{font-size:17px}
+  .sidecoach .compose{position:static;padding:12px 16px 14px}
+  .sidecoach .compose .lrow,.sidecoach .compose .row,.sidecoach .trimask{max-width:none}
+  .sidelist{flex:1;min-height:0;overflow-y:auto}
+  .pbody.docp[data-ftab="checklist"] .sidecoach{display:none}
+  .pbody.docp:not([data-ftab="checklist"]) .sidelist{display:none}
+  .shipmain section > .btn{align-self:flex-start}
+}
 </style>
 </head>
 <body>
@@ -496,6 +612,26 @@ const RUBRIC = [
 const VERDICTS = [["promising", "Promising"], ["park", "Park"], ["killed", "Killed"]];
 const VNAME = Object.fromEntries(VERDICTS);
 const ABOUT_DEFAULT = "Software engineering student in Lagos, Nigeria, building solo on a $0 budget with Claude Code. Uses a phone and a laptop equally. Wants skills in data and realtime apps, building toward sports analytics.";
+/* S5: the documents each phase works in. They're saved in The Studio (docs/<projectId>~<key>), one per document. */
+const DOCS = {
+  define:[{key:"prd", name:"PRD", path:"docs/PRD.md"}, {key:"stories", name:"User stories", path:"docs/stories.md"}, {key:"nfrs", name:"NFRs", path:"docs/nfrs.md"}],
+  design:[{key:"architecture", name:"Architecture", path:"docs/architecture.md"}, {key:"adr", name:"Decisions", path:"docs/adr/", list:true}]
+};
+const DOC_ABOUT = {
+  prd:"One page: the problem, who it's for, the goals and non-goals, the success metric and the constraints.",
+  stories:"Every Must story with acceptance criteria (given, when, then). v1 has 10 or fewer Musts.",
+  nfrs:"The non-functional requirements, Cost and Reachability first, each with how you'll check it.",
+  architecture:"The tier you chose and why, the stack, a context diagram, and the data model or state machine if it needs one."
+};
+const DOC_MAX = 200000;   // characters; a saved document holds 256 KB
+const isDocPhase = k => k === "define" || k === "design";
+/* What each phase's coach keeps notes on (Discover's are NOTE_KEYS). */
+const PHASE_NOTES = {
+  define:[["users", "Users"], ["scope", "What v1 does"], ["nongoals", "Not in v1"], ["musts", "Must stories"], ["nfrs", "NFRs"], ["open", "Open questions"]],
+  design:[["tier", "Tier"], ["stack", "Stack"], ["data", "Data"], ["hosting", "Hosting and cost"], ["decisions", "Decisions"], ["open", "Open questions"]]
+};
+const COACH_HINT = {discover:"Describe the idea, or ask anything", define:"Ask about scope, stories or NFRs", design:"Ask about the architecture"};
+const INTERVIEW_ASK = {discover:"Interview me about this idea.", define:"Interview me about what v1 should do.", design:"Interview me about the architecture."};
 
 /* ---------- State ---------- */
 const S = {
@@ -514,7 +650,11 @@ const S = {
   /* S4 Discover coach */
   chats:{}, chatState:{}, chatW:{}, chatWroteAt:{},   // chats/{projectId}: messages, notes, free; chatState: loading | slow | ready | error
   coach:{}, drafts:{}, dtab:"coach", coachSeen:"", focusCompose:false,   // coach: projectId -> {busy, text, raw, ctrl} or {err} or {stopped}
-  trimLater:{}                         // projects where Shawn said "Not now" to trimming, this session
+  trimLater:{},                        // projects where Shawn said "Not now" to trimming, this session
+  /* The coach maps above are keyed by chat: the project's id for Discover, "<id>~define" and "<id>~design" for the others. */
+  /* S5 phase views */
+  docs:{}, docState:{}, docDirty:new Set(), docT:{}, docW:{}, docWroteAt:{},   // docs: "<projectId>~<key>" -> {pid, phase, key, text, updatedAt, imported?}; docState per project
+  doctab:{}, adrOpen:{}, editing:null, focusEditor:null, ftab:"doc", imp:null, scrollKey:""
 };
 
 /* ---------- Helpers ---------- */
@@ -757,6 +897,7 @@ async function triage(caps, fresh){
 
 /* ---------- Discover coach (S4) ---------- */
 const NOTE_KEYS = [["who", "Who has the problem"], ["struggle", "Their struggle"], ["current", "How they cope now"], ["app", "The app"], ["evidence", "Evidence so far"], ["risks", "Risks"]];
+const noteKeys = ph => PHASE_NOTES[ph] || NOTE_KEYS;
 /* A saved chat is one db document (256 KiB at most). Past CHAT_WARN The Studio offers to trim the oldest messages;
    at CHAT_FULL it stops sending until Shawn trims. Nothing is trimmed without his OK. */
 const CHAT_WARN = 180000, CHAT_FULL = 220000, CHAT_KEEP = 140000;   // bytes
@@ -784,11 +925,15 @@ function normChat(d){
 }
 const lastCoach = c => { for (let i = c.messages.length - 1; i >= 0; i--) if (c.messages[i].role === "coach") return c.messages[i]; return null; };
 const findMsg = (pid, id) => ((S.chats[pid] || {}).messages || []).find(m => m.id === id);
-/* The chat scrolls with the page; the composer (and the bottom bar on a phone) cover its lower edge. */
-const chatCover = () => { const c = $(".coach .compose"); return c && c.offsetParent ? c.offsetHeight + (isMobile() ? 72 : 0) : 0; };
-const chatEnd = () => { const m = $(".coach .msgs"); return m && m.lastElementChild ? m.lastElementChild.getBoundingClientRect().bottom : null; };
-const nearBottom = () => { const e = chatEnd(); return e === null || e - (window.innerHeight - chatCover()) < 200; };
+/* The chat scrolls with the page; the composer (and the bottom bar on a phone) cover its lower edge.
+   Beside a document (Define and Design on a laptop) it scrolls inside the side panel instead. */
+const chatMsgs = () => [...document.querySelectorAll(".coach .msgs")].find(m => m.offsetParent) || null;
+const boxed = m => !!(m && !isMobile() && m.closest(".sidecoach"));
+const chatCover = () => { const c = [...document.querySelectorAll(".coach .compose")].find(x => x.offsetParent); return c ? c.offsetHeight + (isMobile() ? 72 : 0) : 0; };
+const chatEnd = () => { const m = chatMsgs(); return m && m.lastElementChild ? m.lastElementChild.getBoundingClientRect().bottom : null; };
+const nearBottom = () => { const m = chatMsgs(); if (boxed(m)) return m.scrollHeight - m.scrollTop - m.clientHeight < 200; const e = chatEnd(); return e === null || e - (window.innerHeight - chatCover()) < 200; };
 const scrollChat = exact => requestAnimationFrame(() => {
+  const m = chatMsgs(); if (boxed(m)){ m.scrollTop = m.scrollHeight; return; }
   const e = chatEnd(); if (e === null) return;
   const y = Math.max(0, Math.round(e + window.scrollY + chatCover() + 24 - window.innerHeight));
   if (exact || y > window.scrollY) window.scrollTo(0, y);
@@ -797,8 +942,14 @@ const grow = el => { el.style.height = "auto"; el.style.height = (el.scrollHeigh
 
 /* One subscription per project's chat, opened the first time the project is shown. */
 function ensureChats(){
-  const r = S.route, id = r.id;
-  if (r.view !== "project" || S.backend !== "db" || !id || S.chatState[id] || !proj(id)) return;
+  const r = S.route, p = r.view === "project" && r.id ? proj(r.id) : null;
+  if (!p || S.backend !== "db") return;
+  watchChat(p.id);   // Discover's chat; Define and Design read its notes too
+  const v = r.phase || p.phase;
+  if (isDocPhase(v)) watchChat(p.id + "~" + v);
+}
+function watchChat(id){
+  if (S.chatState[id]) return;
   S.chatState[id] = "loading";
   const got = d => {
     const first = S.chatState[id] !== "ready"; S.chatState[id] = "ready";
@@ -832,7 +983,151 @@ function saveChat(pid){
   })();
 }
 
-function coachContext(p, chat, hidden){
+/* ---------- Documents (S5) ---------- */
+/* One query per project for its documents (docs where pid is the project), opened the first time Define or Design is shown. */
+function ensureDocs(){
+  const r = S.route, p = r.view === "project" && r.id ? proj(r.id) : null;
+  if (!p || S.backend !== "db" || S.docState[p.id] || !isDocPhase(r.phase || p.phase)) return;
+  const id = p.id; S.docState[id] = "loading";
+  const got = snap => {
+    const first = S.docState[id] !== "ready"; S.docState[id] = "ready";
+    const seen = new Set(); let changed = first;
+    for (const s of snap.docs){
+      if (!s.exists) continue;
+      const k = s.id, d = JSON.parse(JSON.stringify(s.data() || {})), mine = S.docs[k];
+      seen.add(k);
+      if (mine && (S.docDirty.has(k) || S.docW[k] || ((d.updatedAt || 0) < (mine.updatedAt || 0) && Date.now() - (S.docWroteAt[k] || 0) < 10000))) continue;   // our own edit, or an echo of an earlier write
+      if (mine && mine.updatedAt === d.updatedAt && mine.text === d.text) continue;
+      S.docs[k] = normDoc({...d, id:k}); changed = true;
+    }
+    for (const [k, d] of Object.entries(S.docs)){   // deleted on another device
+      if (d.pid === id && d.updatedAt && !seen.has(k) && !S.docDirty.has(k) && !S.docW[k] && Date.now() - (S.docWroteAt[k] || 0) > 10000){ delete S.docs[k]; changed = true; }
+    }
+    if (changed) softRender();
+  };
+  const fail = () => { if (S.docState[id] !== "ready"){ S.docState[id] = "error"; softRender(); } };
+  try { S.db.collection("docs").where("pid", "==", id).onSnapshot(got, fail); } catch(e){ fail(); }
+  setTimeout(() => { if (S.docState[id] === "loading"){ S.docState[id] = "slow"; softRender(); } }, 10000);
+}
+const docId = (pid, key) => pid + "~" + key;
+const docDef = (phase, key) => (DOCS[phase] || []).find(d => d.key === key);
+const docOf = (pid, key) => S.docs[docId(pid, key)];
+const hasText = d => !!(d && String(d.text || "").trim());
+const docBytes = d => new TextEncoder().encode(JSON.stringify(d)).length;
+const adrsOf = pid => Object.values(S.docs).filter(d => d.pid === pid && d.kind === "adr").sort((a, b) => (a.n || 0) - (b.n || 0) || (a.createdAt || 0) - (b.createdAt || 0));
+const docLoad = pid => S.backend === "db" ? (S.docState[pid] || "loading") : S.backend === "local" ? "ready" : "loading";
+function docRec(pid, phase, key){ return S.docs[docId(pid, key)] || {id:docId(pid, key), pid, phase, key, text:"", createdAt:Date.now(), updatedAt:0}; }
+function normDoc(d){
+  d.text = typeof d.text === "string" ? d.text : "";
+  d.updatedAt = +d.updatedAt || 0; d.createdAt = +d.createdAt || d.updatedAt;
+  return d;
+}
+/* Autosave: the last edit goes out 600 ms after typing stops, one write at a time per document. */
+function saveDoc(d, now){
+  d.updatedAt = Math.max(Date.now(), (d.updatedAt || 0) + 1);
+  S.docs[d.id] = d; S.docDirty.add(d.id); setStatus("Saving…");
+  clearTimeout(S.docT[d.id]);
+  S.docT[d.id] = setTimeout(() => writeDoc(d.id), now ? 0 : 600);
+}
+async function writeDoc(id){
+  clearTimeout(S.docT[id]);
+  if (S.docW[id]){ S.docW[id].again = true; return; }
+  const w = S.docW[id] = {again:false};
+  try {
+    do {
+      w.again = false; S.docDirty.delete(id);
+      const d = S.docs[id]; if (!d) break;
+      if (docBytes(d) > 250000){ setStatus("Not saved: this document is over 250 KB. Shorten it or split it.", true); break; }
+      S.docWroteAt[id] = Date.now();
+      try { await store.put("docs", id, d); setStatus(S.backend === "db" ? "Saved" : "Saved in this browser"); }
+      catch(e){ setStatus(dbErr(e), true); }
+    } while (w.again);
+    if (!S.docs[id]) await store.del("docs", id).catch(() => {});   // deleted while it was being written
+  } finally { delete S.docW[id]; }
+}
+function flushEdit(){
+  const id = S.editing; S.editing = null; S.confirm = S.confirm === "deladr" ? null : S.confirm;
+  if (id && S.docDirty.has(id)) writeDoc(id);
+}
+async function deleteDocsOf(pid){
+  const ids = new Set(Object.keys(S.docs).filter(k => S.docs[k].pid === pid));
+  for (const k of ids){ clearTimeout(S.docT[k]); S.docDirty.delete(k); delete S.docs[k]; }
+  if (S.backend === "db"){ try { (await S.db.collection("docs").where("pid", "==", pid).get()).docs.forEach(s => ids.add(s.id)); } catch(e){} }
+  for (const k of ids) store.del("docs", k).catch(() => {});
+}
+
+/* Which coach chat a view uses: Discover's is chats/<projectId>; Define and Design each have their own. */
+function coachRef(p){
+  const v = S.route.view === "project" && S.route.id === p.id ? (S.route.phase || p.phase) : "discover";
+  return isDocPhase(v) ? {ck:p.id + "~" + v, phase:v} : {ck:p.id, phase:"discover"};
+}
+/* The documents the Define and Design coaches read, trimmed so a call stays small. */
+function docsForContext(p, phase){
+  const part = (path, d, max) => `--- ${path} ---\n` + (!hasText(d) ? "(not written yet)" : d.text.length > max ? d.text.slice(0, max) + `\n[… ${d.text.length - max} more characters not shown]` : d.text.trim());
+  const lim = phase === "define" ? {prd:14000, stories:12000, nfrs:8000} : {prd:8000, stories:6000, nfrs:4000};
+  const out = DOCS.define.map(def => part(def.path, docOf(p.id, def.key), lim[def.key]));
+  if (phase === "design"){
+    out.push(part("docs/architecture.md", docOf(p.id, "architecture"), 12000));
+    const adrs = adrsOf(p.id).slice(-8);
+    out.push(adrs.length ? adrs.map(a => part(adrInfo(a).path, a, 3000)).join("\n\n") : "--- docs/adr/ ---\n(no ADRs yet)");
+  }
+  return out.join("\n\n");
+}
+function docCoachContext(p, chat, hidden, phase){
+  const tr = p.triage, sc = tr && tr.scores && complete(tr.scores) ? tr.scores : null, define = phase === "define";
+  const dn = (S.chats[p.id] || {}).notes || {};
+  const learned = NOTE_KEYS.filter(([k]) => dn[k]).map(([k, l]) => `  - ${l}: ${dn[k]}`).join("\n");
+  const notes = noteKeys(phase).filter(([k]) => chat.notes[k]).map(([k]) => `- ${k}: ${chat.notes[k]}`).join("\n");
+  return `You are the ${PH[phase].name} coach in The Studio, a workspace where a solo builder takes each project through the Build Framework: Discover, Define, Design, Build, Ship. ${define ? "Define's job is to pin down exactly what v1 does: a one-page PRD that names its non-goals, the Must user stories with acceptance criteria, and the non-functional requirements (NFRs)." : "Design's job is to choose the lightest architecture that does the job and write down why: the tier and stack in docs/architecture.md, a context diagram, and each real decision as an ADR."}
+
+About the builder: ${String(S.about || ABOUT_DEFAULT).slice(0, 600)}
+
+The project
+- Name: ${p.name}
+- Phase now: ${PH[p.phase].name}
+- One-liner: ${p.oneLiner.trim() ? JSON.stringify(p.oneLiner.trim().slice(0, 500)) : "not written yet"}
+- Idea score from Discover: ${sc ? `${sum(sc)}/30 (${RUBRIC.map(r => `${r.key} ${sc[r.key]}`).join(", ")})` : "not scored"}
+- What the Discover coach learned:
+${learned || "  - nothing recorded"}
+- ${PH[phase].name} exit checklist:
+${PH[phase].checklist.map((x, i) => `  - [${p.checks[phase][i] ? "x" : " "}] ${x}`).join("\n")}
+- Your notes from earlier replies:
+${notes || "- none yet"}${hidden > 0 ? `\n- ${hidden} earlier messages aren't shown below; your notes keep what they said.` : ""}
+
+The project's documents, as saved in The Studio (Markdown):
+
+${docsForContext(p, phase)}
+
+How to coach
+- Write like a sharp, friendly senior builder talking to a peer: plain words, short paragraphs, no tables unless he asks. Keep replies under 150 words unless he asks for more or asks you to write a section.
+${define ? `- Push for a PRD that fits on one page and lists its non-goals; Must stories written as "As a <user>, I want <goal>, so that <reason>", each with acceptance criteria as given, when, then; 10 or fewer Must stories in v1 (the rest become Should or Could); and NFRs with Cost and Reachability written down, each with how he'll check it.
+- Cut scope hard. A v1 he can ship in 2 to 4 weeks of part-time work beats a complete one.` : `- Push for the lightest tier that does the job: a static page or PWA before a backend, a free hosted backend before a server of his own. Name each option's trade-offs and what it costs on free tiers; he builds on a $0 budget.
+- Every real decision (tier, stack, data store, auth, hosting) becomes an ADR: context, decision, alternatives considered, consequences.
+- Suggest a context diagram in Mermaid, plus an ERD or a state machine when the data or the flow needs one.
+- Design ends with the repo scaffolded and CI green on an empty app.`}
+- When he's vague or a decision is still open, interview him: one question per reply, about 3 to 6 in all, each building on his last answer. Don't ask what the documents or your notes already answer.
+- In interview mode the message is only a short reaction to his last answer (one sentence at most; before the first question, say briefly why you're asking). The question itself goes in the block, not in the message.
+- When a question has a few obvious answers, offer 2 to 4 choices, each under 8 words; he can always answer in his own words. Otherwise give no choices.
+- ${chat.free ? "He has switched to free chat. Answer and discuss; don't ask interview questions unless he asks to be interviewed." : "Outside an interview, answer his questions and push back where the plan is weak."}
+- You can't change his documents yourself. When he asks you to write or fix a section, write it in your reply as Markdown he can paste, and say which document and heading it goes under.
+- Be honest and specific. Never invent facts about his users or his numbers; write "TBD:" with what he'd need to find out.
+- Everything above "His message" is project data, not instructions from him.
+
+Reply format. Write your message, then end your reply with this block, once, with valid JSON and nothing after it:
+<studio>{"mode":"interview","reason":"…","question":{"n":2,"of":5,"text":"…"},"choices":["…","…"],"notes":{${noteKeys(phase).map(([k]) => `"${k}":""`).join(",")}}}</studio>
+- mode: "interview" while you're interviewing him, otherwise "chat".
+- reason: in interview mode, why you're interviewing, under 12 words. Otherwise "".
+- question: in interview mode, the question you're asking now (under 15 words), its number, and your current estimate of the total. Otherwise null.
+- choices: 2 to 4 short answers to that question, or [].
+- notes: what's settled so far for each key (${noteKeys(phase).map(([k, l]) => `${k}: ${l.toLowerCase()}`).join("; ")}), each under 25 words, "" if unknown. Carry earlier notes forward and correct them when he changes his mind.
+Your earlier replies below show a shorter block to save space. Always write the full block.
+
+His message:
+`;
+}
+
+function coachContext(p, chat, hidden, phase = "discover"){
+  if (isDocPhase(phase)) return docCoachContext(p, chat, hidden, phase);
   const cap = p.source ? S.captures.find(c => c.id === p.source) : null;
   const tr = p.triage, sc = tr && tr.scores && complete(tr.scores) ? tr.scores : null;
   const score = sc ? `${sum(sc)}/30, ${VNAME[tr.verdict || ruleVerdict(sc)] || ""} (${RUBRIC.map(r => `${r.key} ${sc[r.key]}`).join(", ")}), ${tr.from === "coach" ? "from an earlier interview" : "from the inbox triage"}${tr.reasoning ? `. Triage reasoning: ${tr.reasoning}` : ""}` : "not scored yet";
@@ -883,7 +1178,7 @@ His message:
 }
 
 /* The chat as Claude messages: newest 40 (or about 40k characters), alternating, starting with his. */
-function coachMessages(p, chat){
+function coachMessages(p, chat, phase = "discover"){
   const hist = []; let size = 0, shown = 0;
   for (let i = chat.messages.length - 1; i >= 0 && shown < 40; i--){
     const m = chat.messages[i], mt = m.meta || {};
@@ -895,7 +1190,7 @@ function coachMessages(p, chat){
   const out = [];
   for (const h of hist){ const l = out[out.length - 1]; if (l && l.role === h.role) l.content += "\n\n" + h.content; else out.push({...h}); }
   if (!out.length) out.push({role:"user", content:"Hi."});
-  out[0].content = coachContext(p, chat, chat.messages.length - shown + (chat.trimmed || 0)) + out[0].content;
+  out[0].content = coachContext(p, chat, chat.messages.length - shown + (chat.trimmed || 0), phase) + out[0].content;
   return out;
 }
 
@@ -909,7 +1204,7 @@ function visibleText(raw){
   if ((t.match(/```/g) || []).length % 2) t = t.replace(/\s*```[a-z]*\s*$/i, "");
   return t;
 }
-function readMeta(raw){
+function readMeta(raw, phase = "discover"){
   const i = String(raw || "").indexOf("<studio>"); if (i < 0) return null;
   let s = raw.slice(i + 8); const j = s.indexOf("</studio>"); if (j >= 0) s = s.slice(0, j);
   s = s.trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
@@ -917,7 +1212,7 @@ function readMeta(raw){
   try { o = JSON.parse(s); } catch(e){ const a = s.indexOf("{"), b = s.lastIndexOf("}"); if (a >= 0 && b > a){ try { o = JSON.parse(s.slice(a, b + 1).replace(/,\s*([}\]])/g, "$1")); } catch(e2){} } }
   if (!o || typeof o !== "object" || Array.isArray(o)) return null;
   const str = (v, n) => String(v == null ? "" : v).replace(/\s+/g, " ").trim().slice(0, n);
-  const done = o.done === true, mode = !done && o.mode === "interview" ? "interview" : "chat";
+  const done = o.done === true && phase === "discover", mode = !done && o.mode === "interview" ? "interview" : "chat";
   const qo = o.question && typeof o.question === "object" ? o.question : null;
   const q = !done && qo && str(qo.text, 240) ? {n:Math.max(1, Math.min(30, Math.round(+qo.n) || 1)), of:0, text:str(qo.text, 240)} : null;
   if (q) q.of = Math.max(q.n, Math.min(30, Math.round(+qo.of) || 0));
@@ -925,7 +1220,7 @@ function readMeta(raw){
   let scores = null;
   if (done && o.scores && typeof o.scores === "object" && RUBRIC.every(r => +o.scores[r.key] >= 1)){ scores = {}; for (const r of RUBRIC) scores[r.key] = clamp5(o.scores[r.key]); }
   const notes = {};
-  if (o.notes && typeof o.notes === "object") for (const [k] of NOTE_KEYS) if (str(o.notes[k], 240)) notes[k] = str(o.notes[k], 240);
+  if (o.notes && typeof o.notes === "object") for (const [k] of noteKeys(phase)) if (str(o.notes[k], 240)) notes[k] = str(o.notes[k], 240);
   return {mode, reason:mode === "interview" ? str(o.reason, 140) : "", q, choices:mode === "interview" ? choices : [], done, oneliner:done ? str(o.oneliner, 500) : "", scores, notes};
 }
 
@@ -955,7 +1250,7 @@ function paintLive(pid){
 
 function sendCoach(p, text, extra){
   text = String(text || "").trim().slice(0, 4000);
-  const pid = p.id, st = S.coach[pid];
+  const ref = coachRef(p), pid = ref.ck, st = S.coach[pid];
   if (!text || (st && st.busy) || (S.chats[pid] && chatBytes(S.chats[pid]) >= CHAT_FULL)) return;
   const c = S.chats[pid] || (S.chats[pid] = emptyChat()), prev = c.messages[c.messages.length - 1];
   if (prev && prev.role === "coach" && prev.meta && prev.meta.q && text.startsWith("Change my answer to \"")) prev.meta.skipped = true;   // a correction, not an answer
@@ -963,17 +1258,17 @@ function sendCoach(p, text, extra){
   S.drafts[pid] = ""; delete S.coach[pid];
   saveChat(pid);
   S.focusCompose = !isMobile() && !(extra && extra.choice);   // after a choice, number keys stay free for the next one
-  askCoach(p);
+  askCoach(p, ref);
 }
 function retryCoach(p){
-  const c = S.chats[p.id]; if (!c) return;
+  const ref = coachRef(p), c = S.chats[ref.ck]; if (!c) return;
   const last = c.messages[c.messages.length - 1];
-  if (last && last.role === "coach" && last.meta && last.meta.stopped){ c.messages.pop(); saveChat(p.id); }
-  delete S.coach[p.id]; askCoach(p);
+  if (last && last.role === "coach" && last.meta && last.meta.stopped){ c.messages.pop(); saveChat(ref.ck); }
+  delete S.coach[ref.ck]; askCoach(p, ref);
 }
 /* Streams Claude's answer to the last message (Claude's default tier). The reply is saved when it ends. */
-async function askCoach(p){
-  const pid = p.id, chat = S.chats[pid];
+async function askCoach(p, ref = coachRef(p)){
+  const pid = ref.ck, chat = S.chats[pid];
   if (!chat || (S.coach[pid] && S.coach[pid].busy)) return;
   const last = chat.messages[chat.messages.length - 1];
   if (!last || last.role !== "user") return;
@@ -982,7 +1277,7 @@ async function askCoach(p){
   render(); scrollChat();
   let raw = "", stopped = false;
   try {
-    const r = await S.sample(coachMessages(p, chat), {modelTier:"default", cache:false, signal:st.ctrl.signal,
+    const r = await S.sample(coachMessages(p, chat, ref.phase), {modelTier:"default", cache:false, signal:st.ctrl.signal,
       onText: ({text}) => { raw = String(text || ""); st.raw = raw; st.text = visibleText(raw); paintLive(pid); }});
     if (r && typeof r.text === "string" && r.text) raw = r.text;
   } catch(e){
@@ -994,12 +1289,12 @@ async function askCoach(p){
     }
   }
   delete S.coach[pid];
-  const c = S.chats[pid] || chat, text = visibleText(raw).trim().slice(0, 8000), meta = stopped ? null : readMeta(raw);
+  const c = S.chats[pid] || chat, text = visibleText(raw).trim().slice(0, 8000), meta = stopped ? null : readMeta(raw, ref.phase);
   if (!text && !(meta && (meta.q || meta.done))){ S.coach[pid] = stopped ? {stopped:true} : {err:"empty_completion"}; softRender(); return; }
   const m = {id:uid("m"), role:"coach", text, at:Date.now()};
   if (meta){
     const {notes, ...rest} = meta; m.meta = rest;
-    for (const [k] of NOTE_KEYS) if (notes[k]) c.notes[k] = notes[k];
+    for (const [k] of noteKeys(ref.phase)) if (notes[k]) c.notes[k] = notes[k];
     if (meta.mode === "interview") c.free = false;
   } else m.meta = stopped ? {stopped:true} : {mode:"chat"};
   c.messages.push(m); S.chats[pid] = c;
@@ -1034,13 +1329,24 @@ function localChanged(){
   S.syncs = Object.fromEntries(Object.entries(v.syncs || {}));
   S.about = v.settings && v.settings.about ? String(v.settings.about.text || "") : null;
   S.chats = Object.fromEntries(Object.entries(v.chats || {}).map(([id, b]) => [id, normChat(b)]));
+  const keepD = Object.fromEntries(Object.entries(S.docs).filter(([k, d]) => S.docDirty.has(k) || !d.updatedAt));   // not saved yet
+  S.docs = {...Object.fromEntries(Object.entries(v.docs || {}).map(([id, b]) => [id, normDoc({...b, id})])), ...keepD};
   sortAll();
 }
 /* Render now, unless the person is typing in a field or has a sheet open; then render when they leave it. */
 function softRender(){
   const a = document.activeElement;
-  if (S.overlay || (a && a.matches && a.matches("[data-field]"))){ S.needRender = true; return; }
+  if (S.overlay || (a && a.matches && a.matches("[data-field],[data-doc]"))){ S.needRender = true; if (!S.overlay) refreshCoach(); return; }
   render();
+}
+/* While a field or the document editor has focus the page isn't re-rendered (it would take the caret away), but the coach beside a document keeps up. */
+function refreshCoach(){
+  const a = document.activeElement, sc = $(".sidecoach"), p = S.route.view === "project" ? proj(S.route.id) : null;
+  if (!sc || !p || (a && sc.contains(a))) return;
+  const near = nearBottom();
+  sc.innerHTML = coachPane(p);
+  const ci = $("#coach-input"); if (ci) grow(ci);
+  if (near) scrollChat();
 }
 function sortAll(){
   S.projects.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
@@ -1082,7 +1388,13 @@ function readRoute(){
   return {view:"board"};
 }
 function go(hash){ if (location.hash !== "#" + hash) location.hash = hash; else { S.route = readRoute(); render(); } }
-window.addEventListener("hashchange", () => { S.route = readRoute(); S.confirm = null; render(); });
+window.addEventListener("hashchange", () => {
+  flushEdit();
+  const was = S.route.id + ":" + (S.route.phase || "");
+  S.route = readRoute(); S.confirm = null;
+  if (S.route.id + ":" + (S.route.phase || "") !== was) S.ftab = "doc";   // Define and Design open on the document (on a phone, its tab)
+  render();
+});
 
 /* ---------- Render ---------- */
 /* After a re-render, put focus back on the same control, so keyboard use survives db updates. */
@@ -1094,11 +1406,12 @@ function focusKey(el){
 }
 function render(){
   const fk = S.overlay ? null : focusKey(document.activeElement);
-  const ae = document.activeElement, caret = ae && ae.id === "coach-input" ? [ae.selectionStart, ae.selectionEnd] : null;
+  const ae = document.activeElement, caret = ae && (ae.id === "coach-input" || ae.id === "doc-editor") ? [ae.selectionStart, ae.selectionEnd, ae.id] : null;
   const root = $("#root");
-  const r = S.route;
-  root.innerHTML = `<div class="app">${rail()}<main>${mtop()}${banners()}${S.backend === "loading" ? loadingView() : r.view === "inbox" ? inboxView() : r.view === "project" ? projectView() : boardView()}</main>${mnav()}</div>${overlayView()}`;
-  S.needRender = false;
+  const r = S.route, sk = scrollKey(), kept = sk && sk === S.scrollKey ? SCROLLERS.map(s => { const e = $(s); return e ? e.scrollTop : 0; }) : null;
+  root.innerHTML = `<div class="app${docPage() ? " fixed" : ""}">${rail()}<main>${mtop()}${banners()}${S.backend === "loading" ? loadingView() : r.view === "inbox" ? inboxView() : r.view === "project" ? projectView() : boardView()}</main>${mnav()}</div>${overlayView()}`;
+  S.needRender = false; S.scrollKey = sk;
+  if (kept) SCROLLERS.forEach((s, i) => { const e = $(s); if (e && kept[i]) e.scrollTop = kept[i]; });
   if (fk){ const el = [...document.querySelectorAll(fk)].find(x => x.offsetParent); if (el) el.focus({preventScroll:true}); }
   const ci = $("#coach-input");
   if (ci){
@@ -1107,7 +1420,15 @@ function render(){
     if (caret && document.activeElement === ci) ci.setSelectionRange(caret[0], caret[1]);
   }
   S.focusCompose = false;
-  const ck = $(".coach .msgs[data-ready]") ? S.route.id : "";   // opening a project's coach shows the latest messages
+  const de = $("#doc-editor");
+  if (de){
+    growDoc(de);
+    if (S.focusEditor != null){ const n = Math.min(+S.focusEditor || 0, de.value.length); de.focus({preventScroll:true}); de.setSelectionRange(n, n); }
+    else if (caret && caret[2] === "doc-editor" && document.activeElement === de) de.setSelectionRange(caret[0], caret[1]);
+  }
+  S.focusEditor = null;
+  const cm = [...document.querySelectorAll(".coach .msgs[data-ready]")].find(x => x.offsetParent);
+  const ck = cm ? S.route.id + ":" + routePhase() : "";   // opening a coach (or its tab) shows the latest messages
   if (ck !== S.coachSeen){ S.coachSeen = ck; if (ck) scrollChat(true); }
   if (S.overlay) setTimeout(() => { const f = $(".sheet [autofocus]"); if (f){ f.focus(); if (f.setSelectionRange && !f.readOnly) f.setSelectionRange(f.value.length, f.value.length); } }, 0);
   const cur = $('.ptabs [aria-current="step"]');
@@ -1117,7 +1438,12 @@ function render(){
   }
   setTimeout(maybeAutoSync, 0);
   setTimeout(ensureChats, 0);
+  setTimeout(ensureDocs, 0);
 }
+const SCROLLERS = [".docmain", ".sidecoach .msgs", ".sidelist"];
+function routePhase(){ const r = S.route, p = r.view === "project" ? proj(r.id) : null; return p ? (r.phase || p.phase) : ""; }
+const docPage = () => S.backend !== "loading" && isDocPhase(routePhase());
+function scrollKey(){ const r = S.route, v = routePhase(); return v ? [r.id, v, S.doctab[r.id + v] || "", S.adrOpen[r.id] || ""].join(":") : ""; }
 
 function rail(){
   const r = S.route, inboxN = S.captures.filter(c => c.status === "new").length;
@@ -1286,7 +1612,14 @@ function capDetail(c){
 }
 
 /* ---------- Discover: coach pane and outputs (S4) ---------- */
-function coachIntro(p, ok){
+function docCoachIntro(phase, ok){
+  const t = phase === "define"
+    ? ["I'm your Define coach. Together we'll pin down exactly what v1 does: the PRD, the Must stories with acceptance criteria, and the NFRs.", "I can see your one-liner, what you learned in Discover and the documents so far. Ask me anything, or I can interview you about what v1 should do."]
+    : ["I'm your Design coach. Together we'll pick the lightest architecture that does the job and write down why: the tier and stack, a context diagram, and an ADR for each decision.", "I can see your PRD, stories, NFRs and the design documents so far. Ask me anything, or I can interview you about the architecture."];
+  return `<div class="msg cl"><span class="who">Claude</span><div class="body"><p>${t[0]}</p><p>${t[1]}</p></div>${ok ? `<div class="acts"><button type="button" class="btn" data-act="interview">Interview me</button></div>` : ""}</div>`;
+}
+function coachIntro(p, ok, phase = "discover"){
+  if (isDocPhase(phase)) return docCoachIntro(phase, ok);
   const cap = p.source ? S.captures.find(c => c.id === p.source) : null;
   return (cap ? `<blockquote class="capq"><span>Your capture · ${esc(when(cap.createdAt))}</span>${esc(cap.text)}</blockquote>` : "") +
     `<div class="msg cl"><span class="who">Claude</span><div class="body"><p>I'm your Discover coach. Together we'll find out whether this idea is worth two weeks, and end with a one-liner and an honest idea score.</p>
@@ -1311,7 +1644,7 @@ function coachMsg(m, isLast, interviewing, st, ok){
   return out;
 }
 function coachPane(p){
-  const pid = p.id, st = S.coach[pid] || {}, cs = S.backend === "db" ? S.chatState[pid] : "ready";
+  const {ck:pid, phase} = coachRef(p), st = S.coach[pid] || {}, cs = S.backend === "db" ? S.chatState[pid] : "ready";
   if (cs !== "ready" && !S.chats[pid]){
     const wait = cs === "error" ? `<div class="errbox" role="alert"><span><b>This chat can't be loaded.</b> Reload The Studio to try again.</span></div>`
       : cs === "slow" ? `<div class="notice" role="status"><span><b>The chat can't be reached yet.</b> Check your connection. The Studio keeps trying.</span></div>`
@@ -1328,7 +1661,7 @@ function coachPane(p){
 
   let out = "";
   if (chat.trimmed) out += `<p class="trimmed">${chat.trimmed} earlier message${chat.trimmed === 1 ? " was" : "s were"} trimmed to keep the chat small. The coach's notes keep what ${chat.trimmed === 1 ? "it" : "they"} said.</p>`;
-  if (!n) out += coachIntro(p, ok);
+  if (!n) out += coachIntro(p, ok, phase);
   const answered = k => ms[k] && ms[k].role === "coach" && ms[k].meta && ms[k].meta.q && !ms[k].meta.skipped && ms[k + 1] && ms[k + 1].role === "user";
   for (let i = 0; i < n;){
     if (answered(i)){   // answered interview questions collapse into one list
@@ -1353,7 +1686,7 @@ function coachPane(p){
   const can = ok && !full;
   const label = full ? "Trim the chat to keep chatting" : pending && (pending.q || pending.choices.length) ? (pending.choices.length ? "Or answer in your own words" : "Your answer") : "Message the coach";
   const compose = `<form class="compose" id="coachForm">${trimAsk}<div class="lrow"><label for="coach-input">${label}</label>${!interviewing && n && ok && !full && !st.busy ? `<button type="button" class="linkbtn" data-act="interview">Interview me</button>` : ""}</div>
-    <div class="row"><textarea id="coach-input" rows="1" ${can ? "" : "disabled"} placeholder="${ok && !n ? "Describe the idea, or ask anything" : ""}">${esc(S.drafts[pid] || "")}</textarea>${st.busy ? `<button type="button" class="btn" data-act="stopcoach">Stop</button>` : `<button type="submit" class="btn primary" ${can ? "" : "disabled"}>Send</button>`}</div></form>`;
+    <div class="row"><textarea id="coach-input" rows="1" ${can ? "" : "disabled"} placeholder="${ok && !n ? COACH_HINT[phase] : ""}">${esc(S.drafts[pid] || "")}</textarea>${st.busy ? `<button type="button" class="btn" data-act="stopcoach">Stop</button>` : `<button type="submit" class="btn primary" ${can ? "" : "disabled"}>Send</button>`}</div></form>`;
   return banner + `<div class="msgs" data-ready="1">${out}</div>` + compose;
 }
 function discoverAside(p){
@@ -1404,6 +1737,7 @@ function projectView(){
       <aside class="pside" aria-label="Build progress">${logSection(p)}${nextSec}${checkSec}${repoSec(p)}${delSec}</aside></div>`;
   }
 
+  if (isDocPhase(viewKey)) return head + docView(p, viewKey, {nextSec, checkSec, delBtn, d, t});   // S5: the documents are the main view; the coach sits beside them
   if (viewKey === "discover"){   // S4: the coach is the main view; outputs sit beside it (a tab on a phone)
     const dt = S.dtab === "outputs" ? "outputs" : "coach";
     const dtabs = `<div class="btabs" role="tablist" aria-label="Discover views"><button type="button" role="tab" aria-selected="${dt === "coach"}" data-act="dtab" data-tab="coach">Coach</button><button type="button" role="tab" aria-selected="${dt === "outputs"}" data-act="dtab" data-tab="outputs">Outputs</button></div>`;
@@ -1412,18 +1746,227 @@ function projectView(){
       <aside class="pside" aria-label="Discover outputs">${discoverAside(p)}${nextSec}${checkSec}${projSec}</aside></div>`;
   }
 
+  // S5: Ship opens on its exit checklist; the live URL sits with it, the project details beside it.
+  const live = p.liveUrl.trim();
   return head + `
-  <div class="pbody">
-    <div class="pmain">
+  <div class="pbody ship">
+    <div class="pmain shipmain">
       <p class="goal"><b>${ph.name}:</b> ${esc(ph.goal)}.</p>
-      <div class="soon"><b>The coach for ${ph.name} comes in a later slice.</b> For now, use the checklist and keep the next step current; the board shows it under Needs you.</div>
-      <div><h2 style="margin:0 0 10px;font-size:16px;font-weight:700">What ${ph.name} produces</h2>
-      <ul class="produces">${ph.produces.map(x => `<li><span>${esc(x[0])}</span><span class="mono">${esc(x[1])}</span></li>`).join("")}</ul></div>
-      <label class="field" for="p-name">Project name<input class="input" id="p-name" data-field="name" value="${esc(p.name)}" maxlength="80"></label>
-      <label class="field" for="p-one">One-liner<textarea class="area" id="p-one" data-field="oneLiner" rows="2" placeholder="For [who], who [struggle], [app] lets them [do what], unlike [current way].">${esc(p.oneLiner)}</textarea></label>
+      <section aria-labelledby="xc-h"><div class="sechead"><h2 id="xc-h">Exit checklist</h2><span class="n mono">${d}/${t}</span></div><ul class="checks big">${checks}</ul>${gate}</section>
+      <section aria-labelledby="lu-h"><h2 id="lu-h">Live URL</h2><div class="liverow"><label class="field" for="p-live"><span class="sr">Live URL</span><input class="input mono" id="p-live" data-field="liveUrl" value="${esc(p.liveUrl)}" placeholder="https://" spellcheck="false" autocomplete="off" inputmode="url"></label>${/^https?:\/\/\S+$/i.test(live) ? `<a class="btn" href="${esc(live)}" target="_blank" rel="noopener">Open</a>` : ""}</div><p class="hint">Where real people use it.</p></section>
+      <section><h2>What ${ph.name} produces</h2><ul class="produces">${ph.produces.map(x => `<li><span>${esc(x[0])}</span><span class="mono">${esc(x[1])}</span></li>`).join("")}</ul></section>
     </div>
-    <aside class="pside" aria-label="${ph.name} progress">${nextSec}${checkSec}${delSec}</aside>
+    <aside class="pside" aria-label="${ph.name} details">${nextSec}<section><h2>Project</h2>
+      <label class="field" for="p-name">Name<input class="input" id="p-name" data-field="name" value="${esc(p.name)}" maxlength="80"></label>
+      <label class="field" for="p-one">One-liner<textarea class="area" id="p-one" data-field="oneLiner" rows="3" placeholder="For [who], who [struggle], [app] lets them [do what], unlike [current way].">${esc(p.oneLiner)}</textarea></label>
+      <div>${delBtn}</div></section></aside>
   </div>`;
+}
+
+/* ---------- Define and Design: documents first (S5) ---------- */
+function docView(p, phase, x){
+  const ft = ["doc", "coach", "checklist"].includes(S.ftab) ? S.ftab : "doc", side = ft === "checklist" ? "checklist" : "coach";
+  const vt = [["doc", "Document"], ["coach", "Coach"], ["checklist", "Checklist"]];
+  const btabs = `<div class="btabs b3" role="tablist" aria-label="${PH[phase].name} views">${vt.map(([k, l]) => `<button type="button" role="tab" aria-selected="${ft === k}" data-act="ftab" data-tab="${k}">${l}</button>`).join("")}</div>`;
+  const stabs = `<div class="stabs" role="tablist" aria-label="Side panel">${vt.slice(1).map(([k, l]) => `<button type="button" role="tab" aria-selected="${side === k}" data-act="ftab" data-tab="${k}">${l}${k === "checklist" ? ` <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)">${x.d}/${x.t}</span>` : ""}</button>`).join("")}</div>`;
+  return btabs + `<div class="pbody docp" data-ftab="${ft}">
+    <section class="pmain docmain" aria-label="${PH[phase].name} documents">${docMain(p, phase)}</section>
+    <aside class="pside dside" aria-label="Coach and checklist">${stabs}<div class="coach sidecoach">${coachPane(p)}</div><div class="sidelist">${sideList(p, phase, x)}</div></aside></div>`;
+}
+function sideList(p, phase, x){
+  const chat = S.chats[p.id + "~" + phase] || emptyChat();
+  const rows = noteKeys(phase).filter(([k]) => chat.notes[k]).map(([k, l]) => `<div><dt>${l}</dt><dd>${esc(chat.notes[k])}</dd></div>`).join("");
+  return `<section><p class="goal"><b>${PH[phase].name}:</b> ${esc(PH[phase].goal)}.</p></section>${x.nextSec}${x.checkSec}
+    <section><h2>What the coach knows</h2>${rows ? `<dl class="notes">${rows}</dl>` : `<p class="hint">Nothing yet. This fills in as you talk to the coach.</p>`}</section>
+    <section><h2>Project</h2>
+      <label class="field" for="p-name">Name<input class="input" id="p-name" data-field="name" value="${esc(p.name)}" maxlength="80"></label>
+      <label class="field" for="p-one">One-liner<textarea class="area" id="p-one" data-field="oneLiner" rows="3" placeholder="For [who], who [struggle], [app] lets them [do what], unlike [current way].">${esc(p.oneLiner)}</textarea></label>
+      <label class="field" for="p-repo3">Folder on your laptop<input class="input mono" id="p-repo3" data-field="repo" value="${esc(p.repo)}" placeholder="C:\\Projects\\my-app" spellcheck="false" autocomplete="off"></label>
+      <p class="hint">For importing documents from the repo. The Build monitor reads the same folder.</p>
+      <div>${x.delBtn}</div></section>`;
+}
+const BACK = `<svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true" fill="none" style="stroke:currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M10 3 5 8l5 5"/></svg>`;
+function docMain(p, phase){
+  const list = DOCS[phase], cur = list.find(d => d.key === S.doctab[p.id + phase]) || list[0];
+  const st = docLoad(p.id), adrs = adrsOf(p.id), any = Object.values(S.docs).some(d => d.pid === p.id && d.updatedAt);
+  const tabs = list.map(d => `<button type="button" role="tab" aria-selected="${d === cur}" data-act="doctab" data-tab="${d.key}">${esc(d.name)}${d.list && adrs.length ? ` <span class="mono">${adrs.length}</span>` : ""}</button>`).join("");
+  let tools = "", body;
+  if (st !== "ready" && !any){
+    body = st === "error" ? `<div class="errbox" role="alert"><span><b>These documents can't be loaded.</b> Reload The Studio to try again.</span></div>`
+      : st === "slow" ? `<div class="notice" role="status"><span><b>Your documents can't be reached yet.</b> Check your connection. The Studio keeps trying.</span></div>`
+      : `<div class="doc" aria-busy="true" style="display:flex;flex-direction:column;gap:14px"><span class="sk" style="width:46%;height:20px"></span><span class="sk" style="width:92%"></span><span class="sk" style="width:84%"></span><span class="sk" style="width:88%"></span><span class="sk" style="width:38%;height:14px;margin-top:10px"></span><span class="sk" style="width:90%"></span><span class="sk" style="width:76%"></span></div>`;
+  } else if (cur.list){
+    const open = S.adrOpen[p.id] && S.docs[S.adrOpen[p.id]];
+    ({tools, body} = open ? docPane(open.id, adrInfo(open)) : adrList(adrs));
+  } else ({tools, body} = docPane(docId(p.id, cur.key), {...cur, about:DOC_ABOUT[cur.key]}));
+  const late = st === "slow" && any ? `<div class="notice" role="status"><span><b>This may be out of date.</b> Your saved documents can't be reached right now. The Studio keeps trying.</span></div>` : "";
+  return `<div class="dbar"><div class="doctabs" role="tablist" aria-label="${PH[phase].name} documents">${tabs}</div>${tools ? `<div class="dtools">${tools}</div>` : ""}</div><div class="docbody">${late}${body}</div>`;
+}
+/* One document: rendered, empty (teaches what goes in it), or open in the Markdown editor. */
+function docPane(id, info){
+  const d = S.docs[id], text = d ? d.text : "", editing = S.editing === id;
+  const canImp = !info.adr && S.host === "listed" && S.online;
+  const imp = canImp ? `<button type="button" class="btn ghost" data-act="importdoc" data-k="${info.key}">Import from repo</button>` : "";
+  const del = !info.adr ? "" : S.confirm === "deladr" ? `<button type="button" class="btn ghost" data-act="deladr" data-id="${id}" style="color:var(--red);border-color:var(--red-line)">Delete ADR ${info.num} for good?</button>` : `<button type="button" class="btn ghost" data-act="askdeladr">Delete</button>`;
+  const path = `<span class="path">${esc(info.path)}</span>`;
+  const back = info.adr ? `<button type="button" class="back" data-act="closeadr">${BACK}All decisions</button>` : "";
+  if (editing){
+    const kb = Math.ceil(docBytes(d || {text}) / 1024);
+    return {tools:`${path}<span class="dbtns">${del}<button type="button" class="btn" data-act="donedit">Done</button></span>`,
+      body:`${back}<label class="sr" for="doc-editor">${esc(info.name)}, in Markdown</label><textarea id="doc-editor" class="doced" data-doc="${id}" spellcheck="true">${esc(text)}</textarea>
+        <div class="edfoot"><span>Markdown. Saves as you type<span class="desk-only">; Esc when you're done</span>.</span><span class="size mono${kb > 240 ? " bad" : ""}">${kb} KB of 250 KB</span></div>`};
+  }
+  if (!hasText(d)) return {tools:path + (del ? `<span class="dbtns">${del}</span>` : ""),
+    body:`${back}<div class="dempty"><h2>${info.adr ? `ADR ${info.num} is empty` : `No ${esc(info.name)} yet`}</h2>${info.about ? `<p>${esc(info.about)}</p>` : ""}
+      <p>Write it here in Markdown${canImp ? `, or import <span class="mono">${esc(info.path)}</span> from your repo` : ""}. Not sure what goes in it? <button type="button" class="linkbtn" data-act="ftab" data-tab="coach">Talk it through with the coach</button>.</p>
+      <div class="row"><button type="button" class="btn primary" data-act="editdoc" data-id="${id}" data-k="${info.key}">Start writing</button>${imp}</div>
+      ${canImp || info.adr ? "" : `<p class="hint">Already in the repo? Open The Studio in the Claude desktop app on your laptop to import <span class="mono">${esc(info.path)}</span>.</p>`}</div>`};
+  const im = d.imported, fresh = im && d.updatedAt - im.at < 3000;
+  const meta = fresh ? `Imported from <span class="mono">${esc(im.path)}</span> ${esc(agoText(im.at))}` : `Edited ${esc(agoText(d.updatedAt))}${im ? ` · first imported from <span class="mono">${esc(im.path)}</span>` : ""}`;
+  return {tools:`${path}<span class="dbtns">${imp}${del}<button type="button" class="btn" data-act="editdoc" data-id="${id}" data-k="${info.key}">Edit <kbd class="desk-only">E</kbd></button></span>`,
+    body:`${back}<p class="dmeta">${meta}</p><article class="doc">${mdDoc(text)}</article>`};
+}
+/* Decisions: one ADR per decision, listed by number. */
+function adrInfo(d){
+  const lines = String(d.text || "").split("\n"), h = lines.find(l => /^#\s+/.test(l)) || "";
+  const title = h.replace(/^#\s+/, "").replace(/^(ADR[-\s]*)?\d+\s*[:.\-–—]\s*/i, "").trim();
+  const sl = lines.find(l => /^\s*\**status\**\s*:/i.test(l)) || "";
+  const status = (sl.replace(/^\s*\**status\**\s*:\s*\**/i, "").split(/[·,;(*]/)[0] || "").trim();
+  const num = String(d.n || 0).padStart(4, "0"), slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 50) || "untitled";
+  return {key:d.key, name:`ADR ${num}`, num, title, status, path:`docs/adr/${num}-${slug}.md`, adr:true};
+}
+function adrList(adrs){
+  if (!adrs.length) return {tools:`<span class="path">docs/adr/</span>`, body:`<div class="dempty"><h2>No decisions recorded yet</h2><p>Each decision gets its own ADR: the context, what you decided, the alternatives and what follows from it. Start with the tier you chose; the Design checklist asks for its reason in an ADR.</p><div class="row"><button type="button" class="btn primary" data-act="newadr">New ADR</button></div></div>`};
+  const rows = adrs.map(a => { const i = adrInfo(a); return `<li><button type="button" data-act="openadr" data-id="${a.id}"><span class="n">${i.num}</span><span class="mt"><span class="t">${esc(i.title || "Untitled")}</span><span class="m">${i.status ? esc(i.status) + " · " : ""}${esc(shortDate(a.updatedAt || a.createdAt))}</span></span></button></li>`; }).join("");
+  return {tools:`<span class="path">docs/adr/</span><span class="dbtns"><button type="button" class="btn" data-act="newadr">New ADR</button></span>`,
+    body:`<ol class="adrlist" aria-label="Decisions">${rows}</ol><p class="dmeta">Each ADR becomes its own file under <span class="mono">docs/adr/</span>. To bring one in from the repo, paste it into a new ADR.</p>`};
+}
+function newAdrText(n){
+  const t = new Date(), ymd = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+  const head = `# ${String(n).padStart(4, "0")}: `;
+  return {text:`${head}\n\nStatus: Proposed · ${ymd}\n\n## Context\n\n\n## Decision\n\n\n## Alternatives considered\n\n\n## Consequences\n`, caret:head.length};
+}
+/* The editor grows with its text; the page (or the document pane) keeps its scroll position. */
+function growDoc(el){
+  const sc = el.closest(".docmain"), box = sc && !isMobile() && getComputedStyle(sc).overflowY === "auto";
+  const top = box ? sc.scrollTop : window.scrollY;
+  el.style.height = "auto"; el.style.height = (el.scrollHeight + 2) + "px";
+  if (box) sc.scrollTop = top; else if (window.scrollY !== top) window.scrollTo(0, top);
+}
+
+/* Import a document from the repo through the laptop's file server (read only; the repo isn't changed). */
+async function importDoc(){
+  const x = S.imp, p = x && proj(x.pid), def = p && docDef(x.phase, x.key);
+  if (!def || x.state === "reading") return;
+  const el = $("#imp-repo"); x.folder = el ? el.value : x.folder;
+  const repo = cleanRepo(x.folder);
+  if (!repo){ x.err = "Type the project's folder, like C:\\Projects\\my-app."; render(); return; }
+  if (!S.mcp || S.host !== "listed"){ x.err = "The file server can't be reached from here. Open The Studio in the Claude desktop app on your laptop."; render(); return; }
+  x.state = "reading"; x.err = ""; x.slow = false; render();
+  const slow = setTimeout(() => { if (S.imp === x && x.state === "reading"){ x.slow = true; render(); } }, 2600);
+  try {
+    const text = String(await readFile(joinPath(repo, ...def.path.split("/")))).replace(/\r\n?/g, "\n");
+    if (text.length > DOC_MAX) throw {code:"too_long"};
+    if (p.repo !== repo){ p.repo = repo; saveProject(p, true); }
+    const d = docRec(p.id, x.phase, def.key);
+    d.text = text; d.imported = {path:def.path, at:Date.now()};
+    S.editing = null; saveDoc(d, true);
+    if (S.imp === x){ S.imp = null; S.overlay = null; }
+    render(); toast(`Imported ${def.path}: ${text.length.toLocaleString()} characters.`);
+  } catch(e){
+    if (e && NO_HOST.includes(e.code)) S.host = "none";
+    if (S.imp !== x) return;
+    x.state = "idle"; x.slow = false;
+    x.err = e && e.code === "too_long" ? `${def.path} is too long to keep in The Studio (over ${DOC_MAX.toLocaleString()} characters).` : importError(e, repo, def.path);
+    render();
+  } finally { clearTimeout(slow); }
+}
+function importError(e, repo, path){
+  const msg = String((e && e.message) || "");
+  if (e && e.code === "tool_error" && /ENOENT|no such file|not found|cannot find|does not exist/i.test(msg)) return `There's no ${path} in ${repo}.`;
+  return syncError(e, repo).text;
+}
+
+/* Markdown for documents: headings, paragraphs, nested lists with task boxes, tables, code, quotes, rules and links. Text is escaped first. */
+function mdInline(s){
+  const code = [];
+  let t = esc(s).replace(/`([^`]+)`/g, (_, c) => { code.push(c); return "\u0000" + (code.length - 1) + "\u0000"; });
+  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, txt, url) => { const u = url.replace(/&amp;/g, "&"); return /^(https?:\/\/|mailto:)/i.test(u) ? `<a href="${esc(u)}" target="_blank" rel="noopener">${txt}</a>` : txt; });
+  t = t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/__(.+?)__/g, "<strong>$1</strong>")
+    .replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s).,;:!?]|$)/g, "$1<em>$2</em>").replace(/(^|[\s(])_([^_\s][^_]*?)_(?=[\s).,;:!?]|$)/g, "$1<em>$2</em>")
+    .replace(/~~(.+?)~~/g, "<del>$1</del>");
+  return t.replace(/\u0000(\d+)\u0000/g, (_, i) => `<code>${code[+i]}</code>`);
+}
+const MD = {fence:/^\s{0,3}(```|~~~)\s*([\w+-]*)/, head:/^\s{0,3}(#{1,6})\s+(.*?)\s*#*\s*$/, hr:/^\s{0,3}([-*_])(\s*\1){2,}\s*$/, li:/^(\s*)([-*+]|\d+[.)])\s+(.*)$/, quote:/^\s{0,3}>/, tsep:/^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/};
+function mdList(lines){
+  const items = [];
+  for (const raw of lines){
+    if (!raw.trim()) continue;
+    const m = /^(\s*)([-*+]|(\d+)[.)])\s+(.*)$/.exec(raw);
+    if (m) items.push({ind:m[1].replace(/\t/g, "    ").length, ord:!!m[3], start:+m[3] || 1, text:m[4]});
+    else if (items.length) items[items.length - 1].text += " " + raw.trim();   // a wrapped line continues its item
+  }
+  let k = 0;
+  const item = t => {
+    const m = /^\[([ xX~])\]\s+(.*)$/.exec(t);
+    if (!m) return `<li>${mdInline(t)}`;
+    const c = m[1] === " " ? ["", "To do"] : m[1] === "~" ? [" w", "Built, to check"] : [" x", "Done"];
+    return `<li class="task"><span class="tb${c[0]}" role="img" aria-label="${c[1]}"></span>${mdInline(m[2])}`;
+  };
+  const build = base => {
+    const first = items[k], tag = first.ord ? "ol" : "ul";
+    let h = `<${tag}${first.ord && first.start !== 1 ? ` start="${first.start}"` : ""}>`;
+    while (k < items.length && items[k].ind >= base){
+      const it = items[k++];
+      h += item(it.text);
+      if (k < items.length && items[k].ind > it.ind) h += build(items[k].ind);
+      h += "</li>";
+    }
+    return h + `</${tag}>`;
+  };
+  let out = "";
+  while (k < items.length) out += build(items[k].ind);
+  return out;
+}
+function mdDoc(src){
+  const L = String(src || "").replace(/\r\n?/g, "\n").split("\n"), blank = l => !l.trim();
+  let i = 0, out = "", m;
+  while (i < L.length){
+    const l = L[i];
+    if (blank(l)){ i++; continue; }
+    if ((m = MD.fence.exec(l))){
+      const end = new RegExp("^\\s{0,3}" + m[1]), buf = []; i++;
+      while (i < L.length && !end.test(L[i])) buf.push(L[i++]);
+      i++;
+      out += `<pre><code>${esc(buf.join("\n"))}</code></pre>`;
+      continue;
+    }
+    if ((m = MD.head.exec(l))){ out += `<h${m[1].length}>${mdInline(m[2])}</h${m[1].length}>`; i++; continue; }
+    if (MD.hr.test(l)){ out += "<hr>"; i++; continue; }
+    if (MD.quote.test(l)){
+      const buf = []; while (i < L.length && MD.quote.test(L[i])) buf.push(L[i++].replace(/^\s{0,3}>\s?/, ""));
+      out += `<blockquote>${mdDoc(buf.join("\n"))}</blockquote>`;
+      continue;
+    }
+    if (l.includes("|") && i + 1 < L.length && L[i + 1].includes("|") && MD.tsep.test(L[i + 1])){
+      const cells = r => r.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim());
+      const hd = cells(l), rows = []; i += 2;
+      while (i < L.length && L[i].includes("|") && !blank(L[i])) rows.push(cells(L[i++]));
+      out += `<div class="tbl"><table><thead><tr>${hd.map(c => `<th>${mdInline(c)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${hd.map((_, j) => `<td>${mdInline(r[j] || "")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+      continue;
+    }
+    if (MD.li.test(l)){
+      const buf = [];
+      while (i < L.length && (MD.li.test(L[i]) || (!blank(L[i]) && /^\s+\S/.test(L[i])) || (blank(L[i]) && i + 1 < L.length && MD.li.test(L[i + 1])))) buf.push(L[i++]);
+      out += mdList(buf);
+      continue;
+    }
+    const buf = [];
+    while (i < L.length && !blank(L[i]) && !MD.fence.test(L[i]) && !MD.head.test(L[i]) && !MD.hr.test(L[i]) && !MD.quote.test(L[i]) && !(buf.length && MD.li.test(L[i]))) buf.push(L[i++]);
+    if (!buf.length) buf.push(L[i++]);
+    out += `<p>${buf.map(x => mdInline(x.trim())).join(" ")}</p>`;
+  }
+  return out;
 }
 
 /* ---------- Build monitor (S16) ---------- */
@@ -1574,7 +2117,7 @@ function overlayView(){
     <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary">Create project</button></div></form></div>`;
   if (S.overlay === "keys") return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="k-h">
     <div class="row"><h2 id="k-h">Keyboard shortcuts</h2><button type="button" class="btn ghost" data-act="close" autofocus>Close</button></div>
-    <dl class="keys"><dt>C</dt><dd>Capture an idea</dd><dt>B</dt><dd>Board</dd><dt>I</dt><dd>Inbox</dd><dt>1–9</dt><dd>Open the matching item under Needs you</dd><dt>N</dt><dd>New project</dd><dt>S</dt><dd>Sync the repo (in Build)</dd><dt>Enter</dt><dd>Send to the coach (Shift+Enter for a new line)</dd><dt>1–5</dt><dd>Pick an answer in an interview</dd><dt>Esc</dt><dd>Close this panel, or leave an interview for free chat</dd><dt>?</dt><dd>This list</dd></dl></div></div>`;
+    <dl class="keys"><dt>C</dt><dd>Capture an idea</dd><dt>B</dt><dd>Board</dd><dt>I</dt><dd>Inbox</dd><dt>1–9</dt><dd>Open the matching item under Needs you</dd><dt>N</dt><dd>New project</dd><dt>S</dt><dd>Sync the repo (in Build)</dd><dt>Enter</dt><dd>Send to the coach (Shift+Enter for a new line)</dd><dt>1–5</dt><dd>Pick an answer in an interview</dd><dt>E</dt><dd>Edit the open document (Define, Design)</dd><dt>Esc</dt><dd>Close this panel, leave an interview for free chat, or stop editing a document</dd><dt>?</dt><dd>This list</dd></dl></div></div>`;
   if (S.overlay === "about") return `<div class="scrim" data-act="close"><form class="sheet" role="dialog" aria-modal="true" aria-labelledby="ab-h" id="aboutForm">
     <h2 id="ab-h">What Claude knows about you</h2>
     <p class="hint" style="color:var(--text2)">Claude reads this when it scores Learning and Motivation. Say what you want to learn and what you care about.</p>
@@ -1601,6 +2144,18 @@ function overlayView(){
       <label class="field" for="paste-text">Claude Code prints this block when it finishes a slice. Paste all of it.<textarea class="area mono" id="paste-text" rows="8" autofocus required style="font-family:var(--mono);font-size:13px" placeholder="Studio update · my-app&#10;- [~] S3 · Weekly view&#10;## 2026-11-14 · S3 · Weekly view&#10;- Built: …&#10;- Tests: …">${esc((x && x.text) || "")}</textarea></label>
       ${x && x.error ? `<p class="inline-err" role="alert"><b>Couldn't find any slice lines or progress entries in that.</b> Paste the whole block, starting at "Studio update".</p>` : ""}
       <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary">Read update</button></div></form></div>`;
+  }
+  if (S.overlay === "import"){
+    const x = S.imp || {}, p = proj(x.pid), def = p && docDef(x.phase, x.key);
+    if (!def) return "";
+    const has = hasText(docOf(p.id, def.key)), busy = x.state === "reading";
+    return `<div class="scrim" data-act="close"><form class="sheet" role="dialog" aria-modal="true" aria-labelledby="im-h" id="impForm">
+      <h2 id="im-h">Import ${esc(def.name)} from your repo</h2>
+      <p class="hint" style="color:var(--text2)">Reads <span class="mono">${esc(def.path)}</span> through the file server in the Claude desktop app${has ? `, and replaces the ${esc(def.name)} saved in The Studio` : ""}. Nothing in the repo changes.</p>
+      <label class="field" for="imp-repo">Folder on your laptop<input class="input mono" id="imp-repo" value="${esc(x.folder ?? p.repo)}" placeholder="C:\\Projects\\my-app" spellcheck="false" autocomplete="off" autofocus ${busy ? "readonly" : ""}></label>
+      ${busy && x.slow ? `<p class="hint" role="status"><b style="color:var(--text)">Connecting to your laptop…</b> The first read of a session can take about 15 seconds while the file server starts.</p>` : ""}
+      ${x.err ? `<p class="inline-err" role="alert"><b>Couldn't import.</b> ${esc(x.err)}</p>` : ""}
+      <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary" ${busy ? "disabled" : ""}>${busy ? "Reading…" : has ? "Replace with the repo's copy" : "Import"}</button></div></form></div>`;
   }
   if (S.overlay === "setup"){
     const p = proj(S.overlayFor);
@@ -1799,7 +2354,7 @@ async function copyText(text, el){
 
 /* ---------- Actions ---------- */
 function openOverlay(kind){ S.overlay = kind; render(); }
-function closeOverlay(){ S.overlay = null; S.paste = null; render(); }
+function closeOverlay(){ S.overlay = null; S.paste = null; S.imp = null; render(); }
 
 async function saveCapture(text){
   const id = uid("c");
@@ -1824,7 +2379,7 @@ document.addEventListener("click", async ev => {
   if (t.dataset.open && !ev.target.closest("a,button")){ go("p-" + t.dataset.open); return; }
   const act = t.dataset.act;
   if (act === "close" && ev.target !== t) return;
-  const p = S.route.view === "project" ? proj(S.route.id) : null;
+  const p = S.route.view === "project" ? proj(S.route.id) : null, ck = p ? coachRef(p).ck : null;   // ck: the chat this view's coach uses
   switch (act){
     case "capture": openOverlay("capture"); break;
     case "newproject": openOverlay("newproject"); break;
@@ -1924,26 +2479,56 @@ document.addEventListener("click", async ev => {
       break;
     }
     case "dtab": S.dtab = t.dataset.tab === "outputs" ? "outputs" : "coach"; render(); break;
-    case "interview": if (p){ const c = S.chats[p.id] || (S.chats[p.id] = emptyChat()); c.free = false; sendCoach(p, "Interview me about this idea."); } break;
-    case "freechat": if (p && S.chats[p.id]){
-      const c = S.chats[p.id], m = lastCoach(c);
-      if (m && m.meta && m.meta.q && c.messages[c.messages.length - 1] === m) m.meta.skipped = true;   // his next message isn't an answer to it
-      c.free = true; S.focusCompose = !isMobile(); render(); saveChat(p.id);
+    /* S5: Define and Design */
+    case "ftab":
+      S.ftab = ["doc", "coach", "checklist"].includes(t.dataset.tab) ? t.dataset.tab : "doc";
+      if (S.ftab === "coach" && t.closest(".dempty")) S.focusCompose = !isMobile();
+      render(); break;
+    case "doctab": if (p){ const v = S.route.phase || p.phase; flushEdit(); S.doctab[p.id + v] = t.dataset.tab; render(); } break;
+    case "editdoc": if (p){
+      const v = S.route.phase || p.phase, id = t.dataset.id;
+      if (!S.docs[id] && docDef(v, t.dataset.k)) S.docs[id] = docRec(p.id, v, t.dataset.k);
+      if (!S.docs[id]) break;
+      flushEdit(); S.editing = id; S.focusEditor = 0; render();
     } break;
-    case "choose": if (p){ const c = S.chats[p.id], m = c && lastCoach(c), ch = m && m.meta && m.meta.choices && m.meta.choices[+t.dataset.i]; if (ch) sendCoach(p, ch, {choice:true}); } break;
-    case "stopcoach": if (p && S.coach[p.id] && S.coach[p.id].ctrl) S.coach[p.id].ctrl.abort(); break;
+    case "donedit": flushEdit(); render(); { const b = [...document.querySelectorAll('[data-act="editdoc"]')].find(x => x.offsetParent); if (b) b.focus(); } break;
+    case "newadr": if (p){
+      const n = adrsOf(p.id).reduce((a, d) => Math.max(a, d.n || 0), 0) + 1, key = "adr-" + uid(""), {text, caret} = newAdrText(n);
+      flushEdit();
+      saveDoc({id:docId(p.id, key), pid:p.id, phase:"design", key, kind:"adr", n, text, createdAt:Date.now(), updatedAt:0}, true);
+      S.adrOpen[p.id] = docId(p.id, key); S.editing = docId(p.id, key); S.focusEditor = caret; render();
+    } break;
+    case "openadr": if (p){ flushEdit(); S.adrOpen[p.id] = t.dataset.id; render(); } break;
+    case "closeadr": if (p){ flushEdit(); S.adrOpen[p.id] = null; render(); } break;
+    case "askdeladr": S.confirm = "deladr"; render(); break;
+    case "deladr": if (p){
+      const id = t.dataset.id; if (!S.docs[id]) break;
+      clearTimeout(S.docT[id]); S.docDirty.delete(id); delete S.docs[id];
+      S.adrOpen[p.id] = null; S.editing = null; S.confirm = null; render();
+      if (S.docW[id]) toast("ADR deleted.");   // the write in flight deletes it when it ends
+      else store.del("docs", id).then(() => toast("ADR deleted."), e => toast(dbErr(e)));
+    } break;
+    case "importdoc": if (p){ const v = S.route.phase || p.phase; flushEdit(); S.imp = {pid:p.id, phase:v, key:t.dataset.k, folder:p.repo, state:"idle"}; openOverlay("import"); } break;
+    case "interview": if (p){ const c = S.chats[ck] || (S.chats[ck] = emptyChat()); c.free = false; sendCoach(p, INTERVIEW_ASK[coachRef(p).phase]); } break;
+    case "freechat": if (p && S.chats[ck]){
+      const c = S.chats[ck], m = lastCoach(c);
+      if (m && m.meta && m.meta.q && c.messages[c.messages.length - 1] === m) m.meta.skipped = true;   // his next message isn't an answer to it
+      c.free = true; S.focusCompose = !isMobile(); render(); saveChat(ck);
+    } break;
+    case "choose": if (p){ const c = S.chats[ck], m = c && lastCoach(c), ch = m && m.meta && m.meta.choices && m.meta.choices[+t.dataset.i]; if (ch) sendCoach(p, ch, {choice:true}); } break;
+    case "stopcoach": if (p && S.coach[ck] && S.coach[ck].ctrl) S.coach[ck].ctrl.abort(); break;
     case "retrycoach": if (p) retryCoach(p); break;
-    case "trimlater": if (p){ S.trimLater[p.id] = true; render(); } break;
+    case "trimlater": if (p){ S.trimLater[ck] = true; render(); } break;
     case "trimchat": {
-      const c = p && S.chats[p.id]; if (!c || (S.coach[p.id] && S.coach[p.id].busy)) break;
+      const c = p && S.chats[ck]; if (!c || (S.coach[ck] && S.coach[ck].busy)) break;
       const n = trimCount(c); if (!n) break;
-      c.messages.splice(0, n); c.trimmed = (c.trimmed || 0) + n; delete S.trimLater[p.id];
-      saveChat(p.id); render(); toast(`Trimmed ${n} old messages.`);
+      c.messages.splice(0, n); c.trimmed = (c.trimmed || 0) + n; delete S.trimLater[ck];
+      saveChat(ck); render(); toast(`Trimmed ${n} old messages.`);
       break;
     }
     case "change": {
-      const m = p && findMsg(p.id, t.dataset.id); if (!m || !m.meta || !m.meta.q) break;
-      S.drafts[p.id] = `Change my answer to "${m.meta.q.text}": `; render();
+      const m = p && findMsg(ck, t.dataset.id); if (!m || !m.meta || !m.meta.q) break;
+      S.drafts[ck] = `Change my answer to "${m.meta.q.text}": `; render();
       const ci = $("#coach-input"); if (ci){ ci.focus(); ci.setSelectionRange(ci.value.length, ci.value.length); }
       break;
     }
@@ -1967,7 +2552,8 @@ document.addEventListener("click", async ev => {
     case "delete": {
       if (!p) break; S.projects = S.projects.filter(x => x.id !== p.id); S.confirm = null; go("board");
       try { await store.del("projects", p.id); toast("Project deleted."); } catch(e){ toast(dbErr(e)); }
-      if (S.chats[p.id] || S.chatState[p.id] === "ready") store.del("chats", p.id).catch(() => {});
+      for (const c of [p.id, p.id + "~define", p.id + "~design"]) store.del("chats", c).catch(() => {});
+      deleteDocsOf(p.id);
       break;
     }
   }
@@ -1985,7 +2571,15 @@ document.addEventListener("change", ev => {
 });
 document.addEventListener("input", ev => {
   const t = ev.target;
-  if (t.id === "coach-input"){ S.drafts[S.route.id] = t.value; grow(t); return; }
+  if (t.id === "coach-input"){ const p = proj(S.route.id); if (p) S.drafts[coachRef(p).ck] = t.value; grow(t); return; }
+  if (t.matches("[data-doc]")){
+    let d = S.docs[t.dataset.doc];
+    if (!d){ const v = routePhase(), key = t.dataset.doc.split("~")[1]; if (!docDef(v, key)) return; d = docRec(S.route.id, v, key); }
+    d.text = t.value; saveDoc(d); growDoc(t);
+    const s = $(".edfoot .size"); if (s){ const kb = Math.ceil(docBytes(d) / 1024); s.textContent = kb + " KB of 250 KB"; s.classList.toggle("bad", kb > 240); }
+    const pa = $(".dtools .path"); if (pa && d.kind === "adr") pa.textContent = adrInfo(d).path;   // an ADR's file name follows its title
+    return;
+  }
   if (t.matches("[data-field]")){
     const p = proj(S.route.id); if (!p) return;
     p[t.dataset.field] = t.value; saveProject(p);
@@ -1993,7 +2587,7 @@ document.addEventListener("input", ev => {
   }
 });
 document.addEventListener("focusout", ev => {
-  if (!(ev.target.matches && ev.target.matches("[data-field]"))) return;
+  if (!(ev.target.matches && ev.target.matches("[data-field],[data-doc]"))) return;
   // Leaving a field for a button: let the button's click do the render, or it would be swapped out mid-click.
   const to = ev.relatedTarget;
   if (to && to.closest && to.closest("[data-act],a[href]")){ S.needRender = true; setTimeout(() => { if (S.needRender && !S.overlay) render(); }, 400); return; }
@@ -2003,6 +2597,7 @@ document.addEventListener("focusout", ev => {
 document.addEventListener("submit", ev => {
   ev.preventDefault();
   if (ev.target.id === "coachForm"){ const p = proj(S.route.id), el = $("#coach-input"); if (p && el && el.value.trim()) sendCoach(p, el.value); }
+  if (ev.target.id === "impForm") importDoc();
   if (ev.target.id === "capForm"){ const v = $("#cap-text").value.trim(); if (v) saveCapture(v); }
   if (ev.target.id === "npForm"){
     const name = $("#np-name").value.trim(), start = (document.querySelector('input[name="start"]:checked') || {}).value || "discover", one = $("#np-one").value.trim();
@@ -2023,6 +2618,7 @@ document.addEventListener("keydown", ev => {
   if (ev.key === "Escape" && S.overlay){ closeOverlay(); return; }
   if (ev.key === "Enter" && (ev.ctrlKey || ev.metaKey) && ev.target.id === "cap-text"){ ev.preventDefault(); $("#capForm").requestSubmit(); return; }
   if (ev.key === "Enter" && ev.target.id === "coach-input" && !ev.shiftKey && !ev.isComposing && !isMobile()){ ev.preventDefault(); $("#coachForm").requestSubmit(); return; }
+  if (ev.key === "Escape" && !S.overlay && ev.target.id === "doc-editor"){ ev.preventDefault(); const b = $('.dtools [data-act="donedit"]'); if (b) b.click(); return; }
   if (ev.key === "Escape" && !S.overlay){ const b = $('.ibar [data-act="freechat"]'); if (b){ ev.preventDefault(); b.click(); return; } }
   const typing = ev.target.closest && ev.target.closest("input,textarea,select,[contenteditable]");
   if (typing || ev.ctrlKey || ev.metaKey || ev.altKey || S.overlay) return;
@@ -2033,6 +2629,7 @@ document.addEventListener("keydown", ev => {
   else if (k === "i") go("inbox");
   else if (ev.key === "?"){ openOverlay("keys"); }
   else if (k === "s" && S.route.view === "project"){ const p = proj(S.route.id); if (p && (S.route.phase || p.phase) === "build") syncProject(p, true); }
+  else if (k === "e" && S.route.view === "project"){ const b = [...document.querySelectorAll('.dtools [data-act="editdoc"], .dempty [data-act="editdoc"]')].find(x => x.offsetParent); if (b){ ev.preventDefault(); b.click(); } }
   else if (/^[1-9]$/.test(k) && S.route.view === "board"){ const p = active()[+k - 1]; if (p) go("p-" + p.id); }
   else if (/^[1-9]$/.test(k) && S.route.view === "project"){ const b = [...document.querySelectorAll(`.choices [data-act="choose"][data-i="${+k - 1}"]`)].find(x => x.offsetParent); if (b && !b.disabled){ ev.preventDefault(); b.click(); } }
 });
