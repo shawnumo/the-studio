@@ -10,6 +10,7 @@ Each script opens `src/index.html` in Chromium with a fake database, a fake Clau
 | `s5.py` | S5 · Phase-appropriate views | 94 |
 | `s6.py` | S6 · AI drafts | 49 |
 | `s7.py` | S7 · Tracked-changes approval | 46 |
+| `s9.py` | S9 · Rendered Mermaid diagrams | 37 |
 | `s10.py` | S10 · Claude Code handoff | 58 |
 | `s16.py` | S16 · Build monitor with progress sync | 26 |
 
@@ -22,5 +23,7 @@ python tests/s4.py
 ```
 
 Each script prints its checks (or `FAIL` lines) and any page errors. Screenshots go to `tests/out/`, which git ignores. Set `CHROME` to a Chrome path to use your own browser instead of Playwright's.
+
+`s9.py` uses the real Mermaid, loaded from jsDelivr. To run it without a connection, unpack the same package (`npm pack mermaid@12.3.0`, then `tar -xzf mermaid-12.3.0.tgz`) and set `MERMAID_DIR` to its `package` folder.
 
 The `fx_*` files are sample repo files that `s16.py` feeds to the fake file server.

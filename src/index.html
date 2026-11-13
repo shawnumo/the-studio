@@ -423,6 +423,26 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
 .doc code{font-family:var(--mono);font-size:.86em;padding:1px 4px;background:var(--raised)}
 .doc pre{padding:12px 14px;background:var(--sunk);border:1px solid var(--line);overflow-x:auto}
 .doc pre code{padding:0;background:none;font-size:13px;line-height:1.55;white-space:pre}
+/* S9: Mermaid diagrams */
+.doc .dgm{margin:0 0 16px;border:1px solid var(--line)}
+.dgm .dgbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-right:12px;border-bottom:1px solid var(--line);background:var(--rail)}
+.dgm .dgtabs{display:flex}
+.dgm .dgtabs button{height:36px;padding:0 12px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--text2);font-size:13px;cursor:pointer}
+.dgm .dgtabs button[aria-selected="true"]{border-bottom-color:var(--amber-mark);color:var(--white);font-weight:600}
+.dgm .dgbar .linkbtn{font-size:13px;color:var(--text2)}
+.dgm .dgpic{display:flex;justify-content:center;padding:16px;overflow:hidden}
+.dgm .dgpic svg{max-width:100%;height:auto}
+.dgm .dgload{flex-direction:column;align-items:center;gap:10px;min-height:140px}
+.dgm .dgnote{padding:12px 12px 0}
+.dgm .dgerr{font-family:var(--mono);font-size:12px;white-space:pre-wrap}
+.doc .dgm pre.dgsrc{margin:0;border:0}
+.dgm .dghint{display:none}
+.dgfull{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;background:var(--ground)}
+.dgfull .dgfhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 16px;border-bottom:1px solid var(--line);background:var(--rail);font-size:13px;color:var(--text2)}
+.dgfull .dgfhead .btn{height:44px}
+.dgfull .dgstage{flex:1;position:relative;overflow:hidden;touch-action:none}
+.dgfull .dginner{position:absolute;left:0;top:0;width:100%;padding:16px;transform-origin:0 0}
+.dgfull .dginner svg{width:100%;height:auto;max-width:none!important}
 .doc hr{margin:22px 0;border:0;border-top:1px solid var(--line)}
 .doc .tbl{overflow-x:auto}
 .doc table{border-collapse:collapse;font-size:14px;line-height:1.45}
@@ -587,6 +607,10 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .callout li{flex-wrap:wrap}.callout li .btn,.callout .row .btn{height:44px;flex:1}
   textarea.prompt{height:40vh}
   .hfields{grid-template-columns:1fr}
+  .dgm .dgtabs button{height:44px}
+  .dgm .dgbar .linkbtn{min-height:44px}
+  .dgm .dgpic.ok{cursor:zoom-in}
+  .dgm .dghint{display:block;margin:0;padding:0 16px 12px;font-size:12px;color:var(--text3);text-align:center}
   table.hfiles thead{display:none}
   table.hfiles tr{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;border-bottom:1px solid var(--line)}
   table.hfiles td{border:0;padding:0 12px 0 0}
@@ -779,7 +803,9 @@ const S = {
   /* S1 board */
   dsumT:{}, sumT:{}, pendFtab:null, bfDone:false, boardSet:null,   // dsumT/sumT: draft-summary timers; pendFtab: the tab a Needs you link opens on; boardSet: settings/board
   /* S10 handoff */
-  hsel:{}                              // projectId -> {path: ticked} where Shawn changed the default
+  hsel:{},                             // projectId -> {path: ticked} where Shawn changed the default
+  /* S9 diagrams */
+  dg:{}, dgq:[], dgBusy:false, dgN:0, dgv:{}, dgSrc:{}, dgFull:null, zoom:null   // dg: theme+hash -> {state, src, svg|msg}; dgv: hash -> "src" when showing source
 };
 
 /* ---------- Helpers ---------- */
@@ -1573,6 +1599,7 @@ function render(){
     const ul = cur.closest(".ptabs"), a = cur.getBoundingClientRect(), u = ul.getBoundingClientRect();
     if (a.right > u.right) ul.scrollLeft += a.right - u.right + 16;
   }
+  if (S.overlay === "diagram") setupZoom();
   setTimeout(maybeAutoSync, 0);
   setTimeout(ensureChats, 0);
   setTimeout(ensureDocs, 0);
@@ -2220,7 +2247,7 @@ function cleanDraft(raw){
   if ((t.match(/^```/gm) || []).length % 2) t = t.replace(/\n```\s*$/, "").trim();
   return t.slice(0, 100000);
 }
-const draftLive = st => cleanDraft(st.text) ? mdDoc(cleanDraft(st.text)) : `<p class="thinking">Claude is reading your chat and documents…</p>`;
+const draftLive = st => cleanDraft(st.text) ? mdDoc(cleanDraft(st.text), {plain:true}) : `<p class="thinking">Claude is reading your chat and documents…</p>`;
 function paintDraft(id){
   const st = S.drafting[id]; if (!st || st.paint) return;
   st.paint = requestAnimationFrame(() => { st.paint = 0; const el = document.getElementById("draft-live"); if (el && el.dataset.id === id) el.innerHTML = draftLive(st); });
@@ -2373,7 +2400,7 @@ function nextPending(d, rv, i){
 /* One line of a change, rendered on its own. */
 function lineHTML(u){
   if (!u.trim()) return "";
-  if (MD.fence.test(u)) return mdDoc(u);
+  if (MD.fence.test(u)) return mdDoc(u, {plain:true});   // S9: a changed diagram is reviewed as its source
   let m;
   if ((m = MD.head.exec(u))) return `<span class="ln h">${mdInline(m[2])}</span>`;
   if ((m = /^(\s*)([-*+]|\d+[.)])\s+(.*)$/.exec(u))){
@@ -2629,7 +2656,7 @@ function mdList(lines){
   while (k < items.length) out += build(items[k].ind);
   return out;
 }
-function mdDoc(src){
+function mdDoc(src, opt = {}){   // opt.plain: show ```mermaid as code (a draft streaming in, a tracked change)
   const L = String(src || "").replace(/\r\n?/g, "\n").split("\n"), blank = l => !l.trim();
   let i = 0, out = "", m;
   while (i < L.length){
@@ -2639,14 +2666,14 @@ function mdDoc(src){
       const end = new RegExp("^\\s{0,3}" + m[1]), buf = []; i++;
       while (i < L.length && !end.test(L[i])) buf.push(L[i++]);
       i++;
-      out += `<pre><code>${esc(buf.join("\n"))}</code></pre>`;
+      out += !opt.plain && /^mermaid$/i.test(m[2]) && buf.join("").trim() ? dgBlock(buf.join("\n")) : `<pre><code>${esc(buf.join("\n"))}</code></pre>`;
       continue;
     }
     if ((m = MD.head.exec(l))){ out += `<h${m[1].length}>${mdInline(m[2])}</h${m[1].length}>`; i++; continue; }
     if (MD.hr.test(l)){ out += "<hr>"; i++; continue; }
     if (MD.quote.test(l)){
       const buf = []; while (i < L.length && MD.quote.test(L[i])) buf.push(L[i++].replace(/^\s{0,3}>\s?/, ""));
-      out += `<blockquote>${mdDoc(buf.join("\n"))}</blockquote>`;
+      out += `<blockquote>${mdDoc(buf.join("\n"), opt)}</blockquote>`;
       continue;
     }
     if (l.includes("|") && i + 1 < L.length && L[i + 1].includes("|") && MD.tsep.test(L[i + 1])){
@@ -2668,6 +2695,100 @@ function mdDoc(src){
     out += `<p>${buf.map(x => mdInline(x.trim())).join(" ")}</p>`;
   }
   return out;
+}
+
+/* ---------- Diagrams (S9) ---------- */
+/* ```mermaid blocks are drawn with Mermaid, loaded from jsDelivr (pinned, the modular build) only when a document on screen
+   has one (ADR 0004). Strict mode: text in a diagram can't run scripts. Colours come from the theme's tokens. */
+const MERMAID_URL = "https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.esm.min.mjs";
+let mermaidP = null, mermaidTry = 0;
+function loadMermaid(){   // a failed import is remembered by the browser, so a retry asks for a fresh URL (jsDelivr ignores the query)
+  if (!mermaidP) mermaidP = import(MERMAID_URL + (mermaidTry ? "?retry=" + mermaidTry : "")).then(m => m.default || m).catch(e => { mermaidP = null; mermaidTry++; throw e; });
+  return mermaidP;
+}
+const fnv = s => { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16).padStart(8, "0"); };
+const lightMode = () => !!(window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches);
+const dgKey = h => (lightMode() ? "l" : "d") + h;   // a theme change draws again
+function dgTheme(){
+  const cs = getComputedStyle(document.documentElement), v = n => cs.getPropertyValue(n).trim();
+  return {darkMode:!lightMode(), background:v("--ground"), fontFamily:v("--body"), fontSize:"14px",
+    primaryColor:v("--raised"), primaryTextColor:v("--text"), primaryBorderColor:v("--line3"), lineColor:v("--text3"),
+    secondaryColor:v("--rail"), secondaryTextColor:v("--text"), secondaryBorderColor:v("--line2"),
+    tertiaryColor:v("--sunk"), tertiaryTextColor:v("--text"), tertiaryBorderColor:v("--line2"),
+    mainBkg:v("--raised"), nodeBorder:v("--line3"), clusterBkg:v("--rail"), clusterBorder:v("--line2"), titleColor:v("--text"),
+    edgeLabelBackground:v("--ground"), textColor:v("--text"), noteBkgColor:v("--raised"), noteTextColor:v("--text"), noteBorderColor:v("--line2"),
+    attributeBackgroundColorOdd:v("--raised"), attributeBackgroundColorEven:v("--rail")};
+}
+function dgBlock(src){
+  const h = fnv(src), k = dgKey(h); S.dgSrc[h] = src;
+  if (!S.dg[k]){ S.dg[k] = {state:"queued", src}; S.dgq.push(k); setTimeout(drawDiagrams, 0); }
+  const v = S.dgv[h] === "src" ? "src" : "pic";
+  return `<figure class="dgm" data-dgk="${k}" data-h="${h}">
+    <div class="dgbar"><div class="dgtabs" role="tablist" aria-label="Diagram or its source">${[["pic", "Diagram"], ["src", "Source"]].map(([x, l]) => `<button type="button" role="tab" aria-selected="${v === x}" data-act="dgview" data-id="${h}" data-v="${x}">${l}</button>`).join("")}</div>
+    <button type="button" class="linkbtn" data-act="dgcopy" data-id="${h}">Copy source</button></div>
+    <div class="dgbody">${dgBody(k, v)}</div></figure>`;
+}
+function dgBody(k, v){
+  const j = S.dg[k] || {state:"queued", src:""}, src = `<pre class="dgsrc"><code>${esc(j.src)}</code></pre>`;
+  if (v === "src") return src;
+  if (j.state === "ok") return `<div class="dgpic ok" data-act="dgfull" data-id="${k}" role="img" aria-label="Diagram drawn from its Mermaid source">${j.svg}</div><p class="dghint">Tap to zoom</p>`;
+  if (j.state === "err") return `<div class="dgnote"><div class="errbox" role="alert"><span><b>Mermaid couldn't draw this.</b> Fix the source below and it draws again.</span><span class="dgerr">${esc(j.msg)}</span></div></div>${src}`;
+  if (j.state === "noload") return `<div class="dgnote"><div class="notice" role="status"><span><b>The diagram can't be drawn right now.</b> ${S.online ? "The Studio couldn't load Mermaid from jsDelivr." : "You're offline, and Mermaid loads from the web."} Here's its source.</span><button type="button" class="btn" data-act="dgretry">Try again</button></div></div>${src}`;
+  return `<div class="dgpic dgload" aria-busy="true"><span class="sk" style="width:38%;height:14px"></span><span class="sk" style="width:72%;height:44px"></span><span class="sk" style="width:54%;height:14px"></span><span class="sr">Drawing the diagram…</span></div>`;
+}
+/* Fill in every copy of a diagram on screen, without a full render (keeps focus and scroll). */
+function paintDg(k){
+  document.querySelectorAll(`.dgm[data-dgk="${k}"]`).forEach(f => { const b = f.querySelector(".dgbody"); if (b) b.innerHTML = dgBody(k, S.dgv[f.dataset.h] === "src" ? "src" : "pic"); });
+}
+/* One diagram at a time (Mermaid isn't safe to run in parallel); each source is drawn once per theme. */
+async function drawDiagrams(){
+  if (S.dgBusy) return;
+  S.dgBusy = true;
+  try {
+    while (S.dgq.length){
+      const k = S.dgq.shift(), j = S.dg[k];
+      if (!j || j.state !== "queued") continue;
+      let mm;
+      try { mm = await loadMermaid(); }
+      catch(e){ S.dgq = []; for (const [kk, x] of Object.entries(S.dg)) if (x.state === "queued"){ x.state = "noload"; paintDg(kk); } break; }
+      const id = "dg" + (++S.dgN);
+      try {
+        mm.initialize({startOnLoad:false, securityLevel:"strict", theme:"base", look:"classic", suppressErrorRendering:true, themeVariables:dgTheme(), fontFamily:dgTheme().fontFamily});
+        const r = await mm.render(id, j.src);
+        j.svg = r.svg; j.state = "ok";
+      } catch(e){ j.state = "err"; j.msg = String((e && (e.message || e.str)) || e).split("\n").slice(0, 4).join("\n").slice(0, 400); }
+      for (const x of [document.getElementById("d" + id), document.getElementById(id)]) if (x && !x.closest(".dgm,.dgfull")) x.remove();   // Mermaid's scratch element
+      paintDg(k);
+    }
+  } finally { S.dgBusy = false; }
+}
+/* Phone: the full-screen viewer. Pinch to zoom, drag to move; a mouse wheel zooms too. */
+function setupZoom(){
+  const st = $("#dgstage"), inner = $("#dginner");
+  if (!st || !inner || st.dataset.on) return;
+  st.dataset.on = "1";
+  const z = S.zoom = {s:1, x:0, y:0, apply(){ inner.style.transform = `translate(${this.x}px,${this.y}px) scale(${this.s})`; }};
+  z.apply();
+  const pts = new Map(); let g0 = null;
+  const rel = e => { const r = st.getBoundingClientRect(); return {x:e.clientX - r.left, y:e.clientY - r.top}; };
+  const begin = () => { const p = [...pts.values()]; g0 = {s:z.s, x:z.x, y:z.y, p}; if (p.length > 1){ g0.mid = {x:(p[0].x + p[1].x) / 2, y:(p[0].y + p[1].y) / 2}; g0.d = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y) || 1; } };
+  const clamp = s => Math.min(6, Math.max(0.5, s));
+  st.addEventListener("pointerdown", e => { try { st.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId, rel(e)); begin(); });
+  st.addEventListener("pointermove", e => {
+    if (!pts.has(e.pointerId) || !g0) return;
+    pts.set(e.pointerId, rel(e));
+    const p = [...pts.values()];
+    if (p.length > 1 && g0.mid){
+      const mid = {x:(p[0].x + p[1].x) / 2, y:(p[0].y + p[1].y) / 2}, s = clamp(g0.s * Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y) / g0.d);
+      const cx = (g0.mid.x - g0.x) / g0.s, cy = (g0.mid.y - g0.y) / g0.s;   // the point under the fingers stays under them
+      z.s = s; z.x = mid.x - cx * s; z.y = mid.y - cy * s;
+    } else if (p.length === 1 && g0.p.length === 1){ z.x = g0.x + p[0].x - g0.p[0].x; z.y = g0.y + p[0].y - g0.p[0].y; }
+    z.apply();
+  });
+  const end = e => { pts.delete(e.pointerId); begin(); };
+  st.addEventListener("pointerup", end); st.addEventListener("pointercancel", end);
+  st.addEventListener("wheel", e => { e.preventDefault(); const q = rel(e), s = clamp(z.s * (e.deltaY < 0 ? 1.15 : 1 / 1.15)); z.x = q.x - (q.x - z.x) * s / z.s; z.y = q.y - (q.y - z.y) * s / z.s; z.s = s; z.apply(); }, {passive:false});
+  setTimeout(() => { const c = $("#dgf-close"); if (c) c.focus({preventScroll:true}); }, 0);
 }
 
 /* ---------- Build monitor (S16) ---------- */
@@ -2846,6 +2967,12 @@ function overlayView(){
       <label class="field" for="paste-text">Claude Code prints this block when it finishes a slice. Paste all of it.<textarea class="area mono" id="paste-text" rows="8" autofocus required style="font-family:var(--mono);font-size:13px" placeholder="Studio update · my-app&#10;- [~] S3 · Weekly view&#10;## 2026-11-14 · S3 · Weekly view&#10;- Built: …&#10;- Tests: …">${esc((x && x.text) || "")}</textarea></label>
       ${x && x.error ? `<p class="inline-err" role="alert"><b>Couldn't find any slice lines or progress entries in that.</b> Paste the whole block, starting at "Studio update".</p>` : ""}
       <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary">Read update</button></div></form></div>`;
+  }
+  if (S.overlay === "diagram"){   // S9, phone
+    const j = S.dg[S.dgFull];
+    if (!j || j.state !== "ok") return "";
+    return `<div class="dgfull" role="dialog" aria-modal="true" aria-labelledby="dgf-h"><div class="dgfhead"><span id="dgf-h">Pinch to zoom, drag to move</span><span style="display:flex;gap:8px"><button type="button" class="btn ghost" data-act="dgreset">Reset</button><button type="button" class="btn" data-act="close" id="dgf-close">Close</button></span></div>
+      <div class="dgstage" id="dgstage"><div class="dginner" id="dginner">${j.svg}</div></div></div>`;
   }
   if (S.overlay === "import"){
     const x = S.imp || {}, p = proj(x.pid), def = p && docDef(x.phase, x.key);
@@ -3229,6 +3356,12 @@ document.addEventListener("click", async ev => {
   const p = S.route.view === "project" ? proj(S.route.id) : null, ck = p ? coachRef(p).ck : null;   // ck: the chat this view's coach uses
   switch (act){
     case "capture": openOverlay("capture"); break;
+    /* S9: diagrams */
+    case "dgview": S.dgv[t.dataset.id] = t.dataset.v === "src" ? "src" : "pic"; render(); break;
+    case "dgcopy": { const ok = await copyText(S.dgSrc[t.dataset.id] || "", null); toast(ok ? "Diagram source copied." : "Couldn't copy. Open Source and select it."); break; }
+    case "dgretry": for (const [k, x] of Object.entries(S.dg)) if (x.state === "noload"){ x.state = "queued"; S.dgq.push(k); } render(); drawDiagrams(); break;
+    case "dgfull": if (isMobile() && S.dg[t.dataset.id] && S.dg[t.dataset.id].state === "ok"){ S.dgFull = t.dataset.id; openOverlay("diagram"); } break;
+    case "dgreset": if (S.zoom){ S.zoom.s = 1; S.zoom.x = 0; S.zoom.y = 0; S.zoom.apply(); } break;
     case "copyhandoff": {   // S10
       const hp = proj(S.route.id); if (!hp) break;
       const m = handoffModel(hp); if (m.block) break;
@@ -3593,6 +3726,7 @@ async function boot(){
   detectHost();
   use("sample").then(s => { S.sample = s; softRender(); });
   if (window.matchMedia) matchMedia("(max-width: 820px)").addEventListener("change", () => softRender());
+  if (window.matchMedia) matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => softRender());   // S9
   const db = await use("db");
   if (!db){ startLocal("Open The Studio on claude.ai while signed in to save to your account."); return; }
   S.db = db;

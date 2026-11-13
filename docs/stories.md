@@ -19,7 +19,7 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 - [x] S10 · Claude Code handoff
 
 ## Should
-- [ ] S9 · Rendered Mermaid diagrams
+- [~] S9 · Rendered Mermaid diagrams
 - [ ] S12 · Claude Code prompt per slice
 - [ ] S14 · Ship checklist, feedback and changelog
 - [x] S15 · Keyboard shortcuts (C, N, B, I, 1–9, ?, E, and A, R, J, K, U in a review)
