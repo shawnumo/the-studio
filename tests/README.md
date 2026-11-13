@@ -7,6 +7,7 @@ Each script opens `src/index.html` in Chromium with a fake database, a fake Clau
 | `s3.py` | S3 · AI triage and inbox | 27 |
 | `s4.py` | S4 · Discover coach with auto-interview | 85 |
 | `s5.py` | S5 · Phase-appropriate views | 94 |
+| `s6.py` | S6 · AI drafts | 50 |
 | `s16.py` | S16 · Build monitor with progress sync | 26 |
 
 ## Run

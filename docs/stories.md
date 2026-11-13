@@ -13,7 +13,7 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 - [x] S3 · AI triage and inbox
 - [x] S4 · Discover coach with auto-interview
 - [~] S5 · Phase-appropriate views
-- [ ] S6 · AI drafts
+- [~] S6 · AI drafts
 - [ ] S7 · Tracked-changes approval
 - [ ] S1 · Projects board: drafts to review and last Claude Code session on each row
 - [ ] S10 · Claude Code handoff

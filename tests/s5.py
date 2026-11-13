@@ -244,7 +244,7 @@ async def main():
         await d.click('.doctabs [data-tab="nfrs"]'); await d.wait_for_timeout(100)
         e = await d.inner_text('.dempty')
         ok('empty doc: teaches what goes in it', 'No NFRs yet' in e and 'Cost and Reachability' in e and 'import docs/nfrs.md from your repo' in ' '.join(e.split())
-           and await d.is_visible('.dempty .btn.primary[data-act="editdoc"]'))
+           and await d.is_visible('.dempty [data-act="editdoc"]'))
         await d.click('.dempty [data-act="editdoc"]'); await d.wait_for_timeout(80)
         ok('Start writing: empty editor, focused', await d.evaluate('document.activeElement.id') == 'doc-editor' and await d.input_value('#doc-editor') == '')
         await d.keyboard.type('# NFRs\n\n- Cost: $0')
