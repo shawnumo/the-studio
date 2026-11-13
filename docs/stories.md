@@ -10,8 +10,8 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 - [x] S2 · Quick capture from any screen (C on desktop, sheet on mobile)
 - [x] S8 · Phase checklists, finish gate and progress on the board
 - [x] S16 · Build monitor with progress sync from the repo
-- [~] S3 · AI triage and inbox
-- [ ] S4 · Discover coach with auto-interview
+- [x] S3 · AI triage and inbox
+- [~] S4 · Discover coach with auto-interview
 - [ ] S5 · Phase-appropriate views
 - [ ] S6 · AI drafts
 - [ ] S7 · Tracked-changes approval

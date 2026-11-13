@@ -39,5 +39,5 @@ S1 board · S2 quick capture · S3 AI triage and inbox · S4 Discover coach with
 ## Should
 S9 rendered diagrams · S12 prompt per slice · S14 Ship checklist · S15 keyboard shortcuts.
 
-## Open question
-When a chat gets long, summarise the oldest messages automatically, or ask first?
+## Decided
+- Long chats: ask first (13 Nov, S4). When a coach chat nears the 256 KiB document limit, The Studio offers to trim the oldest messages and trims only after Shawn says yes. Claude's running notes keep what those messages said.

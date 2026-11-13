@@ -1,0 +1,25 @@
+# The Studio · slices
+
+The Studio reads this file. One line per slice: status box, ID, a middle dot, then the title.
+`[ ]` to do · `[~]` built, check it on your phone · `[x]` done
+
+Build order is riskiest first. Full stories and acceptance criteria are in the PRD.
+
+## Must
+- [x] S0 · Walking skeleton: board, capture, projects saved to your account, published
+- [~] S2 · Quick capture from any screen (C on desktop, sheet on mobile)
+- [~] S8 · Phase checklists, finish gate and progress on the board
+- [ ] S16 · Build monitor with progress sync from the repo
+- [ ] S3 · AI triage and inbox
+- [ ] S4 · Discover coach with auto-interview
+- [ ] S5 · Phase-appropriate views
+- [ ] S6 · AI drafts
+- [ ] S7 · Tracked-changes approval
+- [ ] S1 · Projects board: drafts to review and last Claude Code session on each row
+- [ ] S10 · Claude Code handoff
+
+## Should
+- [ ] S9 · Rendered Mermaid diagrams
+- [ ] S12 · Claude Code prompt per slice
+- [ ] S14 · Ship checklist, feedback and changelog
+- [~] S15 · Keyboard shortcuts (C, N, B, I, 1–9 and ? are in; review shortcuts come with S7)

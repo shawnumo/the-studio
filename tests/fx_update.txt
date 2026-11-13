@@ -1,0 +1,11 @@
+Here's the update for The Studio:
+
+```
+Studio update · the-studio
+- [~] S16 · Build monitor with progress sync from the repo
+## 2026-11-14 · S16 · Build monitor with progress sync
+- Built: Build tab reads docs/stories.md, docs/progress.md and recent commits from the repo through the file server.
+- Tests: 41 passed
+- Check on your phone: open The Studio project and confirm the snapshot time.
+- Next: S3 · AI triage and inbox
+```
