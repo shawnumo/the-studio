@@ -112,7 +112,7 @@ C_READY = "I can draft the PRD and the user stories now." + B({"mode": "chat", "
 C_READY2 = "The NFRs are clear enough to draft too." + B({"mode": "chat", "notes": DN, "ready": ["nfrs"]})
 
 
-async def wait_draft(pg, key_sel='#dp-h'):
+async def wait_draft(pg, key_sel='#dp-h, #rv-h'):   # a new document's draft, or (S7) a review of a saved one
     await pg.wait_for_selector(key_sel, timeout=8000); await pg.wait_for_timeout(80)
 
 
@@ -150,18 +150,14 @@ async def main():
         ok('draft prompt: other docs, shape and the TBD rule', '--- docs/stories.md ---\n(not written yet)' in pr and 'Non-goals (v1)' in pr and 'starts with "TBD:"' in pr and 'Never invent' in pr)
         st = await d.evaluate('window.__store["docs/pd~prd"]')
         ok('draft saved beside the text, text unchanged', st['draft']['text'] == D_PRD.strip() and st['text'] == PRD and st['draft']['basedOn'])
-        pnl = await d.inner_text('.dpanel')
-        ok('draft panel: TBD count, saved version safe, three actions', "Claude's draft" in pnl and '2 TBD lines' in pnl and 'Your saved version stays as it is' in pnl
-           and await d.locator('.dpanel [data-act="usedraft"]').count() == 2 and await d.is_visible('.dpanel [data-act="discarddraft"]'))
-        ok('draft shown, tab says draft', (await d.inner_text('article.doc h1')) == 'Matchbook: PRD' and 'draft' in await d.inner_text('.doctabs [data-tab="prd"]')
-           and 'Draft again' in await d.inner_text('.dtools'))
-        await d.click('.vseg [data-v="saved"]')
-        ok('toggle: your saved version', (await d.inner_text('article.doc h1')) == 'Matchbook')
-        await d.click('.vseg [data-v="draft"]')
-        await d.click('.dpanel .btn.primary[data-act="usedraft"]'); await d.wait_for_timeout(300)
+        pnl = await d.inner_text('.rbar')
+        ok('a saved PRD\'s draft opens as a review (S7): TBD count, saved version safe', "Claude's draft:" in pnl and '2 TBD lines' in pnl and 'changes only as you accept' in pnl
+           and await d.is_visible('.rbar [data-act="acceptall"]'))
+        ok('review shown, tab counts the changes', await d.locator('.doc.review .chg').count() >= 1 and 'change' in await d.inner_text('.doctabs [data-tab="prd"]'))
+        await d.click('.rbar [data-act="acceptall"]'); await d.click('.rbar [data-act="finishreview"]'); await d.wait_for_timeout(300)
         st = await d.evaluate('window.__store["docs/pd~prd"]')
-        ok('Use this draft: it becomes the saved PRD', st['text'] == D_PRD.strip() and 'draft' not in st and "From Claude's draft, used just now" in await d.inner_text('.dmeta')
-           and 'draft' not in await d.inner_text('.doctabs [data-tab="prd"]') and await d.query_selector('.dpanel') is None)
+        ok('Accept all, then Finish: it becomes the saved PRD', st['text'].strip() == D_PRD.strip() and 'draft' not in st and "Reviewed Claude's draft just now" in await d.inner_text('.dmeta')
+           and 'change' not in await d.inner_text('.doctabs [data-tab="prd"]') and await d.query_selector('.rbar') is None)
         await d.screenshot(path=OUT + 's6-prd-used.png')
 
         # 2. Stories from scratch; the reply is wrapped in a fence with a note
@@ -203,12 +199,10 @@ async def main():
         await d.click('.doctabs [data-tab="prd"]'); await d.wait_for_timeout(100)
         await d.evaluate(f'window.__replies.push({json.dumps(D_PRD2)})')
         await d.click('.dtools [data-act="draftdoc"]'); await wait_draft(d)
-        await d.click('.dtools [data-act="editdoc"]'); await d.wait_for_timeout(80)
-        await d.evaluate('(() => { const e = document.querySelector("#doc-editor"); e.setSelectionRange(e.value.length, e.value.length); })()')
-        await d.keyboard.type('\nA line of mine.'); await d.wait_for_timeout(1500)
-        await d.keyboard.press('Escape'); await d.wait_for_timeout(200)
-        ok('edited since the draft: warned', "You've edited the saved version since this draft" in await d.inner_text('.dpanel'))
-        await d.click('.dpanel [data-act="discarddraft"]'); await d.wait_for_timeout(200)
+        await d.evaluate("window.__remote('docs/pd~prd', Object.assign({}, window.__store['docs/pd~prd'], {text: window.__store['docs/pd~prd'].text + '\\nA line of mine.', updatedAt: Date.now() + 5000}))")
+        await d.wait_for_timeout(400)
+        ok('edited since the draft: the review says so', 'You edited the saved version after Claude drafted this' in await d.inner_text('.rbar'))
+        await d.click('.rbar [data-act="rejectrest"]'); await d.wait_for_timeout(300)
         ok('discard keeps his edit', 'A line of mine.' in (await d.evaluate('window.__store["docs/pd~prd"].text')))
 
         # 6. The coach offers drafts; only the latest offer shows
@@ -241,10 +235,10 @@ async def main():
         await d.click('.dpanel .btn.primary'); await d.wait_for_timeout(200); await d.click('[data-act="closeadr"]'); await d.wait_for_timeout(100)
         ok('ADR used: listed with its title', 'Use Cloudflare Pages' in await d.inner_text('.adrlist li:nth-child(2)') and 'Proposed' in await d.inner_text('.adrlist li:nth-child(2)'))
         await d.click('.adrlist li:first-child button'); await d.click('.dtools [data-act="draftdoc"]'); await d.wait_for_timeout(50)
-        await d.wait_for_selector('#dp-h', timeout=8000)
+        await d.wait_for_selector('#dp-h, #rv-h', timeout=8000)
         pr = (await d.evaluate('window.__calls'))[-1]['input']
         ok('redrafting ADR 0001 keeps its decision and current text', 'One decision only: "Use Firebase"' in pr and '--- docs/adr/0001-use-firebase.md (current) ---' in pr)
-        await d.click('.dpanel [data-act="discarddraft"]'); await d.click('[data-act="closeadr"]')
+        await d.click('.rbar [data-act="rejectrest"]'); await d.click('[data-act="closeadr"]')
         await d.click('.doctabs [data-tab="architecture"]'); await d.wait_for_timeout(100)
         await d.evaluate(f'window.__replies.push({json.dumps(D_ARCH)})')
         await d.click('.dempty [data-act="draftdoc"]'); await wait_draft(d)

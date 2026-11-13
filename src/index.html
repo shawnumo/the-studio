@@ -440,6 +440,55 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
 .offer p{font-size:14px}
 .offer .busy{font-size:13px;font-weight:600;color:var(--blue)}
 
+/* Tracked changes (S7): a draft of a saved document, reviewed change by change */
+.chg{margin:6px 0 16px;padding:10px 12px;border:1px solid var(--line2);background:var(--rail)}
+.chg.cur{outline:2px solid var(--amber-mark);outline-offset:2px}
+.chg.a,.chg.r{border-color:var(--line)}
+.chb{display:flex;flex-direction:column;gap:2px}
+.chb .ln{display:block}
+.chb .ln.h{font-weight:700}
+.chb .ln.tr .sep{color:var(--text3)}
+.chb .ln.gone{font-size:13px;color:var(--text3);font-style:italic}
+.chb .tb{position:static;display:inline-block;vertical-align:-1px;margin-right:4px}
+.chb pre{margin:4px 0}
+.chb ins{background:var(--blue-tint);color:var(--blue-text);text-decoration:none;border-bottom:1px solid var(--blue)}
+.chb del,.chb .dl .ln{color:var(--text3);text-decoration:line-through;text-decoration-color:var(--blue)}
+.chb .dl pre{opacity:.6}
+.chb .il .ln,.chb .il pre{background:var(--blue-tint);color:var(--blue-text)}
+.chc{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:13px}
+.chm{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;min-width:0;padding:0;border:0;background:none;color:var(--text2);font:inherit;font-size:13px;text-align:left;cursor:pointer}
+.chm .mono{font-size:12px;color:var(--text3)}
+.chm .kind{font-weight:600;color:var(--text)}
+.chbtns{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.chbtns .btn{height:30px;padding:0 10px;display:inline-flex;align-items:center;gap:6px;font-size:13px}
+.chc .why{flex-basis:100%;color:var(--blue-text)}
+.dec{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600}
+.dec.a{color:var(--green)}
+.dec.r{color:var(--text2)}
+.doc.review .gap{margin:2px 0 6px;color:var(--text3);letter-spacing:.2em}
+.doc.review .ctx{margin:0 0 4px;font-size:14px;color:var(--text2)}
+.nohead thead{display:none}
+.rbar .row{align-items:center}
+.rbar .whyn{font-size:13px}
+.rnav{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.rnav .cnt{font-size:13px;color:var(--text2)}
+.ib{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border-radius:2px;border:1px solid var(--line2);background:transparent;color:var(--text2);cursor:pointer}
+.ib:hover{border-color:var(--line3);color:var(--white)}
+.stabs.s3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.stabs .mono{font-size:12px;font-weight:400;color:var(--text2)}
+.chsum{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;margin:0;padding:10px 20px;font-size:12px;color:var(--text3);border-bottom:1px solid var(--line)}
+.chsum .linkbtn{font-size:12px;color:var(--text2)}
+.chlist ol{list-style:none;margin:0;padding:0}
+.crow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;padding:8px 16px 8px 10px;border-bottom:1px solid var(--line)}
+.crow.cur{background:var(--amber-tint)}
+.cgo{display:grid;grid-template-columns:26px minmax(0,1fr);gap:6px;min-width:0;padding:2px 4px;border:0;background:none;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+.cgo .n{font-family:var(--mono);font-size:12px;color:var(--text3);padding-top:2px}
+.cgo .k{display:block;font-size:13px;font-weight:600}
+.cgo .k span{font-weight:400;color:var(--text3)}
+.cgo .ex{display:block;font-size:13px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow .cs{display:flex;gap:4px;align-items:center}
+.crow .ib{width:28px;height:28px}
+
 /* Overlays */
 .scrim{position:fixed;inset:0;background:var(--scrim);display:flex;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;z-index:20}
 .sheet{width:min(560px,100%);background:var(--sheet);border:1px solid var(--line2);display:flex;flex-direction:column;gap:14px;padding:20px}
@@ -534,8 +583,13 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .pbody.coachp[data-dtab="outputs"] .pside{border-top:0}
   .btabs.b3{grid-template-columns:repeat(3,minmax(0,1fr))}
   .stabs{display:none}
-  .pbody.docp[data-ftab="doc"] .dside{display:none}
-  .pbody.docp:not([data-ftab="doc"]) .docmain{display:none}
+  .pbody.docp[data-ftab="doc"] .dside,.pbody.docp[data-ftab="changes"] .dside{display:none}
+  .pbody.docp:not([data-ftab="doc"]):not([data-ftab="changes"]) .docmain{display:none}
+  .sidechanges{display:none}
+  .chg{margin:6px 0 14px;padding:10px}
+  .chbtns{flex:1 1 100%}
+  .chbtns .btn{flex:1;height:44px;justify-content:center;font-size:14px}
+  .chc .linkbtn{min-height:44px}
   .pbody.docp[data-ftab="coach"] .sidelist{display:none}
   .pbody.docp[data-ftab="checklist"] .sidecoach{display:none}
   .pbody.docp .dside{border-top:0}
@@ -584,6 +638,9 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .sidelist{flex:1;min-height:0;overflow-y:auto}
   .pbody.docp[data-ftab="checklist"] .sidecoach{display:none}
   .pbody.docp:not([data-ftab="checklist"]) .sidelist{display:none}
+  .sidechanges{flex:1;min-height:0;overflow-y:auto}
+  .pbody.docp:not([data-ftab="changes"]) .sidechanges{display:none}
+  .pbody.docp[data-ftab="changes"] .sidecoach{display:none}
   .shipmain section > .btn{align-self:flex-start}
 }
 </style>
@@ -670,7 +727,9 @@ const S = {
   docs:{}, docState:{}, docDirty:new Set(), docT:{}, docW:{}, docWroteAt:{},   // docs: "<projectId>~<key>" -> {pid, phase, key, text, updatedAt, imported?}; docState per project
   doctab:{}, adrOpen:{}, editing:null, focusEditor:null, ftab:"doc", imp:null, scrollKey:"",
   /* S6 drafts */
-  drafting:{}, dview:{}                // drafting: docId -> {busy, text, ctrl} or {err}; dview: docId -> "draft" | "saved"
+  drafting:{}, dview:{},               // drafting: docId -> {busy, text, ctrl} or {err}; dview: docId -> "draft" | "saved"
+  /* S7 tracked changes */
+  rv:{}, curChg:{}, ronly:{}, why:{}, scrollChg:false   // rv: the review worked out for a doc; curChg: current change; ronly: only the changes; why: reasons loading or failed
 };
 
 /* ---------- Helpers ---------- */
@@ -1447,6 +1506,7 @@ function render(){
     else if (caret && caret[2] === "doc-editor" && document.activeElement === de) de.setSelectionRange(caret[0], caret[1]);
   }
   S.focusEditor = null;
+  if (S.scrollChg){ S.scrollChg = false; const c = [...document.querySelectorAll(".chg.cur, .crow.cur")].filter(x => x.offsetParent); c.forEach(x => x.scrollIntoView({block:"nearest"})); }
   const cm = [...document.querySelectorAll(".coach .msgs[data-ready]")].find(x => x.offsetParent);
   const ck = cm ? S.route.id + ":" + routePhase() : "";   // opening a coach (or its tab) shows the latest messages
   if (ck !== S.coachSeen){ S.coachSeen = ck; if (ck) scrollChat(true); }
@@ -1460,7 +1520,7 @@ function render(){
   setTimeout(ensureChats, 0);
   setTimeout(ensureDocs, 0);
 }
-const SCROLLERS = [".docmain", ".sidecoach .msgs", ".sidelist"];
+const SCROLLERS = [".docmain", ".sidecoach .msgs", ".sidelist", ".sidechanges"];
 function routePhase(){ const r = S.route, p = r.view === "project" ? proj(r.id) : null; return p ? (r.phase || p.phase) : ""; }
 const docPage = () => S.backend !== "loading" && isDocPhase(routePhase());
 function scrollKey(){ const r = S.route, v = routePhase(); return v ? [r.id, v, S.doctab[r.id + v] || "", S.adrOpen[r.id] || ""].join(":") : ""; }
@@ -1788,13 +1848,24 @@ function projectView(){
 
 /* ---------- Define and Design: documents first (S5) ---------- */
 function docView(p, phase, x){
-  const ft = ["doc", "coach", "checklist"].includes(S.ftab) ? S.ftab : "doc", side = ft === "checklist" ? "checklist" : "coach";
+  const rid = (id => inReview(S.docs[id]) ? id : null)(shownDocId(p, phase));   // S7: the document on screen is being reviewed
+  let ft = ["doc", "coach", "checklist", "changes"].includes(S.ftab) ? S.ftab : "doc";
+  if (ft === "changes" && !rid) ft = "doc";
+  const side = ft === "checklist" ? "checklist" : ft === "changes" ? "changes" : "coach";
   const vt = [["doc", "Document"], ["coach", "Coach"], ["checklist", "Checklist"]];
-  const btabs = `<div class="btabs b3" role="tablist" aria-label="${PH[phase].name} views">${vt.map(([k, l]) => `<button type="button" role="tab" aria-selected="${ft === k}" data-act="ftab" data-tab="${k}">${l}</button>`).join("")}</div>`;
-  const stabs = `<div class="stabs" role="tablist" aria-label="Side panel">${vt.slice(1).map(([k, l]) => `<button type="button" role="tab" aria-selected="${side === k}" data-act="ftab" data-tab="${k}">${l}${k === "checklist" ? ` <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)">${x.d}/${x.t}</span>` : ""}</button>`).join("")}</div>`;
+  const btabs = `<div class="btabs b3" role="tablist" aria-label="${PH[phase].name} views">${vt.map(([k, l]) => `<button type="button" role="tab" aria-selected="${ft === k || (k === "doc" && ft === "changes")}" data-act="ftab" data-tab="${k}">${l}</button>`).join("")}</div>`;
+  const left = rid ? reviewCounts(S.docs[rid]).left : 0;
+  const st = [...(rid ? [["changes", `Changes <span class="mono">${left}</span>`]] : []), ["coach", "Coach"], ["checklist", `Checklist <span class="mono">${x.d}/${x.t}</span>`]];
+  const stabs = `<div class="stabs${rid ? " s3" : ""}" role="tablist" aria-label="Side panel">${st.map(([k, l]) => `<button type="button" role="tab" aria-selected="${side === k}" data-act="ftab" data-tab="${k}">${l}</button>`).join("")}</div>`;
   return btabs + `<div class="pbody docp" data-ftab="${ft}">
     <section class="pmain docmain" aria-label="${PH[phase].name} documents">${docMain(p, phase)}</section>
-    <aside class="pside dside" aria-label="Coach and checklist">${stabs}<div class="coach sidecoach">${coachPane(p)}</div><div class="sidelist">${sideList(p, phase, x)}</div></aside></div>`;
+    <aside class="pside dside" aria-label="Changes, coach and checklist">${stabs}${rid ? `<div class="sidechanges">${changesPane(rid)}</div>` : ""}<div class="coach sidecoach">${coachPane(p)}</div><div class="sidelist">${sideList(p, phase, x)}</div></aside></div>`;
+}
+/* The document on screen in a phase: the selected tab's, or the open ADR. */
+function shownDocId(p, phase){
+  const list = DOCS[phase], cur = list.find(d => d.key === S.doctab[p.id + phase]) || list[0];
+  if (cur.list) return S.adrOpen[p.id] && S.docs[S.adrOpen[p.id]] ? S.adrOpen[p.id] : null;
+  return docId(p.id, cur.key);
 }
 function sideList(p, phase, x){
   const chat = S.chats[p.id + "~" + phase] || emptyChat();
@@ -1813,7 +1884,10 @@ function docMain(p, phase){
   const list = DOCS[phase], cur = list.find(d => d.key === S.doctab[p.id + phase]) || list[0];
   const st = docLoad(p.id), adrs = adrsOf(p.id), any = Object.values(S.docs).some(d => d.pid === p.id && d.updatedAt);
   const tag = d => { const id = docId(p.id, d.key), ids = d.list ? adrs.map(a => a.id) : [id];
-    return ids.some(x => S.drafting[x] && S.drafting[x].busy) ? ` <span class="dtag">drafting…</span>` : ids.some(x => S.docs[x] && S.docs[x].draft) ? ` <span class="dtag">draft</span>` : ""; };
+    if (ids.some(x => S.drafting[x] && S.drafting[x].busy)) return ` <span class="dtag">drafting…</span>`;
+    const rv = ids.filter(x => inReview(S.docs[x]));
+    if (rv.length){ const left = d.list ? -1 : reviewCounts(S.docs[rv[0]]).left; return ` <span class="dtag">${left < 0 ? "review" : left ? `${left} change${left === 1 ? "" : "s"}` : "reviewed"}</span>`; }
+    return ids.some(x => S.docs[x] && S.docs[x].draft) ? ` <span class="dtag">draft</span>` : ""; };
   const tabs = list.map(d => `<button type="button" role="tab" aria-selected="${d === cur}" data-act="doctab" data-tab="${d.key}">${esc(d.name)}${d.list && adrs.length ? ` <span class="mono">${adrs.length}</span>` : ""}${tag(d)}</button>`).join("");
   let tools = "", body;
   if (st !== "ready" && !any){
@@ -1850,6 +1924,7 @@ function docPane(id, info){
     body:`${back}<section class="ai dpanel" role="status"><div class="dph"><h3>Claude is drafting ${esc(what)}</h3></div><p>From ${chatName} and the documents you've saved. It usually takes under a minute, and your saved version doesn't change.</p></section>
       <article class="doc" id="draft-live" data-id="${id}" aria-busy="true">${draftLive(ds)}</article>`};
   const err = ds.err ? `<div class="errbox" role="alert"><span><b>Claude couldn't draft ${esc(what)}.</b> ${esc(draftErr(ds.err))}</span>${ok ? `<button type="button" class="btn" data-act="draftdoc" data-id="${id}" data-k="${info.key}">Try again</button>` : ""}</div>` : "";
+  if (draft && hasText(d)) return reviewPane(id, info, d, back, path);   // S7
   if (draft){
     const view = hasText(d) && S.dview[id] === "saved" ? "saved" : "draft", tbd = (draft.text.match(/\bTBD:/g) || []).length;
     const changed = hasText(d) && (d.editedAt || 0) > (draft.basedOn || 0) + 1000;
@@ -1872,7 +1947,7 @@ function docPane(id, info){
   }
   const ed = d.editedAt || d.updatedAt, im = d.imported, dr = d.drafted;
   const meta = im && ed - im.at < 3000 ? `Imported from <span class="mono">${esc(im.path)}</span> ${esc(agoText(im.at))}`
-    : dr && ed - dr.at < 3000 ? `From Claude's draft, used ${esc(agoText(dr.at))}`
+    : dr && ed - dr.at < 3000 ? (dr.n != null ? `Reviewed Claude's draft ${esc(agoText(dr.at))}: ${dr.a} of ${dr.n} change${dr.n === 1 ? "" : "s"} accepted` : `From Claude's draft, used ${esc(agoText(dr.at))}`)
     : `Edited ${esc(agoText(ed))}${im ? ` · first imported from <span class="mono">${esc(im.path)}</span>` : ""}`;
   return {tools:`${path}<span class="dbtns">${imp}${del}${draftBtn}${editBtn}</span>`,
     body:`${back}${err}<p class="dmeta">${meta}</p><article class="doc">${mdDoc(text)}</article>`};
@@ -1994,12 +2069,271 @@ async function draftDoc(p, phase, id){
   const text = cleanDraft(raw), d = S.docs[id];
   if (!d){ softRender(); return; }   // deleted while Claude was writing
   if (!text){ S.drafting[id] = {err:"empty_completion"}; softRender(); return; }
-  d.draft = {text, at:Date.now(), basedOn:d.editedAt || d.updatedAt || 0, cut};
-  delete S.dview[id];
+  d.draft = {text, at:Date.now(), basedOn:d.editedAt || d.updatedAt || 0, cut, base:d.text, decisions:{}};
+  delete S.dview[id]; delete S.curChg[id]; delete S.rv[id]; delete S.why[id];
   saveDoc(d, true);
+  const here = S.route.view === "project" && S.route.id === p.id && routePhase() === phase, review = hasText(d);
+  const n = review ? reviewModel(d).hunks.length : 0;
+  if (review && here && !isMobile()) S.ftab = "changes";
   softRender();
-  const here = S.route.view === "project" && S.route.id === p.id && routePhase() === phase;
-  toast(here ? `Claude's draft of ${name} is ready. Nothing changes until you use it.` : `Claude's draft of ${name} for ${p.name} is ready.`);
+  toast(review ? `Claude's draft of ${name} is ready: ${n} change${n === 1 ? "" : "s"} to review${here ? "" : ` in ${p.name}`}.`
+    : here ? `Claude's draft of ${name} is ready. Nothing changes until you use it.` : `Claude's draft of ${name} for ${p.name} is ready.`);
+  if (review && n) explainChanges(p, phase, id);
+}
+
+/* ---------- Tracked changes (S7) ---------- */
+/* A draft of a saved document is reviewed change by change. The diff runs on lines (a fenced code block counts as one line);
+   a change is a run of changed lines between unchanged ones. The saved text is always the version Claude saw (draft.base)
+   with the accepted changes applied, so each Accept saves at once and Undo is exact. */
+const inReview = d => !!(d && d.draft && hasText(d));
+function units(text){
+  const L = String(text || "").split("\n"), out = [];
+  for (let i = 0; i < L.length; i++){
+    const m = MD.fence.exec(L[i]);
+    if (!m){ out.push(L[i]); continue; }
+    const end = new RegExp("^\\s{0,3}" + m[1]); let j = i + 1;
+    while (j < L.length && !end.test(L[j])) j++;
+    out.push(L.slice(i, Math.min(j, L.length - 1) + 1).join("\n")); i = j;
+  }
+  return out;
+}
+/* Longest common subsequence, after trimming the shared start and end. Ops: = (both), - (only in a), + (only in b). */
+function diffUnits(a, b){
+  const eq = (x, y) => x.trimEnd() === y.trimEnd(), ops = [];
+  let s = 0; while (s < a.length && s < b.length && eq(a[s], b[s])) s++;
+  let ea = a.length, eb = b.length; while (ea > s && eb > s && eq(a[ea - 1], b[eb - 1])){ ea--; eb--; }
+  for (let i = 0; i < s; i++) ops.push({t:"=", a:i, b:i});
+  const n = ea - s, m = eb - s;
+  if (n * m > 4e6){ for (let i = s; i < ea; i++) ops.push({t:"-", a:i}); for (let j = s; j < eb; j++) ops.push({t:"+", b:j}); }
+  else {
+    const W = m + 1, T = new Uint32Array((n + 1) * W);
+    for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) T[i * W + j] = eq(a[s + i], b[s + j]) ? T[(i + 1) * W + j + 1] + 1 : Math.max(T[(i + 1) * W + j], T[i * W + j + 1]);
+    let i = 0, j = 0;
+    while (i < n && j < m){
+      if (eq(a[s + i], b[s + j])){ ops.push({t:"=", a:s + i, b:s + j}); i++; j++; }
+      else if (T[(i + 1) * W + j] >= T[i * W + j + 1]){ ops.push({t:"-", a:s + i}); i++; }
+      else { ops.push({t:"+", b:s + j}); j++; }
+    }
+    for (; i < n; i++) ops.push({t:"-", a:s + i});
+    for (; j < m; j++) ops.push({t:"+", b:s + j});
+  }
+  for (let i = ea, j = eb; i < a.length; i++, j++) ops.push({t:"=", a:i, b:j});
+  return ops;
+}
+const hashStr = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = (Math.imul(h, 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(36); };
+function buildReview(base, text){
+  const a = units(base), b = units(text), parts = [], hunks = [], seen = {};
+  const headOf = u => { const m = MD.head.exec(u); return m ? m[2].replace(/[*_`]/g, "").trim() : ""; };
+  let eq = [], cur = null, sect = "";
+  const close = () => {
+    if (!cur) return;
+    if ([...cur.del, ...cur.ins].every(u => !u.trim())){ eq.push(...cur.del); cur = null; return; }   // blank lines alone aren't a change; the saved spacing stays
+    if (eq.length){ parts.push({eq}); eq = []; }
+    const h0 = hashStr(cur.del.join("\n") + "\u0000" + cur.ins.join("\n")); seen[h0] = (seen[h0] || 0) + 1;
+    const kind = cur.del.length && cur.ins.length ? (cur.del.length === 1 && cur.ins.length === 1 ? "Reworded" : "Changed") : cur.ins.length ? "Added" : "Removed";
+    hunks.push({sig:h0 + "-" + seen[h0], del:cur.del, ins:cur.ins, kind, section:cur.ins.map(headOf).find(Boolean) || cur.sect});
+    parts.push({h:hunks.length - 1}); cur = null;
+  };
+  for (const o of diffUnits(a, b)){
+    if (o.t === "="){ close(); eq.push(a[o.a]); sect = headOf(a[o.a]) || sect; continue; }
+    if (!cur) cur = {del:[], ins:[], sect};
+    if (o.t === "-"){ cur.del.push(a[o.a]); sect = headOf(a[o.a]) || sect; } else cur.ins.push(b[o.b]);
+  }
+  close();
+  if (eq.length) parts.push({eq});
+  return {parts, hunks};
+}
+function applyReview(rv, dec){
+  const out = [];
+  for (const pt of rv.parts){ if (pt.eq) out.push(...pt.eq); else { const h = rv.hunks[pt.h]; out.push(...(dec[h.sig] === "a" ? h.ins : h.del)); } }
+  return out.join("\n");
+}
+function reviewModel(d){
+  const dr = d.draft;
+  if (typeof dr.base !== "string") dr.base = d.text;   // a draft from before S7
+  dr.decisions = dr.decisions || {};
+  const get = () => { const key = dr.base + "\u0001" + dr.text; if (!S.rv[d.id] || S.rv[d.id].key !== key) S.rv[d.id] = {key, ...buildReview(dr.base, dr.text)}; return S.rv[d.id]; };
+  let rv = get();
+  if (applyReview(rv, dr.decisions) !== d.text){   // the saved text changed outside the review (an edit, another device): review against it
+    dr.base = d.text; dr.rebased = true; rv = get();
+    const live = new Set(rv.hunks.map(h => h.sig));
+    for (const s of Object.keys(dr.decisions)) if (!live.has(s) || dr.decisions[s] === "a") delete dr.decisions[s];
+  }
+  return rv;
+}
+function reviewCounts(d){
+  const rv = reviewModel(d), dec = d.draft.decisions, n = rv.hunks.length, a = rv.hunks.filter(h => dec[h.sig] === "a").length, r = rv.hunks.filter(h => dec[h.sig] === "r").length;
+  return {n, a, r, left:n - a - r};
+}
+function decide(d, sigs, v){
+  const rv = reviewModel(d), dec = d.draft.decisions;
+  for (const s of sigs){ if (v) dec[s] = v; else delete dec[s]; }
+  const text = applyReview(rv, dec), changed = text !== d.text;
+  d.text = text; saveDoc(d, false, changed);
+}
+function finishReview(d, msg){
+  const rv = reviewModel(d), {n, a} = reviewCounts(d);
+  d.text = applyReview(rv, d.draft.decisions);
+  delete d.draft; delete S.rv[d.id]; delete S.curChg[d.id]; delete S.why[d.id];
+  d.drafted = {at:Date.now(), n, a};
+  saveDoc(d, true);
+  if (S.ftab === "changes") S.ftab = "doc";
+  render(); toast(msg || `Review done: ${a} of ${n} change${n === 1 ? "" : "s"} accepted.`);
+}
+function curChange(id, rv){
+  const d = S.docs[id], dec = (d && d.draft && d.draft.decisions) || {}, i = S.curChg[id];
+  if (i >= 0 && i < rv.hunks.length) return i;
+  const k = rv.hunks.findIndex(h => !dec[h.sig]);
+  return k < 0 ? 0 : k;
+}
+function nextPending(d, rv, i){
+  const dec = d.draft.decisions, n = rv.hunks.length;
+  for (let k = 1; k <= n; k++){ const j = (i + k) % n; if (!dec[rv.hunks[j].sig]) return j; }
+  return i;
+}
+/* One line of a change, rendered on its own. */
+function lineHTML(u){
+  if (!u.trim()) return "";
+  if (MD.fence.test(u)) return mdDoc(u);
+  let m;
+  if ((m = MD.head.exec(u))) return `<span class="ln h">${mdInline(m[2])}</span>`;
+  if ((m = /^(\s*)([-*+]|\d+[.)])\s+(.*)$/.exec(u))){
+    const t = /^\[([ xX~])\]\s+(.*)$/.exec(m[3]), ind = Math.min(m[1].replace(/\t/g, "    ").length, 12) * 6;
+    const mark = t ? `<span class="tb${t[1] === " " ? "" : t[1] === "~" ? " w" : " x"}" aria-hidden="true"></span>` : esc(/\d/.test(m[2]) ? m[2] : "•") + " ";
+    return `<span class="ln li"${ind ? ` style="margin-left:${ind}px"` : ""}>${mark}${mdInline(t ? t[2] : m[3])}</span>`;
+  }
+  if (/^\s*\|/.test(u)) return MD.tsep.test(u) ? "" : `<span class="ln tr">${u.trim().replace(/^\||\|$/g, "").split("|").map(c => mdInline(c.trim())).join(' <span class="sep">│</span> ')}</span>`;
+  if (MD.hr.test(u)) return `<span class="ln"><hr></span>`;
+  return `<span class="ln">${mdInline(u.trim())}</span>`;
+}
+/* A reworded line: unchanged words plain, removed ones struck, added ones highlighted. Null when the lines aren't alike enough. */
+const LINE_PRE = /^(\s*(?:#{1,6}\s+|(?:[-*+]|\d+[.)])\s+(?:\[[ xX~]\]\s+)?)?)([\s\S]*)$/;
+function pairHTML(x, y){
+  if (MD.fence.test(x) || MD.fence.test(y) || /^\s*\|/.test(x) || /^\s*\|/.test(y)) return null;
+  const px = LINE_PRE.exec(x), py = LINE_PRE.exec(y);
+  if (px[1].replace(/\d+/, "1").trim() !== py[1].replace(/\d+/, "1").trim()) return null;
+  const tx = px[2].match(/\s+|[^\s]+/g) || [], ty = py[2].match(/\s+|[^\s]+/g) || [], ops = diffUnits(tx, ty);
+  const words = ts => ts.filter(x => x.trim()).length;
+  if (ops.filter(o => o.t === "=" && tx[o.a].trim()).length * 3 < Math.max(words(tx), words(ty))) return null;   // mostly rewritten: show both lines
+  let html = "", run = "", rt = "";
+  const flush = () => { if (!run) return; html += rt === "=" || !run.trim() ? (rt === "-" ? "" : mdInline(run)) : `<${rt === "+" ? "ins" : "del"}>${mdInline(run)}</${rt === "+" ? "ins" : "del"}>`; run = ""; };
+  for (const o of ops){ const tok = o.t === "-" ? tx[o.a] : ty[o.b]; if (o.t !== rt){ flush(); rt = o.t; } run += tok; }
+  flush();
+  const shell = lineHTML(py[1] + "\u0001");
+  return shell.replace(mdInline("\u0001"), () => html);
+}
+function changeBody(h){
+  const out = [];
+  if (h.del.length === h.ins.length) h.del.forEach((x, i) => { const m = pairHTML(x, h.ins[i]); out.push(m != null ? m : `<div class="dl">${lineHTML(x)}</div><div class="il">${lineHTML(h.ins[i])}</div>`); });
+  else {
+    if (h.del.length) out.push(`<div class="dl">${h.del.map(lineHTML).join("")}</div>`);
+    if (h.ins.length) out.push(`<div class="il">${h.ins.map(lineHTML).join("")}</div>`);
+  }
+  return out.join("");
+}
+const RV_OK = `<svg width="12" height="12" viewBox="0 0 14 14" aria-hidden="true" fill="none" style="stroke:currentColor" stroke-width="2"><path d="m2.5 7.5 3 3 6-7"/></svg>`;
+const RV_NO = `<svg width="10" height="10" viewBox="0 0 12 12" aria-hidden="true" fill="none" style="stroke:currentColor" stroke-width="2"><path d="m2.5 2.5 7 7m0-7-7 7"/></svg>`;
+const RV_UP = `<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" style="stroke:currentColor" stroke-width="1.8"><path d="m3 7.5 3-3 3 3"/></svg>`;
+const RV_DOWN = `<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" style="stroke:currentColor" stroke-width="1.8"><path d="m3 4.5 3 3 3-3"/></svg>`;
+function changeBlock(id, h, i, st, isCur, why){
+  const btns = st ? `<span class="dec ${st}">${st === "a" ? RV_OK + "Accepted" : "Rejected"}</span><button type="button" class="linkbtn" data-act="undochange" data-id="${id}" data-i="${i}">Undo</button>`
+    : `<button type="button" class="btn" data-act="accept" data-id="${id}" data-i="${i}" aria-label="Accept change ${i + 1}">${RV_OK}<span>Accept</span></button><button type="button" class="btn" data-act="reject" data-id="${id}" data-i="${i}" aria-label="Reject change ${i + 1}">${RV_NO}<span>Reject</span></button>`;
+  const body = st === "a" ? (h.ins.map(lineHTML).join("") || `<span class="ln gone">Removed</span>`) : st === "r" ? (h.del.map(lineHTML).join("") || `<span class="ln gone">Not added</span>`) : changeBody(h);
+  return `<div class="chg${st ? " " + st : ""}${isCur ? " cur" : ""}" id="chg-${i}" role="group" aria-label="Change ${i + 1}, ${h.kind.toLowerCase()}">
+    <div class="chb">${body}</div>
+    <div class="chc"><button type="button" class="chm" data-act="gochange" data-id="${id}" data-i="${i}"><span class="mono">${String(i + 1).padStart(2, "0")}</span><span class="kind">${h.kind}</span>${h.section ? `<span>in ${esc(h.section)}</span>` : ""}</button><span class="chbtns">${btns}</span>${why ? `<span class="why">${esc(why)}</span>` : ""}</div></div>`;
+}
+/* A table cut by a change keeps its columns: the rows after it borrow the header, hidden. */
+function scanHead(us, head){
+  for (let i = 0; i < us.length; i++){
+    if (!us[i].trim()) head = null;
+    else if (us[i].includes("|") && us[i + 1] !== undefined && MD.tsep.test(us[i + 1])) head = [us[i], us[i + 1]];
+    else if (!/^\s*\|/.test(us[i]) && !MD.tsep.test(us[i])) head = null;
+  }
+  return head;
+}
+function reviewDoc(id, rv, dec, cur, only, reasons){
+  let html = "", head = null;
+  rv.parts.forEach((pt, k) => {
+    if (pt.eq === undefined){ const h = rv.hunks[pt.h]; html += changeBlock(id, h, pt.h, dec[h.sig] || "", pt.h === cur, reasons[h.sig]); head = scanHead(h.del, head); return; }
+    const us = pt.eq;
+    if (only){   // just a line of context either side of each change
+      const nb = us.map((u, j) => u.trim() ? j : -1).filter(j => j >= 0), first = k > 0 && nb.length ? nb[0] : -1, last = k < rv.parts.length - 1 && nb.length ? nb[nb.length - 1] : -1;
+      const shown = [first, last].filter((j, q, arr) => j >= 0 && arr.indexOf(j) === q);
+      html += (first >= 0 ? `<div class="ctx">${lineHTML(us[first])}</div>` : "") + (nb.length > shown.length ? `<p class="gap" aria-hidden="true">⋯</p>` : "") + (last >= 0 && last !== first ? `<div class="ctx">${lineHTML(us[last])}</div>` : "");
+    } else {
+      const borrow = head && /^\s*\|/.test(us[0] || "") && !(us[1] !== undefined && MD.tsep.test(us[1]));
+      html += borrow ? `<div class="nohead">${mdDoc([...head, ...us].join("\n"))}</div>` : mdDoc(us.join("\n"));
+    }
+    head = scanHead(us, head);
+  });
+  return html;
+}
+function reviewPane(id, info, d, back, path){
+  const rv = reviewModel(d), dr = d.draft, dec = dr.decisions, hs = rv.hunks, {n, a, r, left} = reviewCounts(d);
+  const cur = curChange(id, rv), only = S.ronly[id] ?? isMobile(), v = routePhase(), chatName = `your ${PH[v] ? PH[v].name : ""} chat`;
+  const name = info.adr ? `ADR ${info.num}` : (DOC_THE[info.key] || info.name).replace(/^the /, "");
+  const tbd = (dr.text.match(/\bTBD:/g) || []).length, reasons = dr.reasons || {}, why = S.why[id];
+  const whyNote = why === "loading" ? `<span class="thinking">Claude is explaining each change…</span>`
+    : why === "error" ? `Claude's reasons couldn't be loaded. <button type="button" class="linkbtn" data-act="askwhy" data-id="${id}">Try again</button>`
+    : !Object.keys(reasons).length && n && canCoach() ? `<button type="button" class="linkbtn" data-act="askwhy" data-id="${id}">Ask Claude why it made each change</button>` : "";
+  const ch = hs[cur], nav = n ? `<span class="rnav desk-only"><span class="cnt">Change <span class="mono">${cur + 1}</span> of <span class="mono">${n}</span></span>`
+    + `<button type="button" class="ib" data-act="prevchg" data-id="${id}" aria-label="Previous change (K)">${RV_UP}</button><button type="button" class="ib" data-act="nextchg" data-id="${id}" aria-label="Next change (J)">${RV_DOWN}</button>`
+    + (dec[ch.sig] ? `<button type="button" class="btn" data-act="undochange" data-id="${id}" data-i="${cur}">Undo <kbd>U</kbd></button>`
+      : `<button type="button" class="btn" data-act="reject" data-id="${id}" data-i="${cur}">Reject <kbd>R</kbd></button><button type="button" class="btn primary" data-act="accept" data-id="${id}" data-i="${cur}">Accept <kbd style="color:var(--on-amber)">A</kbd></button>`) + `</span>` : "";
+  const status = !n ? `Claude's draft says the same as your saved ${esc(name)}; there's nothing to review.`
+    : left ? `${a} accepted · ${r} rejected · ${left} left. Your saved ${esc(name)} changes only as you accept changes.`
+    : `All ${n} decided: ${a} accepted, ${r} rejected. Undo still works until you finish.`;
+  const extra = (tbd ? ` The draft has ${tbd} TBD line${tbd === 1 ? "" : "s"} for you to fill in.` : "") + (dr.rebased ? " You edited the saved version after Claude drafted this, so the changes show against your edited version." : "") + (dr.cut ? " Claude's reply was cut short, so the end may be missing." : "");
+  const acts = !n ? `<button type="button" class="btn primary" data-act="finishreview" data-id="${id}">Close the draft</button>`
+    : left ? `<button type="button" class="btn" data-act="acceptall" data-id="${id}">Accept all ${left} left</button><button type="button" class="btn ghost" data-act="rejectrest" data-id="${id}">${a + r ? "Reject the rest" : "Discard the draft"}</button>`
+    : `<button type="button" class="btn primary" data-act="finishreview" data-id="${id}">Finish review</button>`;
+  return {tools:path + nav,
+    body:`${back}<section class="ai dpanel rbar" aria-labelledby="rv-h"><div class="dph"><h3 id="rv-h">Claude's draft: ${n} change${n === 1 ? "" : "s"}</h3><span class="m">from ${esc(chatName)} · ${esc(agoText(dr.at))}</span></div>
+      <p>${status}${esc(extra)}</p>${whyNote ? `<p class="whyn">${whyNote}</p>` : ""}
+      <div class="row">${acts}${n ? `<button type="button" class="linkbtn" data-act="ronly" data-id="${id}">${only ? "Show the whole document" : "Show only the changes"}</button>` : ""}</div></section>
+      <article class="doc review${only ? " only" : ""}" data-id="${id}" aria-label="${esc(info.name)} with Claude's changes">${reviewDoc(id, rv, dec, cur, only, reasons)}</article>`};
+}
+/* The side panel's list: every change with its own accept and reject. */
+function changesPane(id){
+  const d = S.docs[id]; if (!inReview(d)) return "";
+  const rv = reviewModel(d), dec = d.draft.decisions, {a, r, left} = reviewCounts(d), cur = curChange(id, rv), only = S.ronly[id] ?? isMobile();
+  const rows = rv.hunks.map((h, i) => {
+    const st = dec[h.sig] || "", ex = (h.ins.find(u => u.trim()) || h.del.find(u => u.trim()) || "").replace(/^\s*(#{1,6}|[-*+]|\d+[.)])\s+(\[[ xX~]\]\s+)?/, "").replace(/[*_`|]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 140);
+    return `<li class="crow${i === cur ? " cur" : ""}"><button type="button" class="cgo" data-act="gochange" data-id="${id}" data-i="${i}"><span class="n">${String(i + 1).padStart(2, "0")}</span><span><span class="k">${h.kind}${h.section ? ` <span>in ${esc(h.section)}</span>` : ""}</span><span class="ex">${esc(ex)}</span></span></button>
+      <span class="cs">${st ? `<span class="dec ${st}">${st === "a" ? RV_OK + "Accepted" : "Rejected"}</span>` : `<button type="button" class="ib" data-act="accept" data-id="${id}" data-i="${i}" aria-label="Accept change ${i + 1}">${RV_OK}</button><button type="button" class="ib" data-act="reject" data-id="${id}" data-i="${i}" aria-label="Reject change ${i + 1}">${RV_NO}</button>`}</span></li>`;
+  }).join("");
+  return `<div class="chlist"><p class="chsum"><span>${a} accepted · ${r} rejected · ${left} left</span><button type="button" class="linkbtn" data-act="ronly" data-id="${id}">${only ? "Whole document" : "Only the changes"}</button></p><ol aria-label="Changes">${rows}</ol></div>`;
+}
+/* One quick call explains every change, quoting the chat where it can. */
+async function explainChanges(p, phase, id){
+  const d = S.docs[id]; if (!inReview(d) || !canCoach() || !S.sample.json || S.why[id] === "loading") return;
+  const rv = reviewModel(d); if (!rv.hunks.length) return;
+  const at = d.draft.at, chat = S.chats[p.id + "~" + phase] || emptyChat(), path = d.kind === "adr" ? adrInfo(d).path : docDef(phase, d.key).path;
+  const list = rv.hunks.map((h, i) => ({n:i + 1, kind:h.kind, section:h.section || "", removed:h.del.join("\n").slice(0, 500), added:h.ins.join("\n").slice(0, 500)}));
+  S.why[id] = "loading"; softRender();
+  try {
+    const out = await S.sample.json(`Claude drafted a new version of ${path} for a project called ${p.name}, from the builder's ${PH[phase].name} coach conversation. Below are the changes the draft makes to his saved version, numbered, then that conversation.
+
+For each change, say why it was made, in one sentence under 20 words, written to him. When his own words are the reason, quote them (under 10 words), as in: You said "nobody will make an account for a party game." When the change fills a gap or tidies the wording, say so. When nothing in the conversation supports it, say: Not from the chat; check it.
+
+Reply with only a JSON array with one {"n": number, "why": string} for each change.
+
+Changes:
+${JSON.stringify(list)}
+
+The ${PH[phase].name} coach conversation, oldest first:
+${transcript(chat, 16000) || "(none)"}`, {modelTier:"quick", cache:false});
+    delete S.why[id];
+    const dd = S.docs[id]; if (!dd || !dd.draft || dd.draft.at !== at) return softRender();   // a newer draft, or gone
+    const reasons = {};
+    if (Array.isArray(out)) for (const x of out){ const h = rv.hunks[(+(x && x.n) || 0) - 1]; if (h && x && typeof x.why === "string" && x.why.trim()) reasons[h.sig] = x.why.trim().slice(0, 220); }
+    dd.draft.reasons = reasons; saveDoc(dd, true);
+  } catch(e){
+    if (e && OFF_CODES.includes(e.code)) S.sampleOff = e.code;
+    S.why[id] = "error";
+  }
+  softRender();
 }
 /* The coach's offer, under the reply that ends an interview or answers "draft the PRD". */
 function draftOffer(ready, ok){
@@ -2305,7 +2639,7 @@ function overlayView(){
     <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary">Create project</button></div></form></div>`;
   if (S.overlay === "keys") return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="k-h">
     <div class="row"><h2 id="k-h">Keyboard shortcuts</h2><button type="button" class="btn ghost" data-act="close" autofocus>Close</button></div>
-    <dl class="keys"><dt>C</dt><dd>Capture an idea</dd><dt>B</dt><dd>Board</dd><dt>I</dt><dd>Inbox</dd><dt>1–9</dt><dd>Open the matching item under Needs you</dd><dt>N</dt><dd>New project</dd><dt>S</dt><dd>Sync the repo (in Build)</dd><dt>Enter</dt><dd>Send to the coach (Shift+Enter for a new line)</dd><dt>1–5</dt><dd>Pick an answer in an interview</dd><dt>E</dt><dd>Edit the open document (Define, Design)</dd><dt>Esc</dt><dd>Close this panel, leave an interview for free chat, or stop editing a document</dd><dt>?</dt><dd>This list</dd></dl></div></div>`;
+    <dl class="keys"><dt>C</dt><dd>Capture an idea</dd><dt>B</dt><dd>Board</dd><dt>I</dt><dd>Inbox</dd><dt>1–9</dt><dd>Open the matching item under Needs you</dd><dt>N</dt><dd>New project</dd><dt>S</dt><dd>Sync the repo (in Build)</dd><dt>Enter</dt><dd>Send to the coach (Shift+Enter for a new line)</dd><dt>1–5</dt><dd>Pick an answer in an interview</dd><dt>A / R</dt><dd>Accept or reject the current change in a review; Shift+A accepts all</dd><dt>J / K</dt><dd>Next or previous change</dd><dt>U</dt><dd>Undo the current change's decision</dd><dt>E</dt><dd>Edit the open document (Define, Design)</dd><dt>Esc</dt><dd>Close this panel, leave an interview for free chat, or stop editing a document</dd><dt>?</dt><dd>This list</dd></dl></div></div>`;
   if (S.overlay === "about") return `<div class="scrim" data-act="close"><form class="sheet" role="dialog" aria-modal="true" aria-labelledby="ab-h" id="aboutForm">
     <h2 id="ab-h">What Claude knows about you</h2>
     <p class="hint" style="color:var(--text2)">Claude reads this when it scores Learning and Motivation. Say what you want to learn and what you care about.</p>
@@ -2727,6 +3061,32 @@ document.addEventListener("click", async ev => {
     case "discarddraft": { const d = S.docs[t.dataset.id]; if (!d || !d.draft) break; delete d.draft; delete S.dview[d.id]; saveDoc(d, true); render(); toast("Draft discarded."); break; }
     case "dview": S.dview[t.dataset.id] = t.dataset.v === "saved" ? "saved" : "draft"; render(); break;
     case "showdoc": if (p){ const v = S.route.phase || p.phase; S.doctab[p.id + v] = t.dataset.k; if (isMobile()) S.ftab = "doc"; render(); } break;
+    /* S7: tracked changes */
+    case "accept": case "reject": case "undochange": {
+      const d = S.docs[t.dataset.id]; if (!inReview(d)) break;
+      const rv = reviewModel(d), i = +t.dataset.i, h = rv.hunks[i]; if (!h) break;
+      decide(d, [h.sig], act === "accept" ? "a" : act === "reject" ? "r" : null);
+      if (t.closest(".rnav")){ S.curChg[d.id] = act === "undochange" ? i : nextPending(d, rv, i); S.scrollChg = true; }   // the toolbar and keys walk through the changes
+      else S.curChg[d.id] = i;
+      render(); break;
+    }
+    case "acceptall": { const d = S.docs[t.dataset.id]; if (!inReview(d)) break; decide(d, reviewModel(d).hunks.filter(h => !d.draft.decisions[h.sig]).map(h => h.sig), "a"); render(); break; }
+    case "rejectrest": {
+      const d = S.docs[t.dataset.id]; if (!inReview(d)) break;
+      const rv = reviewModel(d), any = rv.hunks.some(h => d.draft.decisions[h.sig] === "a");
+      decide(d, rv.hunks.filter(h => !d.draft.decisions[h.sig]).map(h => h.sig), "r");
+      if (!any) finishReview(d, "Draft discarded. Your saved version is unchanged."); else render();
+      break;
+    }
+    case "finishreview": { const d = S.docs[t.dataset.id]; if (d && d.draft) finishReview(d); break; }
+    case "gochange": S.curChg[t.dataset.id] = +t.dataset.i; S.scrollChg = true; render(); break;
+    case "prevchg": case "nextchg": {
+      const d = S.docs[t.dataset.id]; if (!inReview(d)) break;
+      const rv = reviewModel(d), n = rv.hunks.length; if (!n) break;
+      S.curChg[d.id] = (curChange(d.id, rv) + (act === "nextchg" ? 1 : -1) + n) % n; S.scrollChg = true; render(); break;
+    }
+    case "ronly": { const id = t.dataset.id; S.ronly[id] = !(S.ronly[id] ?? isMobile()); render(); break; }
+    case "askwhy": if (p) explainChanges(p, routePhase(), t.dataset.id); break;
     case "interview": if (p){ const c = S.chats[ck] || (S.chats[ck] = emptyChat()); c.free = false; sendCoach(p, INTERVIEW_ASK[coachRef(p).phase]); } break;
     case "freechat": if (p && S.chats[ck]){
       const c = S.chats[ck], m = lastCoach(c);
@@ -2847,6 +3207,10 @@ document.addEventListener("keydown", ev => {
   else if (k === "i") go("inbox");
   else if (ev.key === "?"){ openOverlay("keys"); }
   else if (k === "s" && S.route.view === "project"){ const p = proj(S.route.id); if (p && (S.route.phase || p.phase) === "build") syncProject(p, true); }
+  else if (k.length === 1 && "arjku".includes(k) && S.route.view === "project" && $(".rnav")){   // S7: review keys (desktop)
+    const b = $(ev.key === "A" ? '.rbar [data-act="acceptall"]' : `.rnav [data-act="${({a:"accept", r:"reject", j:"nextchg", k:"prevchg", u:"undochange"})[k]}"]`);
+    if (b && b.offsetParent){ ev.preventDefault(); b.click(); }
+  }
   else if (k === "e" && S.route.view === "project"){ const b = [...document.querySelectorAll('.dtools [data-act="editdoc"], .dempty [data-act="editdoc"]')].find(x => x.offsetParent); if (b){ ev.preventDefault(); b.click(); } }
   else if (/^[1-9]$/.test(k) && S.route.view === "board"){ const p = active()[+k - 1]; if (p) go("p-" + p.id); }
   else if (/^[1-9]$/.test(k) && S.route.view === "project"){ const b = [...document.querySelectorAll(`.choices [data-act="choose"][data-i="${+k - 1}"]`)].find(x => x.offsetParent); if (b && !b.disabled){ ev.preventDefault(); b.click(); } }
