@@ -6,7 +6,7 @@ The Studio reads this file. One line per slice: status box, ID, a middle dot, th
 Build order is riskiest first. Full stories and acceptance criteria are in the PRD.
 
 ## Must
-- [~] S0 · Walking skeleton: board, capture, projects saved to your account, published
+- [x] S0 · Walking skeleton: board, capture, projects saved to your account, published
 - [~] S2 · Quick capture from any screen (C on desktop, sheet on mobile)
 - [~] S8 · Phase checklists, finish gate and progress on the board
 - [ ] S16 · Build monitor with progress sync from the repo
