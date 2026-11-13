@@ -2,6 +2,12 @@
 
 Newest first. One entry per slice session. The Studio reads this file.
 
+## 2026-11-13 · S3 · AI triage and inbox
+- Built: every new capture is scored by Claude (quick tier) on the six Discover rubric rows from the Build Framework, with reasoning, tags and a working title. The verdict follows the framework's rules: Killed on 1 for Pain or Free to run, Promising on 3 or more on every row, otherwise Park. The inbox has All, Promising, Park and Killed tabs, a detail pane with editable 1 to 5 scores, a verdict you can override, and Promote, Keep and Discard. Promoting names the project from Claude's title, attaches the triage to Discover and ticks the rubric checklist item when every row is 3 or more. One button triages older captures in batches. An About you note tells Claude what you want to learn. Errors are explained by cause, and focus now survives re-renders for keyboard use.
+- Tests: 27 browser checks with a mocked Claude: batch call on the quick tier, kill rule, score edits and overrides, pending state, keep, promote, rate limit and not-allowed errors, no-Claude view, 390 and 1440 wide, light and dark. S16 checks (26 passed), S0 flow and the bottom-bar check re-run. No script errors.
+- Check on your phone: capture an idea, watch it get triaged, open it and change one score.
+- Next: S4 · Discover coach with auto-interview
+
 ## 2026-11-13 · S17 · Light theme that follows the device
 - Built: a light palette that switches on when the device (or the Claude app) is in light mode. Same colour meanings; darker shades for amber, blue, green and red text, and a deeper amber for markers so they stay visible. Icons take their colours from the theme. Also fixed the mobile bottom bar floating up on short pages.
 - Tests: every text colour pair checked for contrast (all pass AA; markers 3:1); light screenshots at 1440 × 900 and 390 × 844; S16 checks (26 passed) and the S0 flow re-run in dark mode. No script errors.
