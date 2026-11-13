@@ -9,7 +9,7 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 - [x] S0 · Walking skeleton: board, capture, projects saved to your account, published
 - [~] S2 · Quick capture from any screen (C on desktop, sheet on mobile)
 - [~] S8 · Phase checklists, finish gate and progress on the board
-- [ ] S16 · Build monitor with progress sync from the repo
+- [~] S16 · Build monitor with progress sync from the repo
 - [ ] S3 · AI triage and inbox
 - [ ] S4 · Discover coach with auto-interview
 - [ ] S5 · Phase-appropriate views

@@ -1,6 +1,6 @@
 # 0002: Read repo progress through a local file server in the Claude desktop app
 
-Status: Accepted · 2026-11-13
+Status: Accepted · 2026-11-13 · Amended by 0003 (commits now come from git's reflog; `edit_file` added for Mark done)
 
 ## Context
 The Build monitor must show what Claude Code did in a repo. The page can't call GitHub, and the claude.ai GitHub Integration is read-only for chats and projects, not usable by a page.

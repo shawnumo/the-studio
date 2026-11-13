@@ -147,6 +147,63 @@ td.last{text-align:right;font-family:var(--mono);font-size:12px;color:var(--text
 .produces li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .produces .mono{font-size:12px;color:var(--text3)}
 
+/* Build monitor (S16) */
+.syncbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding:10px 32px;background:var(--rail);border-bottom:1px solid var(--line);font-size:13px;color:var(--text2)}
+.syncbar .st{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;min-width:0}
+.syncbar .st b{font-weight:500;color:var(--text)}
+.syncbar.err{background:var(--red-tint);border-color:var(--red-line);color:var(--red-text)}
+.syncbar.err b{font-weight:700;color:var(--red)}
+.pbody.build .pmain{max-width:none;flex:999 1 600px;gap:24px}
+.pbody.build .pside{flex:1 1 360px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
+.sechead h2{margin:0;font-size:16px;font-weight:700}
+.sechead .n,.pside h2 .n{font-weight:400;font-size:13px;color:var(--text3)}
+table.slices{width:100%;min-width:700px;border-collapse:collapse;table-layout:fixed}
+table.slices th,table.slices td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+table.slices thead th{padding:8px 12px;border-top:1px solid var(--line);font-size:12px;font-weight:500;color:var(--text3)}
+table.slices tbody th{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text2)}
+table.slices tr.grp th{padding:16px 12px 6px;font-family:var(--body);font-size:13px;font-weight:600;color:var(--text2)}
+table.slices tr.hl{background:var(--amber-tint)}
+.ellip{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sst{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.sst.done{color:var(--green)}
+.sst.check{gap:8px;font-weight:700;color:var(--white)}
+.sst.check::before{content:"";width:8px;height:8px;background:var(--amber)}
+.sst.todo{color:var(--text3)}
+.sst small{font-weight:400;font-size:12px;color:var(--text3)}
+.callout{display:flex;flex-direction:column;gap:10px;padding:12px 14px;background:var(--amber-tint);border:1px solid var(--amber-line)}
+.callout p{margin:0}
+.callout ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--amber-line)}
+.callout li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--amber-line)}
+.callout .hint{font-size:13px;color:var(--text2)}
+.callout .row{display:flex;flex-wrap:wrap;gap:8px}
+.notice{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;padding:10px 14px;background:var(--raised);border:1px solid var(--line2);font-size:13px;color:var(--text2)}
+.notice b{color:var(--text);font-weight:600}
+ol.log{list-style:none;margin:0 -24px;padding:0;border-top:1px solid var(--line)}
+ol.log li{display:flex;flex-direction:column;gap:4px;padding:12px 24px;border-bottom:1px solid var(--line)}
+ol.log .h{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+ol.log .h b{font-weight:600}
+ol.log .tx{font-size:13px;color:var(--text2)}
+ol.log .ts{font-size:12px;color:var(--text3)}
+ol.log .pass{font-family:var(--mono);color:var(--green)}
+.mslices{list-style:none;margin:0 -16px;padding:0;border-top:1px solid var(--line)}
+.mslices li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:52px;padding:6px 16px;border-bottom:1px solid var(--line)}
+.mslices li.grp{display:block;min-height:0;padding:14px 16px 6px;font-size:13px;font-weight:600;color:var(--text2)}
+.mslices li.hl{background:var(--amber-tint)}
+.mslices .id{font-family:var(--mono);font-size:12px;color:var(--text2)}
+.mslices .sst{font-size:13px}
+.btabs{display:none}
+.linkbtn{padding:0;border:0;background:none;color:var(--text);font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn:hover{color:var(--white)}
+.syncbar.err .linkbtn{color:var(--red-text)}
+.inline-err{margin:0;font-size:13px;color:var(--red-text)}
+.inline-err b{color:var(--red)}
+.input.mono{font-family:var(--mono);font-size:13px}
+textarea.prompt{width:100%;height:46vh;border-radius:2px;border:1px solid var(--line2);background:var(--sunk);color:var(--text2);padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.55;resize:vertical}
+table.preview{border-collapse:collapse;font-size:13px}
+table.preview th{text-align:left;font-weight:400;color:var(--text2);padding:3px 16px 3px 0;vertical-align:top}
+table.preview td{font-family:var(--mono)}
+
 /* Overlays */
 .scrim{position:fixed;inset:0;background:rgba(6,7,8,.6);display:flex;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;z-index:20}
 .sheet{width:min(560px,100%);background:#16191C;border:1px solid var(--line2);display:flex;flex-direction:column;gap:14px;padding:20px}
@@ -201,6 +258,17 @@ td.last{text-align:right;font-family:var(--mono);font-size:12px;color:var(--text
   .caps{margin:0 -16px}.caps li{padding:12px 16px;grid-template-columns:1fr}.caps .acts .btn{height:40px;flex:1}
   .top.ph{padding:0 16px}.ptabs{overflow-x:auto;flex-wrap:nowrap}.ptabs a{height:48px;white-space:nowrap}
   .pmain{padding:20px 16px}.pside{border-left:0;border-top:1px solid var(--line)}.pside section{padding:16px}
+  .syncbar{padding:10px 16px}
+  .syncbar .actions{width:100%}.syncbar .actions .btn{flex:1;height:40px}
+  .btabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-bottom:1px solid var(--line)}
+  .btabs button{height:44px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--text2);cursor:pointer}
+  .btabs button[aria-selected="true"]{border-bottom-color:var(--amber);color:var(--white);font-weight:700}
+  .pbody.build[data-btab="slices"] .logsec{display:none!important}
+  .pbody.build[data-btab="log"] .slicesec{display:none!important}
+  .pbody.build[data-btab="log"] .pside{border-top:0}
+  ol.log{margin:0 -16px}ol.log li{padding:12px 16px}
+  .callout li{flex-wrap:wrap}.callout li .btn,.callout .row .btn{height:44px;flex:1}
+  textarea.prompt{height:40vh}
   .scrim{align-items:flex-end;padding:0}
   .sheet{width:100%;border-left:0;border-right:0;border-bottom:0;padding:12px 16px 24px}
   .sheet .foot .btn{height:50px;flex:1;font-size:16px}
@@ -239,7 +307,12 @@ const PH = Object.fromEntries(PHASES.map((p, i) => [p.key, {...p, n: i + 1}]));
 const S = {
   db:null, backend:"loading", loadNote:"", online:navigator.onLine,
   projects:[], captures:[], route:{view:"board"},
-  overlay:null, confirm:null, dirty:new Set(), saveT:{}, statusText:"", statusBad:false
+  overlay:null, confirm:null, dirty:new Set(), saveT:{}, statusText:"", statusBad:false,
+  /* S16 repo sync */
+  mcp:null, host:"unknown",            // host: unknown | listed (file server reachable in the Claude app) | none
+  syncs:{},                            // projectId -> snapshot from db (shared by every device)
+  sync:{},                             // projectId -> {kind, text, file, startedAt} for this session only
+  autoDone:{}, buildTab:"slices", overlayFor:null, paste:null, needRender:false
 };
 
 /* ---------- Helpers ---------- */
@@ -278,6 +351,8 @@ function normalize(p){
   }
   p.nextStep = typeof p.nextStep === "string" ? p.nextStep : "";
   p.oneLiner = typeof p.oneLiner === "string" ? p.oneLiner : "";
+  p.repo = typeof p.repo === "string" ? p.repo : "";
+  p.liveUrl = typeof p.liveUrl === "string" ? p.liveUrl : "";
   p.createdAt = p.createdAt || Date.now();
   p.updatedAt = p.updatedAt || p.createdAt;
   return p;
@@ -285,7 +360,97 @@ function normalize(p){
 const active = () => S.projects.filter(p => !p.archived && !(p.completed.ship));
 const proj = id => S.projects.find(p => p.id === id);
 const progress = (p, key = p.phase) => { const c = p.checks[key] || []; return [c.filter(Boolean).length, c.length]; };
-const nextText = p => p.nextStep.trim() || PH[p.phase].next;
+const nextText = p => p.nextStep.trim() || (p.phase === "build" && sliceInfo(p).total ? sliceInfo(p).next : PH[p.phase].next);
+/* Board count: slices for a synced project in Build, else the phase checklist */
+function boardCount(p){
+  const si = sliceInfo(p);
+  if (p.phase === "build" && si.total) return {d:si.done, t:si.total, label:"slices"};
+  const [d, t] = progress(p); return {d, t, label:"checklist"};
+}
+function lastActivity(p){
+  const s = S.syncs[p.id], c = s && s.commits && s.commits[0];
+  return Math.max(p.updatedAt || 0, (c && c.at) || 0);
+}
+
+/* ---------- Repo files (S16): parsers ---------- */
+const SLICE_RE = /^\s*[-*+]\s+\[([ ~xX])\]\s+(S\d+)\b\s*[·:\-–—.]?\s*(.*?)\s*$/;
+function parseStories(text){
+  const slices = []; let group = "";
+  for (const line of String(text || "").split(/\r?\n/)){
+    const h = /^#{2,4}\s+(.+?)\s*$/.exec(line);
+    if (h){ group = h[1].slice(0, 40); continue; }
+    const m = SLICE_RE.exec(line);
+    if (m) slices.push({id:m[2], title:m[3].slice(0, 160) || m[2], status:m[1] === "~" ? "check" : m[1] === " " ? "todo" : "done", group, raw:line});
+  }
+  return slices;
+}
+function parseProgress(text){
+  const out = []; let cur = null, key = null;
+  for (const line of String(text || "").split(/\r?\n/)){
+    const h = /^##\s+(.+?)\s*$/.exec(line);
+    if (h){
+      const parts = h[1].split(/\s+·\s+|\s+\|\s+/);
+      cur = {date:"", id:"", title:"", built:"", tests:"", check:"", next:"", commit:""};
+      if (/^\d{4}-\d{2}-\d{2}$/.test(parts[0])) cur.date = parts.shift();
+      if (parts.length > 1) cur.id = parts.shift().slice(0, 20);
+      cur.title = parts.join(" · ").slice(0, 160);
+      out.push(cur); key = null; continue;
+    }
+    if (!cur) continue;
+    const b = /^\s*[-*]\s+([^:]{1,40}):\s*(.*)$/.exec(line);
+    if (b){
+      const k = b[1].trim().toLowerCase();
+      key = k.startsWith("built") ? "built" : k.startsWith("test") ? "tests" : k.startsWith("check") ? "check" : k.startsWith("next") ? "next" : k.startsWith("commit") ? "commit" : null;
+      if (key) cur[key] = b[2].trim();
+    } else if (key && line.trim() && !/^#/.test(line)) cur[key] += " " + line.trim();
+  }
+  return out.slice(0, 30).map(e => { for (const k in e) e[k] = String(e[k]).slice(0, 700); return e; });
+}
+/* .git/logs/HEAD: "<old> <new> Name <email> <unix> <tz>\t<message>". Emails are never kept. */
+function parseReflog(text){
+  const seen = new Set(), out = [];
+  const lines = String(text || "").split(/\r?\n/).reverse();
+  for (const line of lines){
+    const m = /^[0-9a-f]{40} ([0-9a-f]{40}) .*? (\d{9,11}) [+-]\d{4}\t(.*)$/.exec(line);
+    if (!m || !/^commit\b/.test(m[3])) continue;
+    const hash = m[1].slice(0, 7); if (seen.has(hash)) continue; seen.add(hash);
+    out.push({hash, subject:m[3].replace(/^commit(?: \([^)]*\))?:\s*/, "").slice(0, 140), at:+m[2] * 1000});
+    if (out.length >= 30) break;
+  }
+  return out;
+}
+/* Everything a Studio update block can carry: slice lines and progress entries */
+function parseUpdate(text){
+  const slices = parseStories(text).map(s => ({...s, group:""}));
+  const entries = parseProgress(text).filter(e => e.title || e.built);
+  return {slices, entries};
+}
+
+/* ---------- Snapshot helpers ---------- */
+function effSlices(snap){
+  const marks = (snap && snap.marks) || {};
+  return ((snap && snap.slices) || []).map(s => marks[s.id] && s.status !== "done" ? {...s, status:"done", marked:true} : s);
+}
+function sliceInfo(p){
+  const snap = S.syncs[p.id], sl = effSlices(snap);
+  const done = sl.filter(s => s.status === "done").length, checks = sl.filter(s => s.status === "check"), todo = sl.find(s => s.status === "todo");
+  let next = "";
+  if (checks.length) next = checks.length === 1 ? `Check ${checks[0].id} on your phone` : `Check ${checks.map(s => s.id).slice(0, 3).join(", ")}${checks.length > 3 ? "…" : ""} on your phone`;
+  else if (todo) next = `Build ${todo.id} · ${todo.title}`;
+  else if (sl.length) next = "Every slice is done. Finish Build";
+  return {slices:sl, done, total:sl.length, checks, todo, next};
+}
+function commitFor(snap, id){
+  const re = new RegExp("\\b" + id + "\\b");
+  const c = ((snap && snap.commits) || []).find(x => re.test(x.subject));
+  if (c) return c;
+  const e = ((snap && snap.log) || []).find(x => x.id === id && /[0-9a-f]{7}/.test(x.commit));
+  return e ? {hash:(/[0-9a-f]{7,40}/.exec(e.commit) || [""])[0].slice(0, 7), subject:"", at:e.date ? Date.parse(e.date) : 0} : null;
+}
+const shortDate = ts => ts ? new Date(ts).toLocaleDateString(undefined, {month:"short", day:"numeric"}) : "";
+function cleanRepo(v){ return String(v || "").trim().replace(/^["']|["']$/g, "").replace(/[\\/]+$/, ""); }
+function joinPath(repo, ...parts){ const sep = repo.includes("/") && !repo.includes("\\") ? "/" : "\\"; return [repo, ...parts].join(sep); }
+const repoName = repo => cleanRepo(repo).split(/[\\/]/).pop() || "repo";
 
 /* ---------- Storage (artifact db, else this browser) ---------- */
 const LKEY = "the-studio-v2";
@@ -310,7 +475,14 @@ function localChanged(){
   const v = local.read();
   S.projects = Object.entries(v.projects || {}).map(([id, b]) => normalize({...b, id}));
   S.captures = Object.entries(v.captures || {}).map(([id, b]) => ({...b, id}));
+  S.syncs = Object.fromEntries(Object.entries(v.syncs || {}));
   sortAll();
+}
+/* Render now, unless the person is typing in a field or has a sheet open; then render when they leave it. */
+function softRender(){
+  const a = document.activeElement;
+  if (S.overlay || (a && a.matches && a.matches("[data-field]"))){ S.needRender = true; return; }
+  render();
 }
 function sortAll(){
   S.projects.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
@@ -358,14 +530,21 @@ function render(){
   const root = $("#root");
   const r = S.route;
   root.innerHTML = `<div class="app">${rail()}<main>${mtop()}${banners()}${S.backend === "loading" ? loadingView() : r.view === "inbox" ? inboxView() : r.view === "project" ? projectView() : boardView()}</main>${mnav()}</div>${overlayView()}`;
-  if (S.overlay) setTimeout(() => { const f = $(".sheet [autofocus]"); if (f){ f.focus(); if (f.setSelectionRange) f.setSelectionRange(f.value.length, f.value.length); } }, 0);
+  S.needRender = false;
+  if (S.overlay) setTimeout(() => { const f = $(".sheet [autofocus]"); if (f){ f.focus(); if (f.setSelectionRange && !f.readOnly) f.setSelectionRange(f.value.length, f.value.length); } }, 0);
+  const cur = $('.ptabs [aria-current="step"]');
+  if (cur && isMobile()){   // keep the current phase tab in view on a phone
+    const ul = cur.closest(".ptabs"), a = cur.getBoundingClientRect(), u = ul.getBoundingClientRect();
+    if (a.right > u.right) ul.scrollLeft += a.right - u.right + 16;
+  }
+  setTimeout(maybeAutoSync, 0);
 }
 
 function rail(){
   const r = S.route, inboxN = S.captures.filter(c => c.status === "new").length;
   const projects = active().map(p => `<a href="#p-${p.id}" ${r.view === "project" && r.id === p.id ? 'aria-current="page"' : ""}><span>${esc(p.name)}</span><small>${PH[p.phase].name}</small></a>`).join("");
   const foot = S.backend === "db"
-    ? `<span><i class="dot" style="background:var(--green)"></i><span style="color:var(--text)">Saved to your account</span></span><span>Repo sync arrives with S16</span>`
+    ? `<span><i class="dot" style="background:var(--green)"></i><span style="color:var(--text)">Saved to your account</span></span><span>${S.host === "listed" ? "Repo sync on, through this laptop" : S.host === "none" ? "Repo sync runs in the Claude desktop app" : "Checking for repo sync…"}</span>`
     : S.backend === "local" ? `<span><i class="dot" style="background:var(--text3)"></i><span style="color:var(--text)">This browser only</span></span><span>${esc(S.loadNote)}</span>` : `<span>Connecting…</span>`;
   return `<nav class="rail" aria-label="Main">
     <div class="brand">${MARK()}<span>The Studio</span></div>
@@ -412,10 +591,10 @@ function boardView(){
   if (!ps.length && !S.captures.length) return boardTop() + firstRun();
   const needs = ps.map(p => ({p, text:nextText(p)}));
   const needsHtml = needs.length ? `<ol class="needs">${needs.map(({p, text}, i) => {
-      const [d, t] = progress(p);
+      const c = boardCount(p);
       return `<li class="${i === 0 ? "first" : ""}" data-open="${p.id}">
         <span class="num">${String(i + 1).padStart(2, "0")}</span>
-        <span class="what"><a href="#p-${p.id}">${esc(text)}</a><span>${esc(p.name)} · ${PH[p.phase].name} · checklist <span class="mono">${d}/${t}</span></span></span>
+        <span class="what"><a href="#p-${p.id}">${esc(text)}</a><span>${esc(p.name)} · ${PH[p.phase].name} · ${c.label} <span class="mono">${c.d}/${c.t}</span></span></span>
         ${i === 0 ? `<a class="btn primary" href="#p-${p.id}">Start</a>` : `<a class="open" href="#p-${p.id}">Open</a>`}
       </li>`; }).join("")}</ol>`
     : `<div class="caught"><b>${CHECK}Nothing needs you right now</b><span style="font-size:13px;color:var(--text2)">Capture an idea, or promote one from the inbox.</span></div>`;
@@ -425,14 +604,14 @@ function boardView(){
     <tbody>${ps.map(p => {
       const cells = PHASES.map(ph => {
         if (p.completed[ph.key] && ph.key !== p.phase) return `<td class="done"><span class="track">${CHECK}<i></i></span></td>`;
-        if (ph.key === p.phase){ const [d, t] = progress(p); return `<td class="now"><span class="nowcell"><b>Now <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)">${d}/${t}</span></b><span>${esc(nextText(p))}</span></span></td>`; }
+        if (ph.key === p.phase){ const c = boardCount(p); return `<td class="now"><span class="nowcell"><b>Now <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)" title="${c.label}">${c.d}/${c.t}</span></b><span>${esc(nextText(p))}</span></span></td>`; }
         return `<td></td>`;
       }).join("");
-      return `<tr><th scope="row"><a href="#p-${p.id}">${esc(p.name)}</a></th>${cells}<td class="last">${ago(p.updatedAt)}</td></tr>`;
+      return `<tr><th scope="row"><a href="#p-${p.id}">${esc(p.name)}</a></th>${cells}<td class="last">${ago(lastActivity(p))}</td></tr>`;
     }).join("") || `<tr><td colspan="7" style="color:var(--text3)">No active projects. Promote a capture or start one.</td></tr>`}</tbody></table></div>
     <ul class="mrows mob-only">${ps.map(p => {
-      const [d, t] = progress(p);
-      return `<li><a href="#p-${p.id}"><span class="r1"><b>${esc(p.name)}</b><span>${PH[p.phase].name} <span class="mono">${d}/${t}</span></span></span>
+      const c = boardCount(p);
+      return `<li><a href="#p-${p.id}"><span class="r1"><b>${esc(p.name)}</b><span>${PH[p.phase].name} <span class="mono">${c.d}/${c.t}</span>${c.label === "slices" ? " slices" : ""}</span></span>
         <span class="seg" role="img" aria-label="Phase ${PH[p.phase].n} of 5, ${PH[p.phase].name}">${PHASES.map(ph => `<i class="${p.completed[ph.key] && ph.key !== p.phase ? "d" : ph.key === p.phase ? "c" : ""}"></i>`).join("")}</span></a></li>`;
     }).join("")}</ul>`;
 
@@ -480,28 +659,162 @@ function projectView(){
   const checks = ph.checklist.map((c, i) => `<li><label class="${p.checks[viewKey][i] ? "on" : ""}"><input type="checkbox" data-check="${i}" ${p.checks[viewKey][i] ? "checked" : ""}><span>${esc(c)}</span></label></li>`).join("");
   let gate;
   if (p.completed[viewKey]) gate = `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="color:var(--green)">${CHECK} ${ph.name} is done</span><button type="button" class="btn ghost" data-act="reopen">Reopen</button></div>`;
-  else if (viewKey !== p.phase) gate = `<p class="lead" style="margin:0">This phase comes later. The project is in ${PH[p.phase].name}.</p>`;
+  else if (viewKey !== p.phase) gate = `<div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px"><p class="lead" style="margin:0">${ph.n > PH[p.phase].n ? "This phase comes later." : "This phase was skipped."} The project is in ${PH[p.phase].name}.</p>${ph.n > PH[p.phase].n ? `<button type="button" class="btn ghost" data-act="jump">Move the project to ${ph.name}</button>` : ""}</div>`;
   else if (S.confirm === "gate"){
     const left = ph.checklist.filter((_, i) => !p.checks[viewKey][i]);
     gate = `<div class="gate" role="group" aria-label="Finish ${ph.name}"><b>${left.length} of ${t} checklist items aren't ticked</b><ul>${left.map(x => `<li>${esc(x)}</li>`).join("")}</ul><span style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" data-act="cancelgate">Keep working</button><button type="button" class="btn ghost" data-act="finish" data-force="1">Finish anyway</button></span></div>`;
   } else gate = `<button type="button" class="btn ${d === t ? "primary" : ""}" data-act="finish">Finish ${ph.name}${ph.n < 5 ? " → " + PHASES[ph.n].name : ""}</button>`;
 
-  return `<div class="top ph"><div class="tt"><a href="#board" class="mob-only" aria-label="Back to board" style="display:flex;align-items:center;width:44px;height:44px;margin-left:-12px;justify-content:center"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="#E9E6DF" stroke-width="1.8" stroke-linecap="square"><path d="M10 3 5 8l5 5"/></svg></a><h1>${esc(p.name)}</h1><span class="status" data-status role="status">${esc(S.statusText)}</span></div><ol class="ptabs" aria-label="Phases">${tabs}</ol></div>
+  const isBuild = viewKey === "build", si = sliceInfo(p);
+  const meta = isBuild && si.total ? `<span class="meta" style="margin:0">slices <span class="mono">${si.done}/${si.total}</span> done</span>` : "";
+  const head = `<div class="top ph"><div class="tt"><a href="#board" class="mob-only" aria-label="Back to board" style="display:flex;align-items:center;width:44px;height:44px;margin-left:-12px;justify-content:center"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="#E9E6DF" stroke-width="1.8" stroke-linecap="square"><path d="M10 3 5 8l5 5"/></svg></a><h1>${esc(p.name)}</h1>${meta}<span class="status" data-status role="status">${esc(S.statusText)}</span></div><ol class="ptabs" aria-label="Phases">${tabs}</ol></div>`;
+  const nextPh = isBuild && si.next ? si.next : ph.next;
+  const nextSec = `<section><h2>Next step</h2><label class="field" for="p-next"><span class="sr">Next step</span><input class="input" id="p-next" data-field="nextStep" value="${esc(p.nextStep)}" placeholder="${esc(nextPh)}"></label><span style="font-size:12px;color:var(--text3)">Shown on the board under Needs you.${isBuild && si.total ? " Leave it empty to follow the slices." : ""}</span></section>`;
+  const checkSec = `<section><h2>Exit checklist <span class="mono" style="font-size:13px;font-weight:400;color:var(--text2)">${d}/${t}</span></h2><ul class="checks">${checks}</ul>${gate}</section>`;
+  const delSec = `<section><button type="button" class="btn ghost" data-act="${S.confirm === "delete" ? "delete" : "askdelete"}" style="${S.confirm === "delete" ? "color:var(--red);border-color:var(--red-line)" : ""}">${S.confirm === "delete" ? "Delete for good?" : "Delete project"}</button></section>`;
+
+  if (isBuild){
+    const snap = S.syncs[p.id];
+    const btabs = snap ? `<div class="btabs" role="tablist" aria-label="Build views">
+      <button type="button" role="tab" aria-selected="${S.buildTab === "slices"}" data-act="btab" data-tab="slices">Slices <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)">${si.done}/${si.total}</span></button>
+      <button type="button" role="tab" aria-selected="${S.buildTab === "log"}" data-act="btab" data-tab="log">Progress log</button></div>` : "";
+    return head + syncBar(p) + btabs + `<div class="pbody build" data-btab="${snap ? S.buildTab : "slices"}">
+      <div class="pmain">${buildMain(p)}</div>
+      <aside class="pside" aria-label="Build progress">${logSection(p)}${nextSec}${checkSec}${repoSec(p)}${delSec}</aside></div>`;
+  }
+
+  return head + `
   <div class="pbody">
     <div class="pmain">
       <p class="goal"><b>${ph.name}:</b> ${esc(ph.goal)}.</p>
-      <div class="soon"><b>The coach for ${ph.name} comes in a later slice.</b> This walking skeleton proves the board, capture and saving work on your phone and in the desktop app first.</div>
+      <div class="soon"><b>The coach for ${ph.name} comes in a later slice.</b> For now, use the checklist and keep the next step current; the board shows it under Needs you.</div>
       <div><h2 style="margin:0 0 10px;font-size:16px;font-weight:700">What ${ph.name} produces</h2>
       <ul class="produces">${ph.produces.map(x => `<li><span>${esc(x[0])}</span><span class="mono">${esc(x[1])}</span></li>`).join("")}</ul></div>
       <label class="field" for="p-name">Project name<input class="input" id="p-name" data-field="name" value="${esc(p.name)}" maxlength="80"></label>
       <label class="field" for="p-one">One-liner<textarea class="area" id="p-one" data-field="oneLiner" rows="2" placeholder="For [who], who [struggle], [app] lets them [do what], unlike [current way].">${esc(p.oneLiner)}</textarea></label>
     </div>
-    <aside class="pside" aria-label="${ph.name} progress">
-      <section><h2>Next step</h2><label class="field" for="p-next"><span class="sr">Next step</span><input class="input" id="p-next" data-field="nextStep" value="${esc(p.nextStep)}" placeholder="${esc(ph.next)}"></label><span style="font-size:12px;color:var(--text3)">Shown on the board under Needs you.</span></section>
-      <section><h2>Exit checklist <span class="mono" style="font-size:13px;font-weight:400;color:var(--text2)">${d}/${t}</span></h2><ul class="checks">${checks}</ul>${gate}</section>
-      <section><button type="button" class="btn ghost" data-act="${S.confirm === "delete" ? "delete" : "askdelete"}" style="${S.confirm === "delete" ? "color:var(--red);border-color:var(--red-line)" : ""}">${S.confirm === "delete" ? "Delete for good?" : "Delete project"}</button></section>
-    </aside>
+    <aside class="pside" aria-label="${ph.name} progress">${nextSec}${checkSec}${delSec}</aside>
   </div>`;
+}
+
+/* ---------- Build monitor (S16) ---------- */
+const agoText = ts => { const a = ago(ts); return a === "now" ? "just now" : a + " ago"; };
+const clip = (s, n) => { s = String(s || ""); s = s.charAt(0).toUpperCase() + s.slice(1); return s.length > n ? s.slice(0, n - 1) + "…" : s; };
+const LINK = 'class="linkbtn"';
+
+function syncBar(p){
+  const snap = S.syncs[p.id], st = S.sync[p.id] || {}, repo = cleanRepo(p.repo);
+  if (!repo && !snap) return "";
+  const canSync = S.host === "listed" && repo && S.online;
+  const busy = st.kind === "reading";
+  const btns = `<span class="actions"><button type="button" class="btn ghost" data-act="paste">Paste an update</button>${canSync ? `<button type="button" class="btn" data-act="sync" ${busy ? "disabled" : ""}>${busy ? "Syncing…" : st.kind === "error" ? "Try again" : "Sync now"}</button>` : ""}</span>`;
+  const where = snap ? `<span class="mono" style="font-size:12px;color:var(--text2)">${esc(snap.repoName || repoName(snap.repo || repo))}${snap.branch ? " · " + esc(snap.branch) : ""}</span>` : "";
+  let cls = "", text;
+  if (busy){
+    text = Date.now() - st.startedAt > 2500
+      ? `<span><b>Connecting to your laptop…</b> The first sync of a session can take about 15 seconds while the file server starts.</span>`
+      : `<span><b>Reading your repo…</b></span>`;
+  } else if (st.kind === "error"){
+    cls = "err";
+    text = `<span><b>Couldn't read the repo.</b> ${esc(st.text)}${snap ? ` Showing the snapshot from ${esc(when(snap.at))}.` : ""}${st.missing ? ` <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button>` : ""}</span>`;
+  } else if (snap && snap.via === "paste"){
+    text = `<span>From a pasted update, <span class="mono">${agoText(snap.at)}</span>.${canSync ? " Sync now reads the repo itself." : ""}</span>${where}`;
+  } else if (snap && st.kind === "ok"){
+    text = `<span style="display:inline-flex;align-items:center"><i class="dot" style="background:var(--green)"></i><b>Read from your repo</b>&nbsp;<span style="color:var(--text3)">${agoText(snap.at)}</span></span>${where}<span style="color:var(--text3)">via the file server in the Claude app</span>`;
+  } else if (snap){
+    text = canSync ? `<span>Snapshot from <span class="mono">${esc(when(snap.at))}</span>.</span>${where}`
+      : `<span>Snapshot from your laptop, <span class="mono">${agoText(snap.at)}</span>. Live sync runs when The Studio is open in the Claude desktop app there.</span>`;
+  } else {
+    text = `<span>${S.host === "unknown" ? "Checking for the file server…" : canSync ? "Not synced yet." : "Not synced yet. Sync runs when The Studio is open in the Claude desktop app on your laptop."}</span>`;
+  }
+  return `<div class="syncbar ${cls}" role="${cls ? "alert" : "status"}"><span class="st">${text}</span>${btns}</div>`;
+}
+
+function statusCell(s, nextId, short){
+  if (s.status === "done") return `<span class="sst done">${CHECK}Done${s.marked ? ` <small>in The Studio</small>` : ""}</span>`;
+  if (s.status === "check") return `<span class="sst check">${short ? "Check" : "Check on your phone"}</span>`;
+  if (s.id === nextId) return `<span class="sst" style="color:var(--text)">Next</span>`;
+  return `<span class="sst todo">To do</span>`;
+}
+
+function buildMain(p){
+  const snap = S.syncs[p.id], si = sliceInfo(p), st = S.sync[p.id] || {}, repo = cleanRepo(p.repo);
+  const canSync = S.host === "listed" && S.online;
+  if (!repo && !snap) return `<section class="slicesec" style="display:flex;flex-direction:column;gap:14px;max-width:720px">
+      <p class="goal"><b>Build:</b> ${esc(PH.build.goal)}.</p>
+      <div><h2 style="margin:0 0 6px;font-size:16px;font-weight:700">Connect this project to its repo</h2>
+      <p class="lead" style="margin:0">The Studio reads <span class="mono">docs/stories.md</span>, <span class="mono">docs/progress.md</span> and your recent commits from the folder, through the file server in the Claude desktop app. Your phone shows the last snapshot.</p></div>
+      <label class="field" for="p-repo">Folder on your laptop<input class="input mono" id="p-repo" data-field="repo" value="${esc(p.repo)}" placeholder="C:\\Projects\\my-app" spellcheck="false" autocomplete="off"></label>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">${canSync ? `<button type="button" class="btn primary" data-act="sync">Sync now</button>` : `<span style="font-size:13px;color:var(--text3)">Sync runs in the Claude desktop app on your laptop.</span>`}</div>
+      <p class="lead" style="margin:0;font-size:13px">No <span class="mono">docs/stories.md</span> in that repo yet? <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button> into Claude Code there. Away from your laptop? <button type="button" ${LINK} data-act="paste">Paste a Studio update</button>.</p>
+    </section>`;
+
+  if (!snap){
+    if (st.kind === "reading") return `<section class="slicesec" aria-busy="true"><div class="sechead"><h2>Slices</h2></div><div style="border-top:1px solid var(--line)">${[60, 48, 66, 40].map(w => `<div class="skrow" style="grid-template-columns:40px minmax(0,1fr)"><span class="sk" style="width:24px"></span><span><span class="sk" style="width:${w}%"></span></span></div>`).join("")}</div></section>`;
+    return `<section class="slicesec" style="max-width:720px"><div class="sechead"><h2>Slices</h2></div>
+      <p class="lead">${st.missing ? `To set the repo up, <button type="button" ${LINK} data-act="setup">copy the setup prompt</button> into Claude Code there, then press Try again.`
+        : st.kind === "error" ? "Nothing synced yet. Fix the problem above, then press Try again."
+        : canSync ? `Press Sync now to read <span class="mono">docs/stories.md</span> from <span class="mono">${esc(repo)}</span>.`
+        : "Nothing synced yet. Open The Studio in the Claude desktop app on your laptop and press Sync now, or paste a Studio update."}</p></section>`;
+  }
+
+  // Marks made in The Studio that docs/stories.md doesn't show yet
+  const pending = Object.keys(snap.marks || {}).filter(id => (snap.slices || []).some(s => s.id === id && s.status !== "done"));
+  const notice = pending.length ? `<div class="notice"><span>Marked done in The Studio: <b class="mono">${pending.map(esc).join(", ")}</b>. ${canSync && repo ? "Write it into docs/stories.md so Claude Code sees it." : "It goes into docs/stories.md when you press Write it on your laptop."}</span>${canSync && repo ? `<button type="button" class="btn" data-act="writemarks">Write it</button>` : ""}</div>` : "";
+
+  const checks = si.checks;
+  const live = p.liveUrl ? `<a class="btn" href="${esc(p.liveUrl)}" target="_blank" rel="noopener">Open live URL</a>` : "";
+  let callout = "";
+  if (checks.length === 1){
+    const s = checks[0], e = (snap.log || []).find(x => x.id === s.id);
+    callout = `<div class="callout"><p><b>${esc(s.id)} is built.</b> Check it on your phone over mobile data, then mark it done.</p>${e && e.check ? `<p class="hint">${esc(clip(e.check, 260))}</p>` : ""}<div class="row">${live}<button type="button" class="btn primary" data-act="markdone" data-id="${esc(s.id)}">Mark ${esc(s.id)} done</button></div></div>`;
+  } else if (checks.length > 1){
+    callout = `<div class="callout"><p><b>${checks.length} slices are built and waiting for you.</b> Check each on your phone over mobile data, then mark it done.</p>
+      <ul>${checks.map(s => `<li><span><span class="mono" style="font-size:12px;color:var(--text2)">${esc(s.id)}</span> ${esc(clip(s.title, 80))}</span><button type="button" class="btn" data-act="markdone" data-id="${esc(s.id)}">Mark done</button></li>`).join("")}</ul>${live ? `<div class="row">${live}</div>` : ""}</div>`;
+  }
+
+  const nextId = si.todo && si.todo.id;
+  const groups = new Set(si.slices.map(s => s.group)).size > 1;
+  let lastGroup = null, rows = "", mrows = "";
+  for (const s of si.slices){
+    if (groups && s.group !== lastGroup){ lastGroup = s.group; rows += `<tr class="grp"><th colspan="5" scope="colgroup">${esc(s.group || "Other")}</th></tr>`; mrows += `<li class="grp">${esc(s.group || "Other")}</li>`; }
+    const c = commitFor(snap, s.id), strong = s.status !== "todo" || s.id === nextId;
+    rows += `<tr class="${s.status === "check" ? "hl" : ""}"><th scope="row">${esc(s.id)}</th>
+      <td style="color:${strong ? "var(--text)" : "var(--text2)"}"><span class="ellip" title="${esc(s.title)}">${esc(s.title)}</span></td>
+      <td>${statusCell(s, nextId)}</td>
+      <td style="font-size:13px">${c ? `<span class="ellip"><span class="mono" style="font-size:12px;color:var(--text3)">${esc(c.hash)}</span> <span style="color:var(--text2)">${esc(c.subject)}</span></span>` : ""}</td>
+      <td style="text-align:right;font-family:var(--mono);font-size:12px;color:var(--text3)">${c && c.at ? esc(shortDate(c.at)) : ""}</td></tr>`;
+    mrows += `<li class="${s.status === "check" ? "hl" : ""}"><span class="id">${esc(s.id)}</span><span style="color:${strong ? "var(--text)" : "var(--text2)"}">${esc(clip(s.title, 90))}</span>${statusCell(s, nextId, true)}</li>`;
+  }
+  const table = si.total ? `<div class="scroll desk-only"><table class="slices"><colgroup><col style="width:60px"><col style="width:40%"><col style="width:190px"><col><col style="width:76px"></colgroup>
+      <thead><tr><th scope="col">ID</th><th scope="col">Story</th><th scope="col">Status</th><th scope="col">Last commit</th><th scope="col" style="text-align:right">Date</th></tr></thead>
+      <tbody>${rows}</tbody></table></div><ol class="mslices mob-only">${mrows}</ol>`
+    : `<p class="lead">No slice lines in <span class="mono">docs/stories.md</span>. Each slice is one line like <span class="mono">- [ ] S1 · Title</span>.</p>`;
+
+  return `<section class="slicesec" style="display:flex;flex-direction:column;gap:16px" aria-labelledby="slices-h">
+    ${notice}${callout}
+    <div><div class="sechead"><h2 id="slices-h">Slices <span class="n">from docs/stories.md</span></h2></div>${table}</div>
+    <button type="button" class="btn ghost mob-only" data-act="paste" style="height:44px">Paste a Studio update</button>
+  </section>`;
+}
+
+function logSection(p){
+  const snap = S.syncs[p.id];
+  if (!snap && !cleanRepo(p.repo)) return "";
+  const log = (snap && snap.log) || [];
+  const item = e => `<li><span class="h">${e.date ? `<span class="mono" style="font-size:12px;color:var(--text3)">${esc(shortDate(Date.parse(e.date + "T12:00:00")))}</span>` : ""}${e.id ? `<span class="mono" style="font-size:12px;color:var(--text2)">${esc(e.id)}</span>` : ""}<b>${esc(e.title || e.id)}</b></span>${e.built ? `<span class="tx">${esc(clip(e.built, 240))}</span>` : ""}${e.tests ? `<span class="ts">Tests: ${esc(clip(e.tests, 160)).replace(/\b(\d+ passed)\b/i, '<span class="pass">$1</span>')}</span>` : ""}</li>`;
+  const body = !snap ? `<p class="lead" style="margin:0">Shows here after the first sync.</p>`
+    : log.length ? `<ol class="log">${log.slice(0, 10).map(item).join("")}</ol>${log.length > 10 ? `<span style="font-size:12px;color:var(--text3)">${log.length - 10} older entries in docs/progress.md</span>` : ""}`
+    : `<p class="lead" style="margin:0">No entries yet. Claude Code adds one at the end of each slice.</p>`;
+  return `<section class="logsec" aria-labelledby="log-h"><h2 id="log-h">Progress log <span class="n mono">docs/progress.md</span></h2>${body}</section>`;
+}
+
+function repoSec(p){
+  if (!cleanRepo(p.repo) && !S.syncs[p.id]) return "";
+  return `<section><h2>Repo</h2>
+    <label class="field" for="p-repo2">Folder on your laptop<input class="input mono" id="p-repo2" data-field="repo" value="${esc(p.repo)}" placeholder="C:\\Projects\\my-app" spellcheck="false" autocomplete="off"></label>
+    <label class="field" for="p-live">Live URL<input class="input mono" id="p-live" data-field="liveUrl" value="${esc(p.liveUrl)}" placeholder="https://" spellcheck="false" autocomplete="off" inputmode="url"></label>
+    <span style="font-size:12px;color:var(--text3)">Setting up a repo for The Studio? <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button></span></section>`;
 }
 
 function overlayView(){
@@ -522,13 +835,227 @@ function overlayView(){
     <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary">Create project</button></div></form></div>`;
   if (S.overlay === "keys") return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="k-h">
     <div class="row"><h2 id="k-h">Keyboard shortcuts</h2><button type="button" class="btn ghost" data-act="close" autofocus>Close</button></div>
-    <dl class="keys"><dt>C</dt><dd>Capture an idea</dd><dt>B</dt><dd>Board</dd><dt>I</dt><dd>Inbox</dd><dt>1–9</dt><dd>Open the matching item under Needs you</dd><dt>N</dt><dd>New project</dd><dt>Esc</dt><dd>Close this panel</dd><dt>?</dt><dd>This list</dd></dl></div></div>`;
+    <dl class="keys"><dt>C</dt><dd>Capture an idea</dd><dt>B</dt><dd>Board</dd><dt>I</dt><dd>Inbox</dd><dt>1–9</dt><dd>Open the matching item under Needs you</dd><dt>N</dt><dd>New project</dd><dt>S</dt><dd>Sync the repo (in Build)</dd><dt>Esc</dt><dd>Close this panel</dd><dt>?</dt><dd>This list</dd></dl></div></div>`;
+  if (S.overlay === "paste"){
+    const x = S.paste;
+    if (x && !x.error){
+      const words = {check:"built", done:"done", todo:"to do"};
+      const sl = x.slices.length ? x.slices.map(s => `${esc(s.id)} ${words[s.status]}`).join(" · ") : "none";
+      const t = x.entries[0] && x.entries[0].tests;
+      return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="pu-h">
+        <h2 id="pu-h">Read your Studio update</h2>
+        <table class="preview"><tbody>
+          <tr><th scope="row">Slices</th><td>${sl}</td></tr>
+          <tr><th scope="row">Log entries</th><td>${x.fresh} new${x.entries.length > x.fresh ? `, ${x.entries.length - x.fresh} already in the log` : ""}</td></tr>
+          ${t ? `<tr><th scope="row">Tests</th><td style="font-family:var(--body)">${esc(clip(t, 120)).replace(/\b(\d+ passed)\b/i, '<span style="font-family:var(--mono);color:var(--green)">$1</span>')}</td></tr>` : ""}
+        </tbody></table>
+        <p class="hint">Applying updates the snapshot every device sees. Your next laptop sync replaces it with what's in the repo.</p>
+        <div class="foot"><button type="button" class="btn ghost" data-act="pasteback">Back</button><button type="button" class="btn primary" data-act="applypaste" autofocus>Apply update</button></div></div></div>`;
+    }
+    return `<div class="scrim" data-act="close"><form class="sheet" role="dialog" aria-modal="true" aria-labelledby="pu-h" id="pasteForm">
+      <div class="row"><h2 id="pu-h">Paste a Studio update</h2><span class="hint">From the end of a Claude Code session</span></div>
+      <label class="field" for="paste-text">Claude Code prints this block when it finishes a slice. Paste all of it.<textarea class="area mono" id="paste-text" rows="8" autofocus required style="font-family:var(--mono);font-size:13px" placeholder="Studio update · my-app&#10;- [~] S3 · Weekly view&#10;## 2026-11-14 · S3 · Weekly view&#10;- Built: …&#10;- Tests: …">${esc((x && x.text) || "")}</textarea></label>
+      ${x && x.error ? `<p class="inline-err" role="alert"><b>Couldn't find any slice lines or progress entries in that.</b> Paste the whole block, starting at "Studio update".</p>` : ""}
+      <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary">Read update</button></div></form></div>`;
+  }
+  if (S.overlay === "setup"){
+    const p = proj(S.overlayFor);
+    return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="su-h" style="width:min(760px,100%)">
+      <div class="row"><h2 id="su-h">Set up a repo for The Studio</h2><button type="button" class="btn ghost" data-act="close">Close</button></div>
+      <p class="hint" style="color:var(--text2)">Paste this into Claude Code in that repo. It writes <span class="mono">docs/stories.md</span>, <span class="mono">docs/progress.md</span>, the protocol in <span class="mono">CLAUDE.md</span> and the Stop hook, then commits.</p>
+      <label class="sr" for="setup-text">Setup prompt</label><textarea class="prompt" id="setup-text" readonly>${esc(setupPrompt(p))}</textarea>
+      <div class="foot"><button type="button" class="btn primary" data-act="copysetup" autofocus>Copy prompt</button></div></div></div>`;
+  }
   return "";
+}
+
+/* ---------- Setup prompt for other repos (S16) ---------- */
+const SETUP = /*SETUP_JSON*/{"hook": "#!/usr/bin/env node\n// The Studio protocol check, run by Claude Code as a Stop hook.\n// When the latest commit finishes a slice (\"feat(S#): ...\"), Claude can't end\n// its turn until docs/progress.md has an entry for that slice, docs/stories.md\n// no longer shows it as to do, and both files are committed.\n// Plain Node, no packages. Works on Windows, macOS and Linux.\n\"use strict\";\nconst fs = require(\"fs\");\nconst path = require(\"path\");\nconst { execFileSync } = require(\"child_process\");\n\nlet input = {};\ntry { input = JSON.parse(fs.readFileSync(0, \"utf8\") || \"{}\"); } catch (e) {}\nif (input.stop_hook_active) process.exit(0); // already blocked once this turn: let Claude stop\n\nconst root = process.env.CLAUDE_PROJECT_DIR || input.cwd || process.cwd();\nconst git = args => execFileSync(\"git\", args, { cwd: root, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"ignore\"] }).trim();\nconst read = file => { try { return fs.readFileSync(path.join(root, file), \"utf8\"); } catch (e) { return null; } };\n\nlet subject = \"\";\ntry { subject = git([\"log\", \"-1\", \"--format=%s\"]); } catch (e) { process.exit(0); } // not a repo, or no commits yet\nconst m = /^feat\\((S\\d+)\\)/.exec(subject);\nif (!m) process.exit(0);\nconst id = m[1];\nconst idRe = new RegExp(\"\\\\b\" + id + \"\\\\b\");\n\nconst problems = [];\nconst progress = read(\"docs/progress.md\");\nif (progress === null) problems.push(\"docs/progress.md doesn't exist\");\nelse {\n  const newest = progress.split(/\\r?\\n/).find(line => /^##\\s/.test(line)) || \"\";\n  if (!idRe.test(newest)) problems.push(\"the newest entry in docs/progress.md isn't for \" + id);\n}\nconst stories = read(\"docs/stories.md\");\nif (stories !== null) {\n  const line = stories.split(/\\r?\\n/).find(l => /^\\s*[-*+]\\s+\\[[ ~xX]\\]\\s+S\\d+/.test(l) && idRe.test(l));\n  if (line && /\\[ \\]/.test(line)) problems.push(id + \" is still [ ] in docs/stories.md\");\n}\nif (!problems.length) {\n  let dirty = \"\";\n  try { dirty = git([\"status\", \"--porcelain\", \"--\", \"docs/progress.md\", \"docs/stories.md\"]); } catch (e) {}\n  if (dirty) problems.push(\"docs/progress.md or docs/stories.md has changes that aren't committed\");\n}\nif (!problems.length) process.exit(0);\n\nprocess.stdout.write(JSON.stringify({\n  decision: \"block\",\n  reason: \"Studio protocol: the last commit is \\\"\" + subject + \"\\\", but \" + problems.join(\"; \") + \". \" +\n    \"Before you finish: mark \" + id + \" as [~] in docs/stories.md; add an entry at the top of docs/progress.md \" +\n    \"(## YYYY-MM-DD · \" + id + \" · Title, then Built, Tests, Check on your phone and Next lines); \" +\n    \"commit both as \\\"docs(\" + id + \"): progress log\\\"; then end with the Studio update block from CLAUDE.md.\"\n}));\n", "settings": "{\n  \"hooks\": {\n    \"Stop\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"node\",\n            \"args\": [\"${CLAUDE_PROJECT_DIR}/.claude/hooks/studio-check.cjs\"]\n          }\n        ]\n      }\n    ]\n  }\n}\n", "protocol": "## Studio protocol (every slice)\nThe Studio reads `docs/stories.md`, `docs/progress.md`, `.git/HEAD` and `.git/logs/HEAD` from this folder. Keep the formats exact.\n\n1. Work on one slice from `docs/stories.md` at a time, in the order listed.\n2. When it's built and tested, change its line to `- [~]` (built, check it on a phone). Only Shawn marks `- [x]`; The Studio does it when he presses Mark done.\n3. Add an entry at the top of `docs/progress.md`, under the intro:\n   ```\n   ## YYYY-MM-DD · S# · Title\n   - Built: what changed, in a sentence or two\n   - Tests: what ran and the result, e.g. 31 passed\n   - Check on your phone: what Shawn should try\n   - Next: S# · title of the next slice\n   ```\n4. Commit the code and both docs together as `feat(S#): <title>`. The Studio reads commit hashes from git, so no Commit line is needed.\n5. The Stop hook in `.claude/hooks/studio-check.cjs` won't let you end a turn while the last commit is `feat(S#)` and steps 2–4 aren't done for that slice.\n6. End the session with a Studio update block. Shawn pastes it into The Studio when it can't reach this folder (on his phone, say):\n   ```\n   Studio update · {{NAME}}\n   - [~] S# · Title\n   ## YYYY-MM-DD · S# · Title\n   - Built: …\n   - Tests: …\n   - Check on your phone: …\n   - Next: …\n   ```"}/*END_SETUP_JSON*/;
+function setupPrompt(p){
+  const name = p && cleanRepo(p.repo) ? repoName(p.repo) : (p ? p.name : "my-app");
+  return [
+    `Set up The Studio's protocol in this repo (${name}) so The Studio can follow your progress. Do all five steps, then commit as "chore: add Studio protocol".`,
+    "",
+    "1. Create docs/stories.md with this project's slices, riskiest first. Take them from docs/PRD.md if there is one; otherwise from what's built and what's planned. Use exactly this format, one line per slice:",
+    "",
+    "# " + name + " · slices",
+    "",
+    "## Must",
+    "- [x] S0 · Walking skeleton",
+    "- [ ] S1 · <title>",
+    "",
+    "## Should",
+    "- [ ] S9 · <title>",
+    "",
+    "[ ] is to do, [~] is built and waiting for Shawn to check on his phone, [x] is done. Mark what already works as [x]. Keep slice IDs stable.",
+    "",
+    "2. Create docs/progress.md: a \"# Progress log\" heading, the line \"Newest first. One entry per slice. The Studio reads this file.\", then one entry for today:",
+    "",
+    "## YYYY-MM-DD · Setup · Studio protocol",
+    "- Built: where the project stands, in two sentences",
+    "- Next: S# · <title of the next slice>",
+    "",
+    "3. Add this section to CLAUDE.md (create the file if it doesn't exist):",
+    "",
+    SETUP.protocol.split("{{NAME}}").join(name),
+    "",
+    "4. Create .claude/hooks/studio-check.cjs with exactly this content:",
+    "",
+    "```js", SETUP.hook.trim(), "```",
+    "",
+    "5. Add this Stop hook to .claude/settings.json, keeping anything already in that file:",
+    "",
+    "```json", SETUP.settings.trim(), "```",
+    "",
+    "Then tell me which slice is next."
+  ].join("\n");
+}
+
+/* ---------- Repo sync through the laptop's file server (S16) ---------- */
+const HOST = "host:filesystem";
+const NO_HOST = ["not_granted", "capability_disabled", "capability_removed"];
+function resultText(r){
+  if (!r) return "";
+  if (typeof r.payload === "string") return r.payload;
+  if (r.payload && typeof r.payload.content === "string") return r.payload.content;
+  return (r.content || []).filter(b => b.type === "text").map(b => b.text).join("\n");
+}
+async function readFile(path, tail){
+  const input = tail ? {path, tail} : {path};
+  try { return resultText(await S.mcp.callTool(HOST, "read_text_file", input, {cache:false})); }
+  catch(e){
+    if (!(e && e.retryable)) throw e;           // reads may retry once, after a short random wait
+    await new Promise(r => setTimeout(r, Math.min(e.retryAfterMs || 0, 5000) + 500 + Math.random() * 1000));
+    return resultText(await S.mcp.callTool(HOST, "read_text_file", input, {cache:false}));
+  }
+}
+function syncError(e, repo){
+  const c = e && e.code, msg = String((e && e.message) || "");
+  if (c === "tool_error"){
+    if (/outside|denied|not allowed|permission/i.test(msg)) return {text:`${repo} is outside the folders the file server can read. Check the folder name.`};
+    if (/ENOENT|no such file|not found|cannot find|does not exist/i.test(msg)) return {missing:true, text:`There's no docs/stories.md in ${repo}.`};
+    return {text:"The file server said: " + clip(msg, 160)};
+  }
+  return {text:({
+    server_not_connected:"The file server isn't running in the Claude app on this laptop. Check claude_desktop_config.json, then restart the app.",
+    not_in_manifest:"Laptop access is off for The Studio. Press Try again and allow it when the Claude app asks.",
+    approval_required:"The Claude app needs your OK before The Studio reads the repo. Press Try again to be asked.",
+    cancelled:"You declined in the Claude app, so nothing was read.",
+    server_unavailable:"The file server didn't answer in time. Try again in a moment.",
+    blocked_by_policy:"Your organisation's settings block the file server for this page.",
+    needs_reauth:"The file server needs reconnecting in the Claude app."
+  })[c] || `Something went wrong reading the repo (${c || "unknown error"}).`};
+}
+
+async function syncProject(p, manual){
+  const repo = cleanRepo(p.repo);
+  if (!repo || !S.mcp || S.host !== "listed") return;
+  if ((S.sync[p.id] || {}).kind === "reading") return;
+  if (p.repo !== repo){ p.repo = repo; saveProject(p, true); }   // drop quotes from "Copy as path" and trailing slashes
+  S.autoDone[p.id] = true;
+  S.sync[p.id] = {kind:"reading", startedAt:Date.now()};
+  softRender();
+  const slow = setTimeout(() => { if ((S.sync[p.id] || {}).kind === "reading") softRender(); }, 2600);
+  try {
+    const stories = await readFile(joinPath(repo, "docs", "stories.md"));
+    const [prog, head, reflog] = await Promise.allSettled([
+      readFile(joinPath(repo, "docs", "progress.md")),
+      readFile(joinPath(repo, ".git", "HEAD")),
+      readFile(joinPath(repo, ".git", "logs", "HEAD"), 80)
+    ]);
+    const prev = S.syncs[p.id] || {}, slices = parseStories(stories), marks = {};
+    for (const [id, at] of Object.entries(prev.marks || {})){ const s = slices.find(x => x.id === id); if (s && s.status !== "done") marks[id] = at; }
+    const snap = {
+      repo, repoName:repoName(repo), via:"laptop", at:Date.now(), slices, marks,
+      branch: head.status === "fulfilled" ? ((/ref:\s*refs\/heads\/(\S+)/.exec(head.value) || [])[1] || "").slice(0, 60) : "",
+      log: prog.status === "fulfilled" ? parseProgress(prog.value) : [],
+      commits: reflog.status === "fulfilled" ? parseReflog(reflog.value) : []
+    };
+    S.syncs[p.id] = snap;
+    S.sync[p.id] = {kind:"ok", at:Date.now()};
+    if (manual) toast(`Synced: ${slices.length} slices, ${snap.log.length} log entries.`);
+    try { await store.put("syncs", p.id, snap); } catch(e){ setStatus(dbErr(e), true); }
+  } catch(e){
+    if (e && NO_HOST.includes(e.code)){ S.host = "none"; S.sync[p.id] = {}; }
+    else S.sync[p.id] = {kind:"error", code:e && e.code, ...syncError(e, repo)};
+  } finally {
+    clearTimeout(slow);
+    softRender();
+  }
+}
+function maybeAutoSync(){
+  if (S.route.view !== "project" || S.host !== "listed" || !S.online) return;
+  const p = proj(S.route.id);
+  if (!p || S.autoDone[p.id] || (S.route.phase || p.phase) !== "build") return;
+  if (!cleanRepo(p.repo)){ S.autoDone[p.id] = true; return; }   // opening syncs; typing a folder doesn't
+  syncProject(p, false);
+}
+
+/* Mark done: on the laptop, change [~] to [x] in docs/stories.md (the Claude app asks first).
+   Elsewhere, keep the mark in the snapshot until it's written from the laptop. */
+async function writeDone(p, ids){
+  const repo = cleanRepo(p.repo), path = joinPath(repo, "docs", "stories.md");
+  const slices = parseStories(await readFile(path));
+  const edits = ids.map(id => slices.find(s => s.id === id)).filter(s => s && s.status !== "done").map(s => ({oldText:s.raw, newText:s.raw.replace(/\[[ ~]\]/, "[x]")}));
+  if (edits.length) await S.mcp.callTool(HOST, "edit_file", {path, edits}, {cache:false});
+}
+async function markDone(p, ids){
+  if (S.host === "listed" && cleanRepo(p.repo) && S.online){
+    try {
+      await writeDone(p, ids);
+      toast(`${ids.join(", ")} marked done in docs/stories.md.`);
+      await syncProject(p, false);
+      return;
+    } catch(e){
+      if (e && e.code === "cancelled"){ toast("Not changed. You declined in the Claude app."); return; }
+      if (e && NO_HOST.includes(e.code)) S.host = "none";
+      toast(`Couldn't write docs/stories.md (${(e && e.code) || "error"}). Kept the mark in The Studio.`);
+    }
+  }
+  const snap = S.syncs[p.id]; if (!snap) return;
+  snap.marks = {...(snap.marks || {})};
+  for (const id of ids) snap.marks[id] = Date.now();
+  render();
+  try { await store.put("syncs", p.id, snap); if (S.host !== "listed") toast(`${ids.join(", ")} marked done. It goes into docs/stories.md from your laptop.`); }
+  catch(e){ toast(dbErr(e)); }
+}
+
+function readPaste(text, p){
+  const up = parseUpdate(text);
+  if (!up.slices.length && !up.entries.length) return {error:true, text};
+  const prev = S.syncs[p.id] || {};
+  const key = e => [e.date, e.id, e.title].join("|"), have = new Set((prev.log || []).map(key));
+  const name = (/Studio update\s*·\s*(\S+)/.exec(text) || [])[1];
+  return {text, name, ...up, fresh:up.entries.filter(e => !have.has(key(e))).length};
+}
+async function applyPaste(p){
+  const x = S.paste; if (!x || x.error) return;
+  const prev = S.syncs[p.id] || {repo:cleanRepo(p.repo), repoName:x.name || repoName(p.repo), slices:[], log:[], commits:[], marks:{}, branch:""};
+  const slices = (prev.slices || []).map(s => ({...s}));
+  for (const u of x.slices){
+    const s = slices.find(y => y.id === u.id);
+    if (s){ s.status = u.status; if (u.title) s.title = u.title; }
+    else slices.push({...u, group:slices.length ? slices[slices.length - 1].group : ""});
+  }
+  const key = e => [e.date, e.id, e.title].join("|"), have = new Set((prev.log || []).map(key));
+  const marks = {...(prev.marks || {})};
+  for (const id of Object.keys(marks)) if (slices.some(s => s.id === id && s.status === "done")) delete marks[id];
+  const snap = {...prev, slices, marks, log:x.entries.filter(e => !have.has(key(e))).concat(prev.log || []).slice(0, 30), via:"paste", at:Date.now()};
+  S.syncs[p.id] = snap; S.sync[p.id] = {}; S.paste = null; S.overlay = null; render();
+  try { await store.put("syncs", p.id, snap); toast("Update applied."); } catch(e){ toast(dbErr(e)); }
+}
+
+async function copyText(text, el){
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch(e){
+    try { if (el){ el.focus(); el.select(); } if (document.execCommand("copy")) return true; } catch(_){}
+    return false;
+  }
 }
 
 /* ---------- Actions ---------- */
 function openOverlay(kind){ S.overlay = kind; render(); }
-function closeOverlay(){ S.overlay = null; render(); }
+function closeOverlay(){ S.overlay = null; S.paste = null; render(); }
 
 async function saveCapture(text){
   const id = uid("c");
@@ -583,6 +1110,32 @@ document.addEventListener("click", async ev => {
       break;
     }
     case "cancelgate": S.confirm = null; render(); break;
+    case "jump": {
+      if (!p) break; const target = S.route.phase || p.phase, n = PH[target].n;
+      for (const x of PHASES){ if (PH[x.key].n < n) p.completed[x.key] = true; else delete p.completed[x.key]; }
+      p.phase = target; p.nextStep = ""; S.confirm = null; saveProject(p, true); toast(`Moved to ${PH[target].name}.`); render();
+      break;
+    }
+    case "sync": if (p) syncProject(p, true); break;
+    case "btab": S.buildTab = t.dataset.tab === "log" ? "log" : "slices"; render(); break;
+    case "paste": if (p){ S.overlayFor = p.id; S.paste = null; openOverlay("paste"); } break;
+    case "pasteback": S.paste = {text:(S.paste && S.paste.text) || ""}; render(); break;
+    case "applypaste": { const q = proj(S.overlayFor); if (q) applyPaste(q); break; }
+    case "setup": S.overlayFor = p ? p.id : null; openOverlay("setup"); break;
+    case "copysetup": {
+      const el = $("#setup-text");
+      const ok = await copyText(el ? el.value : "", el);
+      toast(ok ? "Copied. Paste it into Claude Code in that repo." : "Couldn't copy. The prompt is selected: press Ctrl+C.");
+      if (!ok && el){ el.focus(); el.select(); }
+      break;
+    }
+    case "markdone": if (p) markDone(p, [t.dataset.id]); break;
+    case "writemarks": {
+      if (!p) break; const snap = S.syncs[p.id] || {};
+      const ids = Object.keys(snap.marks || {}).filter(id => (snap.slices || []).some(s => s.id === id && s.status !== "done"));
+      if (ids.length) markDone(p, ids);
+      break;
+    }
     case "reopen": { if (!p) break; const key = S.route.phase || p.phase; delete p.completed[key]; p.phase = key; saveProject(p, true); render(); break; }
     case "askdelete": S.confirm = "delete"; render(); break;
     case "delete": {
@@ -611,7 +1164,13 @@ document.addEventListener("input", ev => {
     if (t.dataset.field === "name"){ const a = document.querySelector(`.plist a[href="#p-${p.id}"] span`); if (a) a.textContent = t.value || "Untitled project"; }
   }
 });
-document.addEventListener("focusout", ev => { if (ev.target.matches && ev.target.matches("[data-field]")) setTimeout(() => { if (!document.activeElement || !document.activeElement.matches("[data-field]")) render(); }, 0); });
+document.addEventListener("focusout", ev => {
+  if (!(ev.target.matches && ev.target.matches("[data-field]"))) return;
+  // Leaving a field for a button: let the button's click do the render, or it would be swapped out mid-click.
+  const to = ev.relatedTarget;
+  if (to && to.closest && to.closest("[data-act],a[href]")){ S.needRender = true; setTimeout(() => { if (S.needRender && !S.overlay) render(); }, 400); return; }
+  setTimeout(() => { if (!document.activeElement || !document.activeElement.matches("[data-field]")) render(); }, 0);
+});
 
 document.addEventListener("submit", ev => {
   ev.preventDefault();
@@ -619,6 +1178,10 @@ document.addEventListener("submit", ev => {
   if (ev.target.id === "npForm"){
     const name = $("#np-name").value.trim(), start = (document.querySelector('input[name="start"]:checked') || {}).value || "discover", one = $("#np-one").value.trim();
     S.overlay = null; const p = createProject({name, start, oneLiner:one}); go("p-" + p.id);
+  }
+  if (ev.target.id === "pasteForm"){
+    const p = proj(S.overlayFor), v = $("#paste-text").value;
+    if (p && v.trim()){ S.paste = readPaste(v, p); render(); }
   }
 });
 
@@ -633,6 +1196,7 @@ document.addEventListener("keydown", ev => {
   else if (k === "b") go("board");
   else if (k === "i") go("inbox");
   else if (ev.key === "?"){ openOverlay("keys"); }
+  else if (k === "s" && S.route.view === "project"){ const p = proj(S.route.id); if (p && (S.route.phase || p.phase) === "build") syncProject(p, true); }
   else if (/^[1-9]$/.test(k) && S.route.view === "board"){ const p = active()[+k - 1]; if (p) go("p-" + p.id); }
 });
 
@@ -653,21 +1217,35 @@ function subscribe(col, apply){
       const list = snap.docs.filter(d => d.exists).map(d => ({...JSON.parse(JSON.stringify(d.data() || {})), id:d.id}));
       apply(list, snap.metadata);
       if (first){ first = false; resolve(snap.metadata); }
-      else if (!S.overlay && !(document.activeElement && document.activeElement.matches("[data-field]"))) render();
+      else softRender();
     }, err => { if (first){ first = false; resolve({error:err}); } else setStatus("Lost the connection to your data. Reload to reconnect.", true); });
   });
+}
+
+/* Is the laptop's file server reachable? Only inside the Claude desktop app, for the owner. */
+async function detectHost(){
+  const m = await use("mcp");
+  S.mcp = m;
+  if (!m){ S.host = "none"; softRender(); return; }
+  try {
+    const r = await m.listTools(HOST);
+    S.host = (r.servers || []).some(s => s.server === HOST && (s.tools || []).length) ? "listed" : "none";
+  } catch(e){ S.host = "none"; }
+  softRender();
 }
 
 async function boot(){
   S.route = readRoute();
   render();
+  detectHost();
   const db = await use("db");
   if (!db){ startLocal("Open The Studio on claude.ai while signed in to save to your account."); return; }
   S.db = db;
   const timer = setTimeout(() => { if (S.backend === "loading"){ S.loadNote = "Check your connection. The Studio keeps trying."; render(); } }, 10000);
   const [a] = await Promise.all([
     subscribe("projects", list => { const keep = new Map(S.projects.map(p => [p.id, p])); S.projects = list.map(p => S.dirty.has(p.id) && keep.get(p.id) ? keep.get(p.id) : normalize(p)); for (const p of keep.values()) if (S.dirty.has(p.id) && !S.projects.some(x => x.id === p.id)) S.projects.push(p); sortAll(); }),
-    subscribe("captures", list => { S.captures = list; sortAll(); })
+    subscribe("captures", list => { S.captures = list; sortAll(); }),
+    subscribe("syncs", list => { S.syncs = Object.fromEntries(list.map(s => [s.id, s])); })
   ]);
   clearTimeout(timer);
   if (a && a.error){ startLocal("Couldn't reach your saved data, so this session saves in this browser only."); return; }
