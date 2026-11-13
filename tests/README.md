@@ -10,6 +10,7 @@ Each script opens `src/index.html` in Chromium with a fake database, a fake Clau
 | `s5.py` | S5 · Phase-appropriate views | 94 |
 | `s6.py` | S6 · AI drafts | 49 |
 | `s7.py` | S7 · Tracked-changes approval | 46 |
+| `s10.py` | S10 · Claude Code handoff | 58 |
 | `s16.py` | S16 · Build monitor with progress sync | 26 |
 
 ## Run

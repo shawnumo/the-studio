@@ -15,8 +15,8 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
 - [x] S5 · Phase-appropriate views
 - [x] S6 · AI drafts
 - [x] S7 · Tracked-changes approval
-- [~] S1 · Projects board: drafts to review and last Claude Code session on each row
-- [ ] S10 · Claude Code handoff
+- [x] S1 · Projects board: drafts to review and last Claude Code session on each row
+- [x] S10 · Claude Code handoff
 
 ## Should
 - [ ] S9 · Rendered Mermaid diagrams

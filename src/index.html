@@ -238,6 +238,35 @@ table.slices tr.sdet.hl{background:var(--amber-tint)}
 .inline-err{margin:0;font-size:13px;color:var(--red-text)}
 .inline-err b{color:var(--red)}
 .input.mono{font-family:var(--mono);font-size:13px}
+/* S10: Claude Code handoff */
+.hhead .crumb{color:var(--text2);text-decoration:none}.hhead .crumb:hover{color:var(--text)}
+.hhead .hstate{align-self:center;font-size:13px;color:var(--text2)}
+.pbody.hand .pmain{flex:999 1 560px;max-width:none;gap:28px}
+.pmain h2.hh{margin:0 0 4px;font-size:16px;font-weight:700}
+table.hfiles{width:100%;border-collapse:collapse}
+table.hfiles th,table.hfiles td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+table.hfiles thead th{border-top:1px solid var(--line);font-size:12px;font-weight:500;color:var(--text3)}
+table.hfiles td.cb{width:28px;padding-right:0}
+table.hfiles .hcb{display:flex;align-items:center;justify-content:center;width:24px;height:24px;cursor:pointer}
+table.hfiles input[type=checkbox]{width:15px;height:15px;margin:0;accent-color:var(--amber-mark);cursor:pointer}
+table.hfiles input[type=checkbox]:disabled{cursor:not-allowed}
+table.hfiles .fp{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+table.hfiles tr.off .fp{color:var(--text3)}
+table.hfiles .from{color:var(--text2)}
+table.hfiles .st{font-size:13px;color:var(--text3)}
+table.hfiles .st.warn{display:inline-flex;align-items:center;gap:6px;color:var(--white);font-weight:600}
+table.hfiles .st.warn::before{content:"";width:7px;height:7px;flex:none;background:var(--amber-mark)}
+table.hfiles .sz{font-family:var(--mono);font-size:12px;color:var(--text3);text-align:right;white-space:nowrap}
+.hfields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:640px}
+ol.hsteps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.pside.hprompt{display:flex;flex-direction:column;gap:12px;padding:24px;flex:1 1 420px}
+.hprompt .hph{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.hprompt .hph h2{margin:0;font-size:16px;font-weight:700}
+.hprompt .hph span{font-size:12px;color:var(--text3)}
+.hprompt textarea.prompt{flex:1;min-height:320px}
+.hprompt .btn.primary{height:42px}
+.hprompt .hint,.hbar .hint{margin:0;font-size:12px;color:var(--text3)}
+.hbar{display:none}
 textarea.prompt{width:100%;height:46vh;border-radius:2px;border:1px solid var(--line2);background:var(--sunk);color:var(--text2);padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.55;resize:vertical}
 table.preview{border-collapse:collapse;font-size:13px}
 table.preview th{text-align:left;font-weight:400;color:var(--text2);padding:3px 16px 3px 0;vertical-align:top}
@@ -557,6 +586,20 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   ol.log{margin:0 -16px}ol.log li{padding:12px 16px}
   .callout li{flex-wrap:wrap}.callout li .btn,.callout .row .btn{height:44px;flex:1}
   textarea.prompt{height:40vh}
+  .hfields{grid-template-columns:1fr}
+  table.hfiles thead{display:none}
+  table.hfiles tr{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;border-bottom:1px solid var(--line)}
+  table.hfiles td{border:0;padding:0 12px 0 0}
+  table.hfiles td.cb{grid-column:1;grid-row:1 / span 2;padding:0}
+  table.hfiles .hcb{width:44px;height:44px}
+  table.hfiles td.fp{grid-column:2;grid-row:1;padding-top:10px}
+  table.hfiles td.from{display:none}
+  table.hfiles td.sz{grid-column:3;grid-row:1;padding-top:10px;padding-right:0}
+  table.hfiles td.stc{grid-column:2 / span 2;grid-row:2;padding-bottom:10px}
+  .pside.hprompt{padding:16px}
+  .hprompt .desk-btn{display:none}
+  .hbar{display:flex;flex-direction:column;gap:6px;position:sticky;bottom:0;z-index:10;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--rail);border-top:1px solid var(--line)}
+  .hbar .btn{height:48px}
   .inbox{flex-direction:column}.ilist{border-right:0}
   .irows.board{margin:0 -16px}
   .idetail{padding:20px 16px;max-width:none}.idetail h2.cap{font-size:20px}
@@ -663,7 +706,7 @@ const PHASES = [
    checklist:["The PRD fits on one page and lists the non-goals","Every Must story has acceptance criteria","v1 has 10 or fewer Must stories","The Cost and Reachability NFRs are written down"]},
   {key:"design", name:"Design", goal:"Choose the lightest architecture", next:"Pick the lightest architecture on the ladder",
    produces:[["Architecture","docs/architecture.md"],["Decisions","docs/adr/"]],
-   checklist:["Tier chosen, with the reason in an ADR","Context diagram drawn, plus an ERD or state machine if needed","Repo scaffolded, CI green on an empty app"]},
+   checklist:["Tier chosen, with the reason in an ADR","Context diagram drawn, plus an ERD or state machine if needed","Repo created: a folder under C:\\Projects with git and a GitHub remote"]},
   {key:"build", name:"Build", goal:"Ship thin slices, always deployable", next:"Build the next slice",
    produces:[["Slices","docs/stories.md"],["Progress log","docs/progress.md"]],
    checklist:["Every Must story is live at the production URL","CI is green; tests cover the main journeys","No secrets in the repo; .env.example is up to date"]},
@@ -734,7 +777,9 @@ const S = {
   /* S7 tracked changes */
   rv:{}, curChg:{}, ronly:{}, why:{}, scrollChg:false,   // rv: the review worked out for a doc; curChg: current change; ronly: only the changes; why: reasons loading or failed
   /* S1 board */
-  dsumT:{}, sumT:{}, pendFtab:null, bfDone:false, boardSet:null   // dsumT/sumT: draft-summary timers; pendFtab: the tab a Needs you link opens on; boardSet: settings/board
+  dsumT:{}, sumT:{}, pendFtab:null, bfDone:false, boardSet:null,   // dsumT/sumT: draft-summary timers; pendFtab: the tab a Needs you link opens on; boardSet: settings/board
+  /* S10 handoff */
+  hsel:{}                              // projectId -> {path: ticked} where Shawn changed the default
 };
 
 /* ---------- Helpers ---------- */
@@ -774,6 +819,7 @@ function normalize(p){
   p.nextStep = typeof p.nextStep === "string" ? p.nextStep : "";
   p.oneLiner = typeof p.oneLiner === "string" ? p.oneLiner : "";
   p.repo = typeof p.repo === "string" ? p.repo : "";
+  p.branch = typeof p.branch === "string" ? p.branch : "";   // S10: the branch Claude Code works on (empty: the synced branch, else main)
   p.liveUrl = typeof p.liveUrl === "string" ? p.liveUrl : "";
   p.drafts = p.drafts && typeof p.drafts === "object" && !Array.isArray(p.drafts) ? p.drafts : {};   // S1: docId -> {key, phase, name, at, review, n, left}
   p.createdAt = p.createdAt || Date.now();
@@ -1023,6 +1069,7 @@ const grow = el => { el.style.height = "auto"; el.style.height = (el.scrollHeigh
 
 /* One subscription per project's chat, opened the first time the project is shown. */
 function ensureChats(){
+  if (S.route.view === "handoff"){ const q = proj(S.route.id); if (q && S.backend === "db") watchChat(q.id + "~design"); return; }
   const r = S.route, p = r.view === "project" && r.id ? proj(r.id) : null;
   if (!p || S.backend !== "db") return;
   watchChat(p.id);   // Discover's chat; Define and Design read its notes too
@@ -1067,8 +1114,8 @@ function saveChat(pid){
 /* ---------- Documents (S5) ---------- */
 /* One query per project for its documents (docs where pid is the project), opened the first time Define or Design is shown. */
 function ensureDocs(){
-  const r = S.route, p = r.view === "project" && r.id ? proj(r.id) : null;
-  if (!p || S.backend !== "db" || S.docState[p.id] || !isDocPhase(r.phase || p.phase)) return;
+  const r = S.route, p = (r.view === "project" || r.view === "handoff") && r.id ? proj(r.id) : null;
+  if (!p || S.backend !== "db" || S.docState[p.id] || !(r.view === "handoff" || isDocPhase(r.phase || p.phase))) return;
   const id = p.id; S.docState[id] = "loading";
   const got = snap => {
     const first = S.docState[id] !== "ready"; S.docState[id] = "ready";
@@ -1188,7 +1235,7 @@ ${define ? `- Push for a PRD that fits on one page and lists its non-goals; Must
 - Cut scope hard. A v1 he can ship in 2 to 4 weeks of part-time work beats a complete one.` : `- Push for the lightest tier that does the job: a static page or PWA before a backend, a free hosted backend before a server of his own. Name each option's trade-offs and what it costs on free tiers; he builds on a $0 budget.
 - Every real decision (tier, stack, data store, auth, hosting) becomes an ADR: context, decision, alternatives considered, consequences.
 - Suggest a context diagram in Mermaid, plus an ERD or a state machine when the data or the flow needs one.
-- Design ends with the repo scaffolded and CI green on an empty app.`}
+- Design ends with an empty repo ready for the handoff: a folder under C:\\Projects with git and a GitHub remote. The app itself is set up in Build's first slice, S0 · Walking skeleton: in that same folder, never a subfolder, with Vite (\`npm create vite@latest .\`) unless the architecture names another tool; deployed as an empty page, CI green.`}
 - When he's vague or a decision is still open, interview him: one question per reply, about 3 to 6 in all, each building on his last answer. Don't ask what the documents or your notes already answer.
 - In interview mode the message is only a short reaction to his last answer (one sentence at most; before the first question, say briefly why you're asking). The question itself goes in the block, not in the message.
 - When a question has a few obvious answers, offer 2 to 4 choices, each under 8 words; he can always answer in his own words. Otherwise give no choices.
@@ -1471,6 +1518,7 @@ function readRoute(){
   const h = location.hash.replace(/^#/, "");
   if (h === "inbox") return {view:"inbox"};
   if (h.startsWith("c-")) return {view:"inbox", cap:h.slice(2)};
+  if (h.startsWith("p-") && h.endsWith("-handoff")) return {view:"handoff", id:h.slice(2, -8)};
   if (h.startsWith("p-")){ const parts = h.slice(2).split("-"); const ph = PH[parts[parts.length - 1]] ? parts.pop() : null; return {view:"project", id:parts.join("-"), phase:ph}; }
   return {view:"board"};
 }
@@ -1497,7 +1545,7 @@ function render(){
   const ae = document.activeElement, caret = ae && (ae.id === "coach-input" || ae.id === "doc-editor") ? [ae.selectionStart, ae.selectionEnd, ae.id] : null;
   const root = $("#root");
   const r = S.route, sk = scrollKey(), kept = sk && sk === S.scrollKey ? SCROLLERS.map(s => { const e = $(s); return e ? e.scrollTop : 0; }) : null;
-  root.innerHTML = `<div class="app${docPage() ? " fixed" : ""}">${rail()}<main>${mtop()}${banners()}${S.backend === "loading" ? loadingView() : r.view === "inbox" ? inboxView() : r.view === "project" ? projectView() : boardView()}</main>${mnav()}</div>${overlayView()}`;
+  root.innerHTML = `<div class="app${docPage() ? " fixed" : ""}">${rail()}<main>${mtop()}${banners()}${S.backend === "loading" ? loadingView() : r.view === "inbox" ? inboxView() : r.view === "project" ? projectView() : r.view === "handoff" ? handoffView() : boardView()}</main>${mnav()}</div>${overlayView()}`;
   S.needRender = false; S.scrollKey = sk;
   if (kept) SCROLLERS.forEach((s, i) => { const e = $(s); if (e && kept[i]) e.scrollTop = kept[i]; });
   if (fk){ const el = [...document.querySelectorAll(fk)].find(x => x.offsetParent); if (el) el.focus({preventScroll:true}); }
@@ -1536,7 +1584,7 @@ function scrollKey(){ const r = S.route, v = routePhase(); return v ? [r.id, v, 
 
 function rail(){
   const r = S.route, inboxN = S.captures.filter(c => c.status === "new").length;
-  const projects = active().map(p => `<a href="#p-${p.id}" ${r.view === "project" && r.id === p.id ? 'aria-current="page"' : ""}><span>${esc(p.name)}</span><small>${PH[p.phase].name}</small></a>`).join("");
+  const projects = active().map(p => `<a href="#p-${p.id}" ${(r.view === "project" || r.view === "handoff") && r.id === p.id ? 'aria-current="page"' : ""}><span>${esc(p.name)}</span><small>${PH[p.phase].name}</small></a>`).join("");
   const foot = S.backend === "db"
     ? `<span><i class="dot" style="background:var(--green)"></i><span style="color:var(--text)">Saved to your account</span></span><span>${S.host === "listed" ? "Repo sync on, through this laptop" : S.host === "none" ? "Repo sync runs in the Claude desktop app" : "Checking for repo sync…"}</span>`
     : S.backend === "local" ? `<span><i class="dot" style="background:var(--text3)"></i><span style="color:var(--text)">This browser only</span></span><span>${esc(S.loadNote)}</span>` : `<span>Connecting…</span>`;
@@ -1551,11 +1599,12 @@ function rail(){
   </nav>`;
 }
 function mtop(){
-  if (S.route.view === "project" || S.route.cap) return "";
+  if (S.route.view === "project" || S.route.view === "handoff" || S.route.cap) return "";
   return `<div class="mtop"><span style="display:flex;align-items:center;gap:9px">${MARK()}The Studio</span><small>${S.backend === "db" ? "Saved to your account" : S.backend === "local" ? "This browser only" : "Connecting…"}</small></div>`;
 }
 function mnav(){
   const v = S.route.view, n = S.captures.filter(c => c.status === "new").length;
+  if (v === "handoff") return "";   // on a phone the handoff is a full-screen sheet with Copy at the bottom
   return `<nav class="mnav" aria-label="Main">
     <a href="#board" ${v === "board" ? 'aria-current="page"' : ""}>Board</a>
     <button type="button" class="cap" data-act="capture"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="#1C1405" stroke-width="2" stroke-linecap="square"><path d="M7 2v10M2 7h10"/></svg>Capture</button>
@@ -1998,8 +2047,9 @@ function shownDocId(p, phase){
 }
 function sideList(p, phase, x){
   const chat = S.chats[p.id + "~" + phase] || emptyChat();
+  const hand = phase === "design" ? `<section><h2>Handoff</h2><p class="hint">One prompt for Claude Code that puts the approved docs, a CLAUDE.md and the Stop hook into the repo, then commits and pushes.</p><a class="btn" href="#p-${p.id}-handoff" style="align-self:flex-start">Hand off to Claude Code</a></section>` : "";
   const rows = noteKeys(phase).filter(([k]) => chat.notes[k]).map(([k, l]) => `<div><dt>${l}</dt><dd>${esc(chat.notes[k])}</dd></div>`).join("");
-  return `<section><p class="goal"><b>${PH[phase].name}:</b> ${esc(PH[phase].goal)}.</p></section>${x.nextSec}${x.checkSec}
+  return `<section><p class="goal"><b>${PH[phase].name}:</b> ${esc(PH[phase].goal)}.</p></section>${x.nextSec}${x.checkSec}${hand}
     <section><h2>What the coach knows</h2>${rows ? `<dl class="notes">${rows}</dl>` : `<p class="hint">Nothing yet. This fills in as you talk to the coach.</p>`}</section>
     <section><h2>Project</h2>
       <label class="field" for="p-name">Name<input class="input" id="p-name" data-field="name" value="${esc(p.name)}" maxlength="80"></label>
@@ -2095,9 +2145,9 @@ const draftErr = code => DRAFT_ERR[code] || "Couldn't reach Claude. Try again.";
 function ymd(t = new Date()){ return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`; }
 const DRAFT_SPEC = {
   prd:p => `Shape: "# ${p.name}: PRD", then these "## " sections: One-liner (in the form "For [who], who [struggle], [app] lets them [do what], unlike [current way]"); Problem (3 to 5 bullets); Users; Goals (v1) (a numbered list of 3 to 5); Non-goals (v1) (bullets); Success metric (one measurable line); Constraints (bullets: cost on free tiers, platforms, reachability and anything else he named); Open questions (TBD lines). Keep it to one page, about 400 words.`,
-  stories:p => `Shape, exactly, so The Studio's Build monitor can read it later: "# ${p.name} · stories", then "## Must", "## Should" and "## Could" sections. Each story is one line "- [ ] S1 · <short title>", then, indented two spaces under it, the story as one line "As a <user>, I want <goal>, so that <reason>." and its acceptance criteria as indented bullets "- Given …, when …, then …" (2 to 4 for each Must story; Should and Could stories may have one). Number the stories S1, S2 and on, in build order, riskiest first; keep the IDs and order of the current version where they still apply. v1 has 10 or fewer Must stories.`,
+  stories:p => `Shape, exactly, so The Studio's Build monitor can read it later: "# ${p.name} · stories", then "## Must", "## Should" and "## Could" sections. Each story is one line "- [ ] S1 · <short title>", then, indented two spaces under it, the story as one line "As a <user>, I want <goal>, so that <reason>." and its acceptance criteria as indented bullets "- Given …, when …, then …" (2 to 4 for each Must story; Should and Could stories may have one). The first Must line is always "- [ ] S0 · Walking skeleton", with no story line, and criteria for setting the app up in the repo folder itself (with Vite unless the architecture names another tool), deploying it as an empty page and getting CI green. Then number the stories S1, S2 and on, in build order, riskiest first; keep the IDs and order of the current version where they still apply. v1 has 10 or fewer Must stories.`,
   nfrs:p => `Shape: "# ${p.name}: NFRs", one short line on what they're for, then a Markdown table with the columns NFR | Requirement | How we'll check. Cost and Reachability come first (cost: $0 on free tiers unless he said otherwise; reachability: the devices and networks his users have), then only the others that matter for this app (performance, platform, privacy, reliability, accessibility, storage). Then TBD lines for anything undecided.`,
-  architecture:p => `Shape: "# ${p.name}: architecture", then these "## " sections: Tier (the lightest tier that does the job, from a static page or PWA, to a free hosted backend, to serverless functions, to a server of his own, and why the lighter ones aren't enough); Stack (bullets); Context diagram (a \`\`\`mermaid flowchart of the users, the app and outside services); Data (an ERD as a \`\`\`mermaid erDiagram if it stores data, or a stateDiagram-v2 if the flow needs one; otherwise one line saying why not); Hosting and cost (free tiers and their limits); Risks; Decisions to record (one bullet per ADR this needs).`,
+  architecture:p => `Shape: "# ${p.name}: architecture", then these "## " sections: Tier (the lightest tier that does the job, from a static page or PWA, to a free hosted backend, to serverless functions, to a server of his own, and why the lighter ones aren't enough); Stack (bullets, ending with the command that sets the app up in the repo folder: \`npm create vite@latest .\` with its template, unless another tool fits better); Context diagram (a \`\`\`mermaid flowchart of the users, the app and outside services); Data (an ERD as a \`\`\`mermaid erDiagram if it stores data, or a stateDiagram-v2 if the flow needs one; otherwise one line saying why not); Hosting and cost (free tiers and their limits); Risks; Decisions to record (one bullet per ADR this needs).`,
   adr:(p, a) => `Shape: "# ${a.num}: <the decision, as a short title>", a line "Status: Proposed · ${ymd()}", then "## Context", "## Decision", "## Alternatives considered" (each with why not) and "## Consequences". One decision only: ${a.title ? JSON.stringify(a.title) : "the most recent decision in the conversation that has no ADR yet"}.`
 };
 /* The phase's coach chat as plain text, newest kept when it's long. */
@@ -2676,7 +2726,7 @@ function buildMain(p){
       <p class="lead" style="margin:0">The Studio reads <span class="mono">docs/stories.md</span>, <span class="mono">docs/progress.md</span> and your recent commits from the folder, through the file server in the Claude desktop app. Your phone shows the last snapshot.</p></div>
       <label class="field" for="p-repo">Folder on your laptop<input class="input mono" id="p-repo" data-field="repo" value="${esc(p.repo)}" placeholder="C:\\Projects\\my-app" spellcheck="false" autocomplete="off"></label>
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">${canSync ? `<button type="button" class="btn primary" data-act="sync">Sync now</button>` : `<span style="font-size:13px;color:var(--text3)">Sync runs in the Claude desktop app on your laptop.</span>`}</div>
-      <p class="lead" style="margin:0;font-size:13px">No <span class="mono">docs/stories.md</span> in that repo yet? <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button> into Claude Code there. Away from your laptop? <button type="button" ${LINK} data-act="paste">Paste a Studio update</button>.</p>
+      <p class="lead" style="margin:0;font-size:13px">Coming from Design? <a href="#p-${p.id}-handoff">Hand off the approved docs</a> to Claude Code first. No <span class="mono">docs/stories.md</span> in that repo yet? <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button> into Claude Code there. Away from your laptop? <button type="button" ${LINK} data-act="paste">Paste a Studio update</button>.</p>
     </section>`;
 
   if (!snap){
@@ -2684,6 +2734,7 @@ function buildMain(p){
     return `<section class="slicesec" style="max-width:720px"><div class="sechead"><h2>Slices</h2></div>
       <p class="lead">${st.missing ? `To set the repo up, <button type="button" ${LINK} data-act="setup">copy the setup prompt</button> into Claude Code there, then press Try again.`
         : st.kind === "error" ? "Nothing synced yet. Fix the problem above, then press Try again."
+        : p.handoff && p.handoff.at ? `Handed off to Claude Code ${esc(when(p.handoff.at))}. When it has pushed, ${canSync ? "press Sync now" : "sync from the Claude desktop app on your laptop, or paste its Studio update"}.`
         : canSync ? `Press Sync now to read <span class="mono">docs/stories.md</span> from <span class="mono">${esc(repo)}</span>.`
         : "Nothing synced yet. Open The Studio in the Claude desktop app on your laptop and press Sync now, or paste a Studio update."}</p></section>`;
   }
@@ -2747,7 +2798,7 @@ function repoSec(p){
   return `<section><h2>Repo</h2>
     <label class="field" for="p-repo2">Folder on your laptop<input class="input mono" id="p-repo2" data-field="repo" value="${esc(p.repo)}" placeholder="C:\\Projects\\my-app" spellcheck="false" autocomplete="off"></label>
     <label class="field" for="p-live">Live URL<input class="input mono" id="p-live" data-field="liveUrl" value="${esc(p.liveUrl)}" placeholder="https://" spellcheck="false" autocomplete="off" inputmode="url"></label>
-    <span style="font-size:12px;color:var(--text3)">Setting up a repo for The Studio? <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button></span></section>`;
+    <span style="font-size:12px;color:var(--text3)"><a href="#p-${p.id}-handoff">Hand off the docs again</a> after they change. Setting up a repo for The Studio? <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button></span></section>`;
 }
 
 function overlayView(){
@@ -2859,6 +2910,151 @@ function setupPrompt(p){
     "",
     "Then tell me which slice is next."
   ].join("\n");
+}
+
+/* ---------- Claude Code handoff (S10) ---------- */
+/* One prompt that puts the approved documents, a generated CLAUDE.md, the Stop hook and an empty progress log into the repo,
+   then commits and pushes. Only saved text goes: a document with Claude's draft waiting starts unticked. */
+const utf8Len = s => new TextEncoder().encode(String(s || "")).length;
+const fmtSize = n => n < 1024 ? n + " B" : (n / 1024).toFixed(n < 10240 ? 1 : 0) + " KB";
+const HAND_MAX = 100 * 1024;   // past this, warn that a single paste may get cut off
+const PROGRESS_EMPTY = "# Progress log\n\nNewest first. One entry per slice session. The Studio reads this file.\n";
+const handBranch = p => (p.branch || "").trim() || ((S.syncs[p.id] || {}).branch || "") || "main";
+/* A section of a Markdown document by its heading, e.g. "## Stack". */
+function sectionOf(md, re){
+  const L = String(md || "").split("\n");
+  const i = L.findIndex(l => { const m = /^(#{2,3})\s+(.*?)\s*$/.exec(l); return m && re.test(m[2]); });
+  if (i < 0) return "";
+  const lvl = /^(#+)/.exec(L[i])[1].length, out = [];
+  for (let j = i + 1; j < L.length; j++){ const m = /^(#+)\s/.exec(L[j]); if (m && m[1].length <= lvl) break; out.push(L[j]); }
+  return out.join("\n").trim().split("\n").slice(0, 40).join("\n");
+}
+/* CLAUDE.md for the new repo: what to read, the stack, Commands for Claude Code to fill in, the Studio protocol and the rules. */
+function claudeMd(p, docs){
+  const on = new Set(docs.map(r => r.path)), arch = docs.find(r => r.path === "docs/architecture.md");
+  const reads = ["docs/PRD.md", "docs/stories.md", "docs/nfrs.md", "docs/architecture.md"].filter(x => on.has(x));
+  if (docs.some(r => r.path.startsWith("docs/adr/"))) reads.push("docs/adr/");
+  const notes = (S.chats[p.id + "~design"] || emptyChat()).notes || {};
+  const host = arch ? sectionOf(arch.text, /^(hosting|deploy)/i) : "";
+  let stack = arch ? [sectionOf(arch.text, /^(tech(nology)?\s+)?stack\b/i), host && "### Hosting\n" + host].filter(Boolean).join("\n\n") : "";
+  if (!stack) stack = [notes.stack, notes.hosting].filter(x => x && String(x).trim()).map(x => "- " + String(x).trim()).join("\n");
+  if (!stack) stack = arch ? "TBD: see docs/architecture.md." : "TBD: not chosen yet.";
+  const name = cleanRepo(p.repo) ? repoName(p.repo) : p.name;
+  return [`# ${p.name}`, "", ...(p.oneLiner.trim() ? [p.oneLiner.trim(), ""] : []),
+    ...(reads.length ? [`Read ${andList(reads)} before changing anything.`, ""] : []),
+    "## Stack", stack, "",
+    "## Commands", "TBD: Claude Code fills this in from the repo (install, dev, test, deploy).", "",
+    "## Setting up the app (S0)",
+    "- S0 · Walking skeleton sets the app up in this folder, never in a subfolder: `npm create vite@latest .` (or the create tool docs/architecture.md names, run on `.`). Keep docs/, CLAUDE.md and .claude/ as they are.",
+    "- S0 also deploys the empty app and gets CI green, so every later slice lands on a live URL.", "",
+    SETUP.protocol.split("{{NAME}}").join(name), "",
+    "## Rules", "- $0 only: no paid services, no API keys.",
+    ...(on.has("docs/nfrs.md") ? ["- Meet docs/nfrs.md; the Cost and Reachability NFRs come first."] : []),
+    "- Every new screen needs its loading, empty and error states.",
+    "- Stop and flag anything that conflicts with the PRD or an ADR."].join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+}
+/* Every file the handoff can write, with what The Studio knows about it. */
+function handoffRows(p){
+  const sel = S.hsel[p.id] || {}, rows = [];
+  const add = (r, def) => { r.on = r.off ? false : (r.path in sel ? !!sel[r.path] : def); r.size = utf8Len(r.text); rows.push(r); };
+  const docRow = (d, path, from) => {
+    const text = d ? String(d.text || "") : "", has = !!text.trim(), dr = d && d.draft;
+    let status = "Approved", warn = false, def = true;
+    if (!has){ status = dr ? "Claude's draft isn't used yet" : "Nothing saved yet"; def = false; }
+    else if (dr){ const left = reviewCounts(d).left; status = left ? `${left} change${left === 1 ? "" : "s"} not reviewed` : "Review not finished"; warn = true; def = false; }
+    else if (d.key === "stories"){ const m = parseStories(text).filter(s => /^must/i.test(s.group)).length; if (m) status += ` · ${m} Must${m === 1 ? "" : "s"}`; }
+    add({path, from, text:has ? text.replace(/\s+$/, "") + "\n" : "", status, warn, off:!has, doc:true}, def);
+  };
+  for (const [ph, key] of [["define", "prd"], ["define", "stories"], ["define", "nfrs"], ["design", "architecture"]]) docRow(docOf(p.id, key), docDef(ph, key).path, PH[ph].name);
+  for (const a of adrsOf(p.id).filter(hasText)) docRow(a, adrInfo(a).path, "Design");
+  const docs = rows.filter(r => r.on);
+  add({path:"CLAUDE.md", from:"Generated", text:claudeMd(p, docs), status:"Stack, commands, Studio protocol", gen:true}, true);
+  add({path:".claude/settings.json", from:"Generated", text:SETUP.settings.trim() + "\n", status:"Stop hook: log every slice", gen:true}, true);
+  add({path:".claude/hooks/studio-check.cjs", from:"Generated", text:SETUP.hook.trim() + "\n", status:"The check the Stop hook runs", gen:true}, true);
+  add({path:"docs/progress.md", from:"Generated", text:PROGRESS_EMPTY, status:"Empty log", gen:true}, true);
+  return rows;
+}
+function handoffPrompt(p, files, repo, branch){
+  const has = path => files.some(f => f.path === path);
+  const keep = [
+    has("docs/stories.md") && "   - docs/stories.md: if it already exists, keep the [x] and [~] marks of the slice IDs it already has.",
+    has("docs/progress.md") && "   - docs/progress.md: create it only if it doesn't exist. Never replace a progress log.",
+    has("CLAUDE.md") && "   - CLAUDE.md: if it already exists, keep its other sections and replace or add the ones given here.",
+    has(".claude/settings.json") && "   - .claude/settings.json: if it already exists, add this Stop hook and keep everything else."].filter(Boolean);
+  const steps = [`Write the ${files.length} file${files.length === 1 ? "" : "s"} below, creating folders as needed. Replace each one with exactly the text given${keep.length ? ", except:" : "."}`, ...keep];
+  const L = [`You're taking over the build of "${p.name}" from The Studio.`, `Work in ${repo || "[the folder on your laptop]"} on branch ${branch}.`, "",
+    `First check that this folder is a git repository with a remote to push to. If it isn't, stop and tell me; don't create one. If the branch ${branch} doesn't exist yet, create it from the default branch.`, ""];
+  let n = 0;
+  L.push(`${++n}. ${steps[0]}`, ...steps.slice(1));
+  if (has("CLAUDE.md")) L.push(`${++n}. In CLAUDE.md, fill in the Commands section from the repo (install, dev, test, deploy). Write TBD for any you can't find yet.`);
+  L.push(`${++n}. Commit as "docs: handoff from The Studio" and push to ${branch}.`);
+  L.push(`${++n}. End with a Studio update block${has("CLAUDE.md") ? " (its format is in CLAUDE.md)" : ""} listing the slices in docs/stories.md, so The Studio's Build monitor fills in. Then tell me which slice is next.`, "");
+  for (const f of files) L.push(`--- ${f.path} ---`, f.text.replace(/\s+$/, ""), `--- end of ${f.path} ---`, "");
+  return L.join("\n").trim() + "\n";
+}
+function handoffModel(p){
+  const st = docLoad(p.id), ready = st === "ready", rows = ready ? handoffRows(p) : [];
+  const files = rows.filter(r => r.on), docs = files.filter(r => r.doc);
+  const repo = cleanRepo(p.repo), branch = handBranch(p);
+  const block = !ready ? "Your documents are still loading."
+    : !rows.some(r => r.doc && !r.off) ? "Save at least one document in Define or Design first."
+    : !docs.length ? "Tick at least one document to hand off."
+    : !repo ? "Enter the folder on your laptop that Claude Code will work in."
+    : !/^([a-zA-Z]:[\\/]|[\\/]|~)/.test(repo) ? "Enter the folder's full path, like C:\\Projects\\my-app."
+    : !/^[\w./-]+$/.test(branch) || /\.\.|^[./-]|[./]$/.test(branch) ? "That branch name won't work in git. Use letters, numbers, / . - or _." : "";
+  const prompt = ready ? handoffPrompt(p, files, repo, branch) : "";
+  return {st, rows, files, docs, repo, branch, block, prompt, size:utf8Len(prompt)};
+}
+const handSize = m => `<span class="mono">${m.files.length}</span> file${m.files.length === 1 ? "" : "s"} · <span class="mono">${fmtSize(m.size)}</span>`;
+/* Typing the folder or branch updates the prompt without a full render (the field keeps focus). */
+function paintHandoff(p){
+  const m = handoffModel(p), ta = $("#handoff-text");
+  if (ta) ta.value = m.prompt;
+  const s = $("#handoff-size"); if (s) s.innerHTML = handSize(m);
+  document.querySelectorAll('[data-act="copyhandoff"]').forEach(b => { b.disabled = !!m.block; });
+  document.querySelectorAll(".handoff-block").forEach(e => { e.textContent = m.block; e.hidden = !m.block; });
+  document.querySelectorAll(".hbranch").forEach(e => { e.textContent = m.branch; });
+}
+function handoffView(){
+  const p = proj(S.route.id);
+  if (!p) return `<div class="top"><h1>Project not found</h1></div><section class="block"><p class="lead">It may have been deleted. <a href="#board">Back to the board</a></p></section>`;
+  const m = handoffModel(p), back = `#p-${p.id}`;
+  const head = `<div class="top ph hhead"><div class="tt"><a href="${back}" class="mob-only" aria-label="Back to ${esc(p.name)}" style="display:flex;align-items:center;width:44px;height:44px;margin-left:-12px;justify-content:center"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="none" style="stroke:var(--text)" stroke-width="1.8" stroke-linecap="square"><path d="M10 3 5 8l5 5"/></svg></a><a href="${back}" class="crumb desk-only">${esc(p.name)}</a><span class="desk-only" style="color:var(--text3)">/</span><h1>Handoff to Claude Code</h1></div>
+    <span class="hstate">${p.completed.design ? "Design done · ready for Build" : `In ${PH[p.phase].name} · Design isn't finished yet`}</span></div>`;
+  let files;
+  if (m.st === "error") files = `<div class="errbox" role="alert"><span><b>These documents can't be loaded.</b> Reload The Studio to try again.</span></div>`;
+  else if (m.st !== "ready") files = `${m.st === "slow" ? `<div class="notice" role="status"><span><b>Your documents can't be reached yet.</b> Check your connection. The Studio keeps trying.</span></div>` : ""}<div aria-busy="true" style="border-top:1px solid var(--line)">${[44, 36, 30, 52, 40].map(w => `<div class="skrow"><span class="sk" style="width:15px"></span><span><span class="sk" style="width:${w}%"></span></span></div>`).join("")}</div>`;
+  else {
+    const none = !m.rows.some(r => r.doc && !r.off);
+    files = `${none ? `<div class="notice" role="status"><span><b>Nothing to hand off yet.</b> Save the PRD, user stories and architecture first; Claude can draft each one in <a href="#p-${p.id}-define">Define</a> and <a href="#p-${p.id}-design">Design</a>.</span></div>` : ""}
+      <table class="hfiles"><thead><tr><th scope="col" class="cb"><span class="sr">Include</span></th><th scope="col">File</th><th scope="col">From</th><th scope="col">Status</th><th scope="col" style="text-align:right">Size</th></tr></thead>
+      <tbody>${m.rows.map((r, i) => `<tr class="${r.off ? "off" : ""}"><td class="cb"><label class="hcb"><input type="checkbox" id="hsel-${i}" data-hsel="${esc(r.path)}" aria-label="Include ${esc(r.path)}" ${r.on ? "checked" : ""} ${r.off ? "disabled" : ""}></label></td>
+        <td class="fp">${esc(r.path)}</td><td class="from">${esc(r.from)}</td><td class="stc"><span class="st${r.warn ? " warn" : ""}">${esc(r.status)}</span></td><td class="sz">${r.off ? "" : fmtSize(r.size)}</td></tr>`).join("")}</tbody></table>`;
+  }
+  const blockP = cls => `<p class="inline-err handoff-block ${cls}" role="alert" ${m.block && m.st === "ready" ? "" : "hidden"}>${esc(m.block)}</p>`;
+  const long = m.size > HAND_MAX ? `<div class="notice" role="status"><span><b>This is a long prompt (${esc(fmtSize(m.size))}).</b> If Claude Code cuts it off, untick a few files and hand off in two goes.</span></div>` : "";
+  const last = p.handoff && p.handoff.at ? `<p class="hint">Last copied ${esc(when(p.handoff.at))} · <span class="mono">${(p.handoff.files || []).length}</span> files to <span class="mono">${esc(p.handoff.branch || "")}</span></p>` : "";
+  const copy = cls => `<button type="button" class="btn primary ${cls}" data-act="copyhandoff" ${m.block ? "disabled" : ""}>Copy prompt</button>`;
+  return head + `<div class="pbody hand">
+    <section class="pmain" aria-label="Handoff">
+      <div><h2 class="hh">What goes into the repo</h2><p class="lead">Only approved docs are handed off. Unreviewed drafts stay in The Studio.</p>${files}</div>
+      <div class="hfields">
+        <label class="field" for="h-repo">Folder on your laptop<input class="input mono" id="h-repo" data-field="repo" value="${esc(p.repo)}" placeholder="C:\\Projects\\${esc(p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "my-app")}" spellcheck="false" autocomplete="off"></label>
+        <label class="field" for="h-branch">Branch<input class="input mono" id="h-branch" data-field="branch" value="${esc(p.branch || handBranch(p))}" spellcheck="false" autocomplete="off" autocapitalize="off"></label>
+      </div>
+      <div><h2 class="hh" style="margin-bottom:10px">What Claude Code will do</h2><ol class="hsteps">
+        <li>Check the folder is a git repo it can push from, and stop if it isn't.</li>
+        <li>Write the <span class="mono">${m.files.length}</span> ticked files, keeping an existing progress log, slice marks and other <span class="mono">CLAUDE.md</span> sections.</li>
+        <li>Fill in the commands in <span class="mono">CLAUDE.md</span> and follow its Studio protocol in every session.</li>
+        <li>Commit as <span class="mono">docs: handoff from The Studio</span> and push to <span class="mono hbranch">${esc(m.branch)}</span>.</li>
+        <li>Print a Studio update, so this project's Build monitor fills in.</li></ol></div>
+    </section>
+    <aside class="pside hprompt" aria-labelledby="hp-h">
+      <div class="hph"><h2 id="hp-h">Prompt</h2><span id="handoff-size">${handSize(m)}</span></div>
+      ${long}<label class="sr" for="handoff-text">Handoff prompt</label><textarea class="prompt" id="handoff-text" readonly>${esc(m.prompt)}</textarea>
+      ${blockP("desk-only")}${copy("desk-btn")}<p class="hint">Paste it into Claude Code in VS Code, in the repo folder.</p>${last}
+    </aside></div>
+    <div class="hbar">${blockP("")}${copy("")}<p class="hint">Paste it into Claude Code on your laptop, in the repo folder.</p></div>`;
 }
 
 /* ---------- Repo sync through the laptop's file server (S16) ---------- */
@@ -3033,6 +3229,14 @@ document.addEventListener("click", async ev => {
   const p = S.route.view === "project" ? proj(S.route.id) : null, ck = p ? coachRef(p).ck : null;   // ck: the chat this view's coach uses
   switch (act){
     case "capture": openOverlay("capture"); break;
+    case "copyhandoff": {   // S10
+      const hp = proj(S.route.id); if (!hp) break;
+      const m = handoffModel(hp); if (m.block) break;
+      const el = $("#handoff-text"), ok = await copyText(m.prompt, el);
+      if (ok){ hp.handoff = {at:Date.now(), files:m.files.map(f => f.path), branch:m.branch}; saveProject(hp); render(); toast(`Copied: ${m.files.length} files. Paste it into Claude Code in ${m.repo}.`); }
+      else { toast("Couldn't copy. The prompt is selected: press Ctrl+C."); if (el){ el.focus(); el.select(); } }
+      break;
+    }
     case "openreview": prepReview(t.dataset.id); break;   // S1: the link's own href then opens the phase
     case "newproject": openOverlay("newproject"); break;
     case "close": closeOverlay(); break;
@@ -3064,7 +3268,8 @@ document.addEventListener("click", async ev => {
       S.confirm = null; p.completed[key] = true;
       const nx = PHASES[PH[key].n]; if (nx){ p.phase = nx.key; p.nextStep = ""; }
       saveProject(p, true);
-      if (nx){ toast(`${PH[key].name} done. On to ${nx.name}.`); go("p-" + p.id); }
+      if (key === "design"){ toast("Design done. Hand the docs to Claude Code."); go(`p-${p.id}-handoff`); }   // S10
+      else if (nx){ toast(`${PH[key].name} done. On to ${nx.name}.`); go("p-" + p.id); }
       else { toast("Shipped. Start the next loop at Define when feedback is in."); go("board"); }
       break;
     }
@@ -3269,6 +3474,7 @@ document.addEventListener("click", async ev => {
 
 document.addEventListener("change", ev => {
   const t = ev.target;
+  if (t.matches("[data-hsel]")){ const p = proj(S.route.id); if (!p) return; (S.hsel[p.id] = S.hsel[p.id] || {})[t.dataset.hsel] = t.checked; render(); return; }
   if (t.matches("[data-check]")){
     const p = proj(S.route.id); if (!p) return;
     const key = S.route.phase || p.phase;
@@ -3291,6 +3497,7 @@ document.addEventListener("input", ev => {
   if (t.matches("[data-field]")){
     const p = proj(S.route.id); if (!p) return;
     p[t.dataset.field] = t.value; saveProject(p);
+    if (S.route.view === "handoff") paintHandoff(p);
     if (t.dataset.field === "name"){ const a = document.querySelector(`.plist a[href="#p-${p.id}"] span`); if (a) a.textContent = t.value || "Untitled project"; }
   }
 });
