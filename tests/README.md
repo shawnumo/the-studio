@@ -4,6 +4,7 @@ Each script opens `src/index.html` in Chromium with a fake database, a fake Clau
 
 | Script | Slice | Checks |
 | --- | --- | --- |
+| `s1.py` | S1 · Projects board: drafts to review and last Claude Code session | 52 |
 | `s3.py` | S3 · AI triage and inbox | 27 |
 | `s4.py` | S4 · Discover coach with auto-interview | 85 |
 | `s5.py` | S5 · Phase-appropriate views | 94 |

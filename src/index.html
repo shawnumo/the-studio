@@ -104,6 +104,7 @@ section.block h2 .n{font-weight:400;color:var(--text3)}
 .needs .what a{font-weight:600;text-decoration:none}
 .needs .what span{font-size:12px;color:var(--text2)}
 .needs .open{font-size:13px;color:var(--text2)}
+.needs .what .cl{color:var(--blue)}
 .caught{display:flex;flex-direction:column;gap:4px;padding:14px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .caught b{display:flex;align-items:center;gap:8px}
 
@@ -114,6 +115,8 @@ table.grid th,table.grid td{padding:12px;border-bottom:1px solid var(--line);tex
 table.grid thead th{padding:8px 12px;border-top:1px solid var(--line);font-size:12px;font-weight:500;color:var(--text3)}
 table.grid tbody th{font-weight:600}
 table.grid tbody th a{text-decoration:none}
+table.grid tbody th .sess{display:block;margin-top:2px;font-size:12px;font-weight:400;color:var(--text3)}
+.mrows .sess{font-size:13px;color:var(--text2)}
 table.grid td.done{padding-right:0}
 .track{display:flex;align-items:center;gap:8px}
 .track i{flex:1;height:1px;background:var(--green-line)}
@@ -729,7 +732,9 @@ const S = {
   /* S6 drafts */
   drafting:{}, dview:{},               // drafting: docId -> {busy, text, ctrl} or {err}; dview: docId -> "draft" | "saved"
   /* S7 tracked changes */
-  rv:{}, curChg:{}, ronly:{}, why:{}, scrollChg:false   // rv: the review worked out for a doc; curChg: current change; ronly: only the changes; why: reasons loading or failed
+  rv:{}, curChg:{}, ronly:{}, why:{}, scrollChg:false,   // rv: the review worked out for a doc; curChg: current change; ronly: only the changes; why: reasons loading or failed
+  /* S1 board */
+  dsumT:{}, sumT:{}, pendFtab:null, bfDone:false, boardSet:null   // dsumT/sumT: draft-summary timers; pendFtab: the tab a Needs you link opens on; boardSet: settings/board
 };
 
 /* ---------- Helpers ---------- */
@@ -770,6 +775,7 @@ function normalize(p){
   p.oneLiner = typeof p.oneLiner === "string" ? p.oneLiner : "";
   p.repo = typeof p.repo === "string" ? p.repo : "";
   p.liveUrl = typeof p.liveUrl === "string" ? p.liveUrl : "";
+  p.drafts = p.drafts && typeof p.drafts === "object" && !Array.isArray(p.drafts) ? p.drafts : {};   // S1: docId -> {key, phase, name, at, review, n, left}
   p.createdAt = p.createdAt || Date.now();
   p.updatedAt = p.updatedAt || p.createdAt;
   return p;
@@ -1078,6 +1084,7 @@ function ensureDocs(){
     for (const [k, d] of Object.entries(S.docs)){   // deleted on another device
       if (d.pid === id && d.updatedAt && !seen.has(k) && !S.docDirty.has(k) && !S.docW[k] && Date.now() - (S.docWroteAt[k] || 0) > 10000){ delete S.docs[k]; changed = true; }
     }
+    queueSum(id);
     if (changed) softRender();
   };
   const fail = () => { if (S.docState[id] !== "ready"){ S.docState[id] = "error"; softRender(); } };
@@ -1104,6 +1111,7 @@ function saveDoc(d, now, edited){
   S.docs[d.id] = d; S.docDirty.add(d.id); setStatus("Saving…");
   clearTimeout(S.docT[d.id]);
   S.docT[d.id] = setTimeout(() => writeDoc(d.id), now ? 0 : 600);
+  noteDraft(d.id);
 }
 async function writeDoc(id){
   clearTimeout(S.docT[id]);
@@ -1471,7 +1479,8 @@ window.addEventListener("hashchange", () => {
   flushEdit();
   const was = S.route.id + ":" + (S.route.phase || "");
   S.route = readRoute(); S.confirm = null;
-  if (S.route.id + ":" + (S.route.phase || "") !== was) S.ftab = "doc";   // Define and Design open on the document (on a phone, its tab)
+  if (S.route.id + ":" + (S.route.phase || "") !== was) S.ftab = S.pendFtab || "doc";   // Define and Design open on the document (on a phone, its tab), or where a board link asked
+  S.pendFtab = null;
   render();
 });
 
@@ -1565,6 +1574,126 @@ function loadingView(){
   return `<section class="block" aria-busy="true"><h2>Needs you</h2><div style="border-top:1px solid var(--line)">${row("62%","38%")}${row("54%","44%")}${row("70%","30%")}</div></section>`;
 }
 
+/* ---------- Board (S1) ---------- */
+/* Drafts waiting on you. Each project record carries a small summary of its drafts (no text), so the board needn't load
+   every document: it's written when a draft lands, changes or ends, and checked against the documents whenever they load.
+   Where a project's documents are already loaded (or everything is in this browser), the board reads them directly. */
+const DLABEL = {prd:"PRD", stories:"user stories", nfrs:"NFRs", architecture:"architecture"};
+const docLabel = d => d.kind === "adr" ? `ADR ${adrInfo(d).num}` : DLABEL[d.key] || String(d.key || "document");
+const cap1 = s => s.charAt(0).toUpperCase() + s.slice(1);
+const andList = a => a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
+function draftEntry(d){
+  if (!d || !d.draft || typeof d.draft.text !== "string") return null;
+  const phase = d.kind === "adr" ? "design" : PH[d.phase] && docDef(d.phase, d.key) ? d.phase : (Object.keys(DOCS).find(ph => docDef(ph, d.key)) || "define");
+  const e = {id:d.id, key:d.kind === "adr" ? "adr" : d.key, phase, name:docLabel(d), at:+d.draft.at || 0, review:hasText(d), n:0, left:0};
+  if (e.review){ const c = reviewCounts(d); e.n = c.n; e.left = c.left; if (S.docs[d.id] !== d) delete S.rv[d.id]; }   // a copy read for the summary isn't kept
+  return e;
+}
+const sumOf = docs => Object.fromEntries(docs.map(draftEntry).filter(Boolean).map(({id, ...e}) => [id, e]));
+const sumKey = s => JSON.stringify(Object.keys(s || {}).sort().map(k => { const e = s[k] || {}; return [k, e.key, e.phase, e.name, e.at, e.review, e.n, e.left]; }));
+function setSum(p, sum){
+  if (!p || sumKey(p.drafts) === sumKey(sum)) return;
+  p.drafts = sum; saveProject(p); softRender();
+}
+/* One document's draft changed: update its line of the summary a moment after the last change. */
+function noteDraft(id){
+  const pid = String(id).split("~")[0], p = proj(pid), d = S.docs[id];
+  if (!p || (!(d && d.draft) && !(p.drafts && p.drafts[id]))) return;
+  clearTimeout(S.dsumT[id]);
+  S.dsumT[id] = setTimeout(() => {
+    const q = proj(pid); if (!q) return;
+    const e = draftEntry(S.docs[id]), sum = {...q.drafts};
+    if (e){ const {id:_, ...rest} = e; sum[id] = rest; } else delete sum[id];
+    setSum(q, sum);
+  }, 300);
+}
+/* A project's documents are loaded: make its summary match them. */
+function queueSum(pid){
+  clearTimeout(S.sumT[pid]);
+  S.sumT[pid] = setTimeout(() => {
+    const p = proj(pid); if (!p || S.docState[pid] !== "ready") return;
+    setSum(p, sumOf(Object.values(S.docs).filter(d => d.pid === pid)));
+  }, 500);
+}
+/* Once per account: drafts made before S1 aren't in any summary yet, so read each project's documents once, after the board is up. */
+async function backfillDrafts(){
+  if (S.backend !== "db" || S.bfDone || (S.boardSet && S.boardSet.drafts)) return;
+  S.bfDone = true;
+  try {
+    for (const p of S.projects.slice()){
+      if (S.docState[p.id] === "ready") continue;   // already loaded: queueSum keeps it right
+      const snap = await S.db.collection("docs").where("pid", "==", p.id).get();
+      setSum(proj(p.id), sumOf(snap.docs.filter(s => s.exists).map(s => normDoc({...JSON.parse(JSON.stringify(s.data() || {})), id:s.id}))));
+    }
+    await store.put("settings", "board", {drafts:1, at:Date.now()});
+  } catch(e){}   // tried again the next time The Studio opens
+}
+function draftsOf(p){
+  const live = S.backend === "local" || S.docState[p.id] === "ready";
+  const list = live ? Object.values(S.docs).filter(d => d.pid === p.id && d.draft).map(draftEntry)
+    : Object.entries(p.drafts || {}).map(([id, e]) => e && typeof e === "object" ? {...e, id} : null);
+  return list.filter(e => e && PH[e.phase] && e.key).sort((a, b) => (a.at || 0) - (b.at || 0));
+}
+/* Opening a draft from the board: its phase, its document tab, and the Changes tab on a laptop. */
+function prepReview(id){
+  const pid = String(id).split("~")[0], p = proj(pid), e = p && draftsOf(p).find(x => x.id === id);
+  if (!e) return p ? "p-" + p.id : "board";
+  if (e.key === "adr"){ S.doctab[pid + e.phase] = "adr"; S.adrOpen[pid] = id; } else S.doctab[pid + e.phase] = e.key;
+  S.pendFtab = e.review && !isMobile() ? "changes" : "doc";
+  return `p-${pid}-${e.phase}`;
+}
+/* The board's next step for a project: a waiting draft comes before anything else. */
+function boardNext(p){
+  const ds = draftsOf(p);
+  if (!ds.length) return nextText(p);
+  return ds.length > 1 ? `${ds.length} drafts to review` : cap1(`${ds[0].name} draft to review`);
+}
+/* One Needs you item per project. g orders the list: drafts, then slices waiting on a phone check, then the rest. */
+function needOf(p){
+  const ds = draftsOf(p), t = lastActivity(p);
+  if (ds.length){
+    const d = ds[0], ph = d.phase;
+    let text, info, btn = "Start review";
+    if (ds.length > 1){ text = `Review ${ds.length} drafts Claude wrote`; info = andList(ds.map(x => x.name)); }
+    else if (!d.review){ text = `Read the ${d.name} draft Claude wrote`; info = "new document"; btn = "Read draft"; }
+    else if (d.left < d.n){ text = `Finish reviewing the ${d.name} draft`; info = d.left ? `${d.left} of ${d.n} changes left` : `all ${d.n} changes decided`; btn = "Continue review"; }
+    else { text = `Review the ${d.name} draft Claude wrote`; info = d.n ? `${d.n} tracked change${d.n === 1 ? "" : "s"}` : "no changes"; }
+    return {p, g:0, t, text, btn, rid:d.id, href:`#p-${p.id}-${ph}`, meta:`${esc(p.name)} · ${PH[ph].name} · <span class="cl">${esc(info)}</span>`};
+  }
+  const c = boardCount(p), busy = Object.keys(S.drafting).find(k => k.startsWith(p.id + "~") && S.drafting[k].busy && S.docs[k]);
+  return {p, g:p.phase === "build" && sliceInfo(p).checks.length ? 1 : 2, t, text:nextText(p), btn:"Start", rid:"", href:`#p-${p.id}`,
+    meta:`${esc(p.name)} · ${PH[p.phase].name} · ${c.label} <span class="mono">${c.d}/${c.t}</span>${busy ? ` · <span class="cl">Claude is drafting the ${esc(docLabel(S.docs[busy]))}…</span>` : ""}`};
+}
+
+/* The last Claude Code session on a project row: the newest progress.md entry from the last repo sync or pasted update,
+   timed by its slice's commit when that commit is from the same day or later. */
+function lastSession(p){
+  const snap = S.syncs[p.id];
+  if (!snap) return cleanRepo(p.repo) ? {state:"unsynced"} : null;
+  const e = (snap.log || [])[0];
+  if (!e) return {state:"nolog"};
+  const id = /^S\d+[a-z]?$/i.test(e.id) ? e.id : "", c = id ? commitFor(snap, id) : null;
+  const day = /^\d{4}-\d{2}-\d{2}$/.test(e.date) ? Date.parse(e.date + "T00:00:00") : 0;
+  const timed = !!(c && c.at && !c.dateOnly && (!day || c.at >= day));
+  return {state:"ok", id, title:e.title || e.id || "", at:timed ? c.at : day || (c && c.at) || 0, timed};
+}
+function dayWhen(ts, timed){
+  const d = new Date(ts), now = new Date(), y = new Date(now); y.setDate(now.getDate() - 1);
+  const t = timed ? " " + d.toLocaleTimeString(undefined, {hour:"2-digit", minute:"2-digit", hour12:false}) : "";
+  if (d.toDateString() === now.toDateString()) return "today" + t;
+  if (d.toDateString() === y.toDateString()) return "yesterday" + t;
+  if (now - d > 0 && now - d < 6 * 86400000) return d.toLocaleDateString(undefined, {weekday:"short"}) + t;
+  return shortDate(ts) + t;
+}
+function sessLine(p){
+  const s = lastSession(p); if (!s) return "";
+  if (s.state === "unsynced") return `<span class="sess">Claude Code · not synced yet</span>`;
+  if (s.state === "nolog") return `<span class="sess">Claude Code · no sessions logged yet</span>`;
+  const w = s.at ? dayWhen(s.at, s.timed) : "", title = s.title.length > 32 ? s.title.slice(0, 31) + "…" : s.title;
+  const label = `Last Claude Code session: ${s.id ? s.id + " · " : ""}${s.title}${w ? ", " + w : ""}`;
+  return `<span class="sess" title="${esc(label)}">Claude Code · ${s.id ? `<span class="mono">${esc(s.id)}</span>` : esc(title)}${w ? ` · <span class="mono">${esc(w)}</span>` : ""}</span>`;
+}
+
 function boardTop(){
   return `<div class="top board-top"><h1>Board</h1><div class="actions"><span class="status" data-status role="status">${esc(S.statusText)}</span>
     <button type="button" class="capbtn" data-act="capture">Capture an idea or annoyance<kbd>C</kbd></button>
@@ -1574,13 +1703,13 @@ function boardTop(){
 function boardView(){
   const ps = active();
   if (!ps.length && !S.captures.length) return boardTop() + firstRun();
-  const needs = ps.map(p => ({p, text:nextText(p)}));
-  const needsHtml = needs.length ? `<ol class="needs">${needs.map(({p, text}, i) => {
-      const c = boardCount(p);
-      return `<li class="${i === 0 ? "first" : ""}" data-open="${p.id}">
+  const needs = ps.map(needOf).sort((a, b) => a.g - b.g || b.t - a.t);
+  const needsHtml = needs.length ? `<ol class="needs">${needs.map((n, i) => {
+      const ra = n.rid ? ` data-act="openreview" data-id="${n.rid}"` : "";
+      return `<li class="${i === 0 ? "first" : ""}" data-open="${n.p.id}"${n.rid ? ` data-review="${n.rid}"` : ""}>
         <span class="num">${String(i + 1).padStart(2, "0")}</span>
-        <span class="what"><a href="#p-${p.id}">${esc(text)}</a><span>${esc(p.name)} · ${PH[p.phase].name} · ${c.label} <span class="mono">${c.d}/${c.t}</span></span></span>
-        ${i === 0 ? `<a class="btn primary" href="#p-${p.id}">Start</a>` : `<a class="open" href="#p-${p.id}">Open</a>`}
+        <span class="what"><a href="${n.href}"${ra}>${esc(n.text)}</a><span>${n.meta}</span></span>
+        ${i === 0 ? `<a class="btn primary" href="${n.href}"${ra}>${n.btn}</a>` : `<a class="open" href="${n.href}"${ra}>Open</a>`}
       </li>`; }).join("")}</ol>`
     : `<div class="caught"><b>${CHECK}Nothing needs you right now</b><span style="font-size:13px;color:var(--text2)">Capture an idea, or promote one from the inbox.</span></div>`;
 
@@ -1589,14 +1718,14 @@ function boardView(){
     <tbody>${ps.map(p => {
       const cells = PHASES.map(ph => {
         if (p.completed[ph.key] && ph.key !== p.phase) return `<td class="done"><span class="track">${CHECK}<i></i></span></td>`;
-        if (ph.key === p.phase){ const c = boardCount(p); return `<td class="now"><span class="nowcell"><b>Now <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)" title="${c.label}">${c.d}/${c.t}</span></b><span>${esc(nextText(p))}</span></span></td>`; }
+        if (ph.key === p.phase){ const c = boardCount(p); return `<td class="now"><span class="nowcell"><b>Now <span class="mono" style="font-size:12px;font-weight:400;color:var(--text2)" title="${c.label}">${c.d}/${c.t}</span></b><span>${esc(boardNext(p))}</span></span></td>`; }
         return `<td></td>`;
       }).join("");
-      return `<tr><th scope="row"><a href="#p-${p.id}">${esc(p.name)}</a></th>${cells}<td class="last">${ago(lastActivity(p))}</td></tr>`;
+      return `<tr><th scope="row"><a href="#p-${p.id}">${esc(p.name)}</a>${sessLine(p)}</th>${cells}<td class="last">${ago(lastActivity(p))}</td></tr>`;
     }).join("") || `<tr><td colspan="7" style="color:var(--text3)">No active projects. Promote a capture or start one.</td></tr>`}</tbody></table></div>
     <ul class="mrows mob-only">${ps.map(p => {
       const c = boardCount(p);
-      return `<li><a href="#p-${p.id}"><span class="r1"><b>${esc(p.name)}</b><span>${PH[p.phase].name} <span class="mono">${c.d}/${c.t}</span>${c.label === "slices" ? " slices" : ""}</span></span>
+      return `<li><a href="#p-${p.id}"><span class="r1"><b>${esc(p.name)}</b><span>${PH[p.phase].name} <span class="mono">${c.d}/${c.t}</span>${c.label === "slices" ? " slices" : ""}</span></span>${sessLine(p)}
         <span class="seg" role="img" aria-label="Phase ${PH[p.phase].n} of 5, ${PH[p.phase].name}">${PHASES.map(ph => `<i class="${p.completed[ph.key] && ph.key !== p.phase ? "d" : ph.key === p.phase ? "c" : ""}"></i>`).join("")}</span></a></li>`;
     }).join("")}</ul>`;
 
@@ -2898,12 +3027,13 @@ function createProject({name, start, oneLiner, captureId}){
 document.addEventListener("click", async ev => {
   const t = ev.target.closest("[data-act],[data-open]");
   if (!t) return;
-  if (t.dataset.open && !ev.target.closest("a,button")){ go("p-" + t.dataset.open); return; }
+  if (t.dataset.open && !ev.target.closest("a,button")){ go(t.dataset.review ? prepReview(t.dataset.review) : "p-" + t.dataset.open); return; }
   const act = t.dataset.act;
   if (act === "close" && ev.target !== t) return;
   const p = S.route.view === "project" ? proj(S.route.id) : null, ck = p ? coachRef(p).ck : null;   // ck: the chat this view's coach uses
   switch (act){
     case "capture": openOverlay("capture"); break;
+    case "openreview": prepReview(t.dataset.id); break;   // S1: the link's own href then opens the phase
     case "newproject": openOverlay("newproject"); break;
     case "close": closeOverlay(); break;
     case "promote": {
@@ -3026,7 +3156,7 @@ document.addEventListener("click", async ev => {
     case "askdeladr": S.confirm = "deladr"; render(); break;
     case "deladr": if (p){
       const id = t.dataset.id; if (!S.docs[id]) break;
-      clearTimeout(S.docT[id]); S.docDirty.delete(id); delete S.docs[id];
+      clearTimeout(S.docT[id]); S.docDirty.delete(id); delete S.docs[id]; noteDraft(id);
       S.adrOpen[p.id] = null; S.editing = null; S.confirm = null; render();
       if (S.docW[id]) toast("ADR deleted.");   // the write in flight deletes it when it ends
       else store.del("docs", id).then(() => toast("ADR deleted."), e => toast(dbErr(e)));
@@ -3264,12 +3394,13 @@ async function boot(){
     subscribe("projects", list => { const keep = new Map(S.projects.map(p => [p.id, p])); S.projects = list.map(p => S.dirty.has(p.id) && keep.get(p.id) ? keep.get(p.id) : normalize(p)); for (const p of keep.values()) if (S.dirty.has(p.id) && !S.projects.some(x => x.id === p.id)) S.projects.push(p); sortAll(); }),
     subscribe("captures", list => { S.captures = list; sortAll(); }),
     subscribe("syncs", list => { S.syncs = Object.fromEntries(list.map(s => [s.id, s])); }),
-    subscribe("settings", list => { const a = list.find(x => x.id === "about"); S.about = a ? String(a.text || "") : null; })
+    subscribe("settings", list => { const a = list.find(x => x.id === "about"); S.about = a ? String(a.text || "") : null; S.boardSet = list.find(x => x.id === "board") || null; })
   ]);
   clearTimeout(timer);
   if (a && a.error){ startLocal("Couldn't reach your saved data, so this session saves in this browser only."); return; }
   S.backend = "db";
   render();
+  setTimeout(backfillDrafts, 1500);
 }
 boot();
 </script>
