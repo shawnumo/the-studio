@@ -1,6 +1,6 @@
 # 0002: Read repo progress through a local file server in the Claude desktop app
 
-Status: Accepted · 2026-11-13 · Amended by 0003 (commits now come from git's reflog; `edit_file` added for Mark done)
+Status: Accepted · 2026-11-13 · Amended by 0003 (commits now come from git's reflog; `edit_file` added for Mark done) and by S12 (sync also reads `CLAUDE.md`)
 
 ## Context
 The Build monitor must show what Claude Code did in a repo. The page can't call GitHub, and the claude.ai GitHub Integration is read-only for chats and projects, not usable by a page.
@@ -19,3 +19,8 @@ Test on 2026-11-13: read `C:\Projects\mafia\PRD.md` (14,471 characters) in 438 m
 ## Consequences
 - Sync works only in the desktop app and only for the owner. The phone shows the last snapshot with its time.
 - The first sync of a session needs a "Connecting to your laptop" state.
+
+## Amendment: S12 reads CLAUDE.md (2026-11-13)
+- Each sync also reads `CLAUDE.md`, only for its `## Commands` section, which every slice prompt lists. Same `read_text_file` tool, so no new capability.
+- A repo without `CLAUDE.md` still syncs; the slice prompts then tell Claude Code to stop, because the Studio protocol is missing. If the file can't be read for another reason, the last snapshot's commands are kept.
+- The protocol's "The Studio reads …" line names the Commands section, so Claude Code keeps that heading.

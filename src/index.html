@@ -238,6 +238,18 @@ table.slices tr.sdet.hl{background:var(--amber-tint)}
 .inline-err{margin:0;font-size:13px;color:var(--red-text)}
 .inline-err b{color:var(--red)}
 .input.mono{font-family:var(--mono);font-size:13px}
+/* S12: Claude Code prompt per slice */
+.sechead .sp-next{font-size:13px;color:var(--text2);white-space:nowrap}
+.sechead .sp-next:hover{color:var(--white)}
+.sd{gap:12px}
+.sdg{display:flex;flex-direction:column;gap:6px;min-width:0}
+.sd h3{margin:0;font-size:12px;font-weight:600;color:var(--text3)}
+.sd .story{margin:0;font-size:14px;color:var(--text);max-width:75ch;overflow-wrap:anywhere}
+.scrit{margin:0;padding-left:18px;list-style:disc;display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--text2);max-width:85ch}
+.scrit li{padding:0;border:0;overflow-wrap:anywhere}
+.sda{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.sda .hint{font-size:12px;color:var(--text3)}
+.sda .hint .linkbtn{color:var(--text2)}
 /* S10: Claude Code handoff */
 .hhead .crumb{color:var(--text2);text-decoration:none}.hhead .crumb:hover{color:var(--text)}
 .hhead .hstate{align-self:center;font-size:13px;color:var(--text2)}
@@ -636,6 +648,7 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .vseg{display:flex;align-self:stretch}.vseg button{flex:1;height:44px}
   .iacts{flex-direction:column;align-items:stretch}.iacts .btn{height:48px}.iacts .note{flex-basis:auto}
   .sdc li{grid-template-columns:auto 1fr;gap:2px 10px}.sdc .m{grid-column:1/-1}
+  .sda .btn{height:44px;flex:1 1 100%}
   .ibar{padding:4px 8px 4px 16px;min-height:48px}
   .ibar .btn{height:40px;padding:0 10px}
   .msgs{padding:18px 16px;gap:18px}
@@ -869,14 +882,23 @@ function lastActivity(p){
 
 /* ---------- Repo files (S16): parsers ---------- */
 const SLICE_RE = /^\s*[-*+]\s+\[([ ~xX])\]\s+(S\d+)\b\s*[·:\-–—.]?\s*(.*?)\s*$/;
+/* S12: the lines indented under a slice are its story ("As a …, I want …") and its acceptance criteria ("- Given …"),
+   the shape the stories draft and the handoff write. A slice with neither gets story "" and crit []. */
 function parseStories(text){
-  const slices = []; let group = "";
+  const slices = []; let group = "", cur = null;
   for (const line of String(text || "").split(/\r?\n/)){
     const h = /^#{2,4}\s+(.+?)\s*$/.exec(line);
-    if (h){ group = h[1].slice(0, 40); continue; }
+    if (h){ group = h[1].slice(0, 40); cur = null; continue; }
     const m = SLICE_RE.exec(line);
-    if (m) slices.push({id:m[2], title:m[3].slice(0, 160) || m[2], status:m[1] === "~" ? "check" : m[1] === " " ? "todo" : "done", group, raw:line});
+    if (m){ cur = {id:m[2], title:m[3].slice(0, 160) || m[2], status:m[1] === "~" ? "check" : m[1] === " " ? "todo" : "done", group, raw:line, story:"", crit:[]}; slices.push(cur); continue; }
+    if (!cur || !line.trim()) continue;
+    if (!/^\s/.test(line)){ cur = null; continue; }   // an unindented line ends the slice's block
+    const b = /^\s*[-*+]\s+(.*)$/.exec(line), tx = (b ? b[1] : line).trim();
+    if (b) cur.crit.push(tx);
+    else if (cur.crit.length) cur.crit[cur.crit.length - 1] += " " + tx;   // a criterion wrapped onto the next line
+    else cur.story = cur.story ? cur.story + " " + tx : tx;
   }
+  for (const s of slices){ s.story = s.story.slice(0, 400); s.crit = s.crit.slice(0, 8).map(c => c.slice(0, 300)); }
   return slices;
 }
 function parseProgress(text){
@@ -916,7 +938,7 @@ function parseReflog(text){
 }
 /* Everything a Studio update block can carry: slice lines and progress entries */
 function parseUpdate(text){
-  const slices = parseStories(text).map(s => ({...s, group:""}));
+  const slices = parseStories(text).map(s => { const o = {...s, group:""}; if (!o.crit.length && !o.story){ delete o.crit; delete o.story; } return o; });
   const entries = parseProgress(text).filter(e => e.title || e.built);
   return {slices, entries};
 }
@@ -2831,11 +2853,65 @@ function statusCell(s, nextId, short){
   return `<span class="sst todo">To do</span>`;
 }
 
-/* What an open slice row shows: every commit that mentions the slice (git keeps the first line of each message). */
-function sliceDetail(s, commits){
-  return `<div class="sd">${commits.length
+/* What an open slice row shows: its story and acceptance criteria from docs/stories.md (S12), every commit that mentions
+   the slice (git keeps the first line of each message), and Copy prompt for Claude Code while the slice isn't done. */
+function sliceDetail(p, s, snap){
+  const commits = commitsFor(snap, s.id), cl = snap && snap.claude, repo = cleanRepo(p.repo), canSync = S.host === "listed" && S.online && repo;
+  const crit = s.crit === undefined
+    ? `<p class="none">${canSync ? "Press Sync now to read" : "The next sync on your laptop reads"} ${esc(s.id)}'s story and criteria from <span class="mono">docs/stories.md</span>.</p>`
+    : s.story || s.crit.length
+    ? `${s.story ? `<p class="story">${esc(s.story)}</p>` : ""}${s.crit.length ? `<ul class="scrit" aria-label="Acceptance criteria for ${esc(s.id)}">${s.crit.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="none">No acceptance criteria under it in <span class="mono">docs/stories.md</span>.</p>`}`
+    : `<p class="none">No story or criteria under ${esc(s.id)} in <span class="mono">docs/stories.md</span>.${s.status === "done" ? "" : ` Its prompt asks Claude Code to read them in <span class="mono">docs/PRD.md</span>.`}</p>`;
+  const log = commits.length
     ? `<ul class="sdc" aria-label="Commits for ${esc(s.id)}">${commits.map(c => `<li><span class="mono h">${esc(c.hash)}</span><span class="mono d">${esc(stamp(c))}</span><span class="m">${esc(c.subject || "Recorded in the progress log")}</span></li>`).join("")}</ul>`
-    : `<p class="none">No commits mention ${esc(s.id)} yet.</p>`}</div>`;
+    : `<p class="none">No commits mention ${esc(s.id)} yet.</p>`;
+  const has = [s.crit && s.crit.length && "its criteria", cl && cl.cmds && `the commands in <span class="mono">CLAUDE.md</span>`].filter(Boolean);
+  const lead = has.length ? `With ${has.join(" and ")}. ` : "";
+  const note = cl && cl.found === false ? `There's no <span class="mono">CLAUDE.md</span> in the repo, so the prompt tells Claude Code to stop. <button type="button" ${LINK} data-act="setup">Copy the setup prompt</button> first.`
+    : !cl ? lead + `The commands come from <span class="mono">CLAUDE.md</span> after the next laptop sync.`
+    : !cl.cmds ? lead + `<span class="mono">CLAUDE.md</span> has no commands yet, so the prompt asks Claude Code to fill them in.`
+    : lead.trim();
+  const act = s.status === "done" ? "" : `<div class="sda"><button type="button" class="btn" data-act="copyprompt" data-id="${esc(s.id)}">Copy prompt</button><span class="hint">${note}</span></div>`;
+  return `<div class="sd"><div class="sdg"><h3>Story and acceptance criteria</h3>${crit}</div><div class="sdg"><h3>Commits</h3>${log}</div>${act}</div>`;
+}
+
+/* ---------- Claude Code prompt per slice (S12) ---------- */
+/* One prompt per slice: the slice with its story and criteria from docs/stories.md, the commands from CLAUDE.md,
+   how we work (ask first, then build), and the Studio protocol with the exact commit and push. */
+function slicePrompt(p, s, snap){
+  const repo = cleanRepo(p.repo) || (snap && snap.repo) || "", branch = handBranch(p), c = snap && snap.claude;
+  const box = s.status === "check" ? "~" : s.status === "done" ? "x" : " ", built = s.status === "check";
+  const L = [built ? `Continue ${s.id} · ${s.title} in ${p.name}. It's marked [~]: built and waiting for my phone check.` : `Build ${s.id} · ${s.title} in ${p.name}.`,
+    `Work in ${repo || "the repo"} on branch ${branch}. Read CLAUDE.md first, and the docs it points to.`, "",
+    "The slice, from docs/stories.md:", `- [${box}] ${s.id} · ${s.title}`];
+  if (s.story) L.push("  " + s.story);
+  for (const x of s.crit || []) L.push("  - " + x);
+  if (!s.crit) L.push("", `Its story and acceptance criteria are under that line in docs/stories.md, or in docs/PRD.md. Read them before anything else.`);
+  else if (!s.crit.length) L.push("", `docs/stories.md has no acceptance criteria for ${s.id}. Read its story in docs/PRD.md first. If the PRD has none either, ask me for them before you build.`);
+  L.push("");
+  if (c && c.cmds) L.push("Commands, from CLAUDE.md:", c.cmds, "");
+  else if (c && c.found === false) L.push("There's no CLAUDE.md in this folder, so the Studio protocol and its Stop hook may be missing. Stop and tell me before you build.", "");
+  else if (c) L.push("CLAUDE.md has no commands yet. Find the ones to install, run, test and deploy, write them into its Commands section, and commit that with this slice.", "");
+  else L.push("Commands: use the ones in CLAUDE.md's Commands section. If it's missing or TBD, find them in the repo and fill it in.", "");
+  L.push("How we work",
+    `1. Before you write code, read the code ${s.id} touches and ask me anything that would change the build. Say first if it needs anything the repo doesn't have: a service, a key, a new file or a change to an ADR.`,
+    built ? `2. Check what's built against every acceptance criterion and fix what falls short. Build nothing beyond ${s.id}.`
+      : `2. Build only ${s.id} and meet every acceptance criterion. Every new screen needs its loading, empty and error states.`,
+    "3. Add tests for each criterion, then run the whole test suite, not just the new tests, and fix what fails.",
+    `4. Follow the Studio protocol in CLAUDE.md: mark ${s.id} [~] in docs/stories.md and add its entry at the top of docs/progress.md. Stage the code and both docs, then:`,
+    `   git commit -m 'feat(${s.id}): ${s.title.replace(/'/g, "’")}'`,
+    `   git push origin ${branch}`,
+    "5. Deploy if a push doesn't already, then end with the Studio update block from CLAUDE.md and tell me what to check on my phone.", "",
+    "Rules: $0 only, no paid services or API keys. Stop and flag anything that conflicts with the PRD or an ADR. Only I mark [x].");
+  return L.join("\n").trim() + "\n";
+}
+/* Copy with no visible field: the fallback selects a hidden one, which is removed again. */
+async function copyPlain(text){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.readOnly = true; ta.tabIndex = -1; ta.setAttribute("aria-hidden", "true");
+  ta.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none";
+  document.body.appendChild(ta);
+  try { return await copyText(text, ta); } finally { ta.remove(); }
 }
 
 function buildMain(p){
@@ -2882,7 +2958,7 @@ function buildMain(p){
     if (groups && s.group !== lastGroup){ lastGroup = s.group; rows += `<tr class="grp"><th colspan="5" scope="colgroup">${esc(s.group || "Other")}</th></tr>`; mrows += `<li class="grp">${esc(s.group || "Other")}</li>`; }
     const c = commitFor(snap, s.id), strong = s.status !== "todo" || s.id === nextId;
     const open = S.open.has(p.id + ":" + s.id), cls = (s.status === "check" ? "hl " : "") + (open ? "open" : "");
-    const detail = open ? sliceDetail(s, commitsFor(snap, s.id)) : "";
+    const detail = open ? sliceDetail(p, s, snap) : "";
     rows += `<tr class="srow ${cls}" data-act="slice" data-id="${esc(s.id)}"><th scope="row"><button type="button" class="disc" aria-expanded="${open}" aria-controls="sd-${esc(s.id)}" data-act="slice" data-id="${esc(s.id)}">${CHEV}${esc(s.id)}</button></th>
       <td style="color:${strong ? "var(--text)" : "var(--text2)"}"><span class="ellip" title="${esc(s.title)}">${esc(s.title)}</span></td>
       <td>${statusCell(s, nextId)}</td>
@@ -2898,7 +2974,7 @@ function buildMain(p){
 
   return `<section class="slicesec" style="display:flex;flex-direction:column;gap:16px" aria-labelledby="slices-h">
     ${notice}${callout}
-    <div><div class="sechead"><h2 id="slices-h">Slices <span class="n">from docs/stories.md</span></h2></div>${table}</div>
+    <div><div class="sechead"><h2 id="slices-h">Slices <span class="n">from docs/stories.md</span></h2>${nextId ? `<button type="button" class="linkbtn sp-next desk-only" data-act="copyprompt" data-id="${esc(nextId)}">Copy prompt for ${esc(nextId)}</button>` : ""}</div>${table}</div>
     <button type="button" class="btn ghost mob-only" data-act="paste" style="height:44px">Paste a Studio update</button>
   </section>`;
 }
@@ -2986,6 +3062,15 @@ function overlayView(){
       ${x.err ? `<p class="inline-err" role="alert"><b>Couldn't import.</b> ${esc(x.err)}</p>` : ""}
       <div class="foot"><button type="button" class="btn ghost" data-act="close">Cancel</button><button type="submit" class="btn primary" ${busy ? "disabled" : ""}>${busy ? "Reading…" : has ? "Replace with the repo's copy" : "Import"}</button></div></form></div>`;
   }
+  if (S.overlay === "sliceprompt"){   // S12: only when a copy is refused
+    const p = proj(S.overlayFor), snap = p && S.syncs[p.id], s = snap && sliceInfo(p).slices.find(x => x.id === S.promptFor);
+    if (!s) return "";
+    return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sp-h" style="width:min(760px,100%)">
+      <div class="row"><h2 id="sp-h">Prompt for ${esc(s.id)}</h2><button type="button" class="btn ghost" data-act="close">Close</button></div>
+      <p class="inline-err" role="alert"><b>Couldn't copy it.</b> The prompt is selected: press Ctrl+C, or on a phone, tap and hold it, then Copy.</p>
+      <label class="sr" for="sp-text">Prompt for ${esc(s.id)}</label><textarea class="prompt" id="sp-text" readonly autofocus>${esc(slicePrompt(p, s, snap))}</textarea>
+      <div class="foot"><button type="button" class="btn primary" data-act="copyslice">Copy prompt</button></div></div></div>`;
+  }
   if (S.overlay === "setup"){
     const p = proj(S.overlayFor);
     return `<div class="scrim" data-act="close"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="su-h" style="width:min(760px,100%)">
@@ -2998,19 +3083,21 @@ function overlayView(){
 }
 
 /* ---------- Setup prompt for other repos (S16) ---------- */
-const SETUP = /*SETUP_JSON*/{"hook": "#!/usr/bin/env node\n// The Studio protocol check, run by Claude Code as a Stop hook.\n// When the latest commit finishes a slice (\"feat(S#): ...\"), Claude can't end\n// its turn until docs/progress.md has an entry for that slice, docs/stories.md\n// no longer shows it as to do, and both files are committed.\n// Plain Node, no packages. Works on Windows, macOS and Linux.\n\"use strict\";\nconst fs = require(\"fs\");\nconst path = require(\"path\");\nconst { execFileSync } = require(\"child_process\");\n\nlet input = {};\ntry { input = JSON.parse(fs.readFileSync(0, \"utf8\") || \"{}\"); } catch (e) {}\nif (input.stop_hook_active) process.exit(0); // already blocked once this turn: let Claude stop\n\nconst root = process.env.CLAUDE_PROJECT_DIR || input.cwd || process.cwd();\nconst git = args => execFileSync(\"git\", args, { cwd: root, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"ignore\"] }).trim();\nconst read = file => { try { return fs.readFileSync(path.join(root, file), \"utf8\"); } catch (e) { return null; } };\n\nlet subject = \"\";\ntry { subject = git([\"log\", \"-1\", \"--format=%s\"]); } catch (e) { process.exit(0); } // not a repo, or no commits yet\nconst m = /^feat\\((S\\d+)\\)/.exec(subject);\nif (!m) process.exit(0);\nconst id = m[1];\nconst idRe = new RegExp(\"\\\\b\" + id + \"\\\\b\");\n\nconst problems = [];\nconst progress = read(\"docs/progress.md\");\nif (progress === null) problems.push(\"docs/progress.md doesn't exist\");\nelse {\n  const newest = progress.split(/\\r?\\n/).find(line => /^##\\s/.test(line)) || \"\";\n  if (!idRe.test(newest)) problems.push(\"the newest entry in docs/progress.md isn't for \" + id);\n}\nconst stories = read(\"docs/stories.md\");\nif (stories !== null) {\n  const line = stories.split(/\\r?\\n/).find(l => /^\\s*[-*+]\\s+\\[[ ~xX]\\]\\s+S\\d+/.test(l) && idRe.test(l));\n  if (line && /\\[ \\]/.test(line)) problems.push(id + \" is still [ ] in docs/stories.md\");\n}\nif (!problems.length) {\n  let dirty = \"\";\n  try { dirty = git([\"status\", \"--porcelain\", \"--\", \"docs/progress.md\", \"docs/stories.md\"]); } catch (e) {}\n  if (dirty) problems.push(\"docs/progress.md or docs/stories.md has changes that aren't committed\");\n}\nif (!problems.length) process.exit(0);\n\nprocess.stdout.write(JSON.stringify({\n  decision: \"block\",\n  reason: \"Studio protocol: the last commit is \\\"\" + subject + \"\\\", but \" + problems.join(\"; \") + \". \" +\n    \"Before you finish: mark \" + id + \" as [~] in docs/stories.md; add an entry at the top of docs/progress.md \" +\n    \"(## YYYY-MM-DD · \" + id + \" · Title, then Built, Tests, Check on your phone and Next lines); \" +\n    \"commit both as \\\"docs(\" + id + \"): progress log\\\"; then end with the Studio update block from CLAUDE.md.\"\n}));\n", "settings": "{\n  \"hooks\": {\n    \"Stop\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"node\",\n            \"args\": [\"${CLAUDE_PROJECT_DIR}/.claude/hooks/studio-check.cjs\"]\n          }\n        ]\n      }\n    ]\n  }\n}\n", "protocol": "## Studio protocol (every slice)\nThe Studio reads `docs/stories.md`, `docs/progress.md`, `.git/HEAD` and `.git/logs/HEAD` from this folder. Keep the formats exact.\n\n1. Work on one slice from `docs/stories.md` at a time, in the order listed.\n2. When it's built and tested, change its line to `- [~]` (built, check it on a phone). Only Shawn marks `- [x]`; The Studio does it when he presses Mark done.\n3. Add an entry at the top of `docs/progress.md`, under the intro:\n   ```\n   ## YYYY-MM-DD · S# · Title\n   - Built: what changed, in a sentence or two\n   - Tests: what ran and the result, e.g. 31 passed\n   - Check on your phone: what Shawn should try\n   - Next: S# · title of the next slice\n   ```\n4. Commit the code and both docs together as `feat(S#): <title>`. The Studio reads commit hashes from git, so no Commit line is needed.\n5. The Stop hook in `.claude/hooks/studio-check.cjs` won't let you end a turn while the last commit is `feat(S#)` and steps 2–4 aren't done for that slice.\n6. End the session with a Studio update block. Shawn pastes it into The Studio when it can't reach this folder (on his phone, say):\n   ```\n   Studio update · {{NAME}}\n   - [~] S# · Title\n   ## YYYY-MM-DD · S# · Title\n   - Built: …\n   - Tests: …\n   - Check on your phone: …\n   - Next: …\n   ```"}/*END_SETUP_JSON*/;
+const SETUP = /*SETUP_JSON*/{"hook": "#!/usr/bin/env node\n// The Studio protocol check, run by Claude Code as a Stop hook.\n// When the latest commit finishes a slice (\"feat(S#): ...\"), Claude can't end\n// its turn until docs/progress.md has an entry for that slice, docs/stories.md\n// no longer shows it as to do, and both files are committed.\n// Plain Node, no packages. Works on Windows, macOS and Linux.\n\"use strict\";\nconst fs = require(\"fs\");\nconst path = require(\"path\");\nconst { execFileSync } = require(\"child_process\");\n\nlet input = {};\ntry { input = JSON.parse(fs.readFileSync(0, \"utf8\") || \"{}\"); } catch (e) {}\nif (input.stop_hook_active) process.exit(0); // already blocked once this turn: let Claude stop\n\nconst root = process.env.CLAUDE_PROJECT_DIR || input.cwd || process.cwd();\nconst git = args => execFileSync(\"git\", args, { cwd: root, encoding: \"utf8\", stdio: [\"ignore\", \"pipe\", \"ignore\"] }).trim();\nconst read = file => { try { return fs.readFileSync(path.join(root, file), \"utf8\"); } catch (e) { return null; } };\n\nlet subject = \"\";\ntry { subject = git([\"log\", \"-1\", \"--format=%s\"]); } catch (e) { process.exit(0); } // not a repo, or no commits yet\nconst m = /^feat\\((S\\d+)\\)/.exec(subject);\nif (!m) process.exit(0);\nconst id = m[1];\nconst idRe = new RegExp(\"\\\\b\" + id + \"\\\\b\");\n\nconst problems = [];\nconst progress = read(\"docs/progress.md\");\nif (progress === null) problems.push(\"docs/progress.md doesn't exist\");\nelse {\n  const newest = progress.split(/\\r?\\n/).find(line => /^##\\s/.test(line)) || \"\";\n  if (!idRe.test(newest)) problems.push(\"the newest entry in docs/progress.md isn't for \" + id);\n}\nconst stories = read(\"docs/stories.md\");\nif (stories !== null) {\n  const line = stories.split(/\\r?\\n/).find(l => /^\\s*[-*+]\\s+\\[[ ~xX]\\]\\s+S\\d+/.test(l) && idRe.test(l));\n  if (line && /\\[ \\]/.test(line)) problems.push(id + \" is still [ ] in docs/stories.md\");\n}\nif (!problems.length) {\n  let dirty = \"\";\n  try { dirty = git([\"status\", \"--porcelain\", \"--\", \"docs/progress.md\", \"docs/stories.md\"]); } catch (e) {}\n  if (dirty) problems.push(\"docs/progress.md or docs/stories.md has changes that aren't committed\");\n}\nif (!problems.length) process.exit(0);\n\nprocess.stdout.write(JSON.stringify({\n  decision: \"block\",\n  reason: \"Studio protocol: the last commit is \\\"\" + subject + \"\\\", but \" + problems.join(\"; \") + \". \" +\n    \"Before you finish: mark \" + id + \" as [~] in docs/stories.md; add an entry at the top of docs/progress.md \" +\n    \"(## YYYY-MM-DD · \" + id + \" · Title, then Built, Tests, Check on your phone and Next lines); \" +\n    \"commit both as \\\"docs(\" + id + \"): progress log\\\"; then end with the Studio update block from CLAUDE.md.\"\n}));\n", "settings": "{\n  \"hooks\": {\n    \"Stop\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"node\",\n            \"args\": [\"${CLAUDE_PROJECT_DIR}/.claude/hooks/studio-check.cjs\"]\n          }\n        ]\n      }\n    ]\n  }\n}\n", "protocol": "## Studio protocol (every slice)\nThe Studio reads `docs/stories.md`, `docs/progress.md`, the Commands section of `CLAUDE.md`, `.git/HEAD` and `.git/logs/HEAD` from this folder. Keep the formats exact.\n\n1. Work on one slice from `docs/stories.md` at a time, in the order listed.\n2. When it's built and tested, change its line to `- [~]` (built, check it on a phone). Only Shawn marks `- [x]`; The Studio does it when he presses Mark done.\n3. Add an entry at the top of `docs/progress.md`, under the intro:\n   ```\n   ## YYYY-MM-DD · S# · Title\n   - Built: what changed, in a sentence or two\n   - Tests: what ran and the result, e.g. 31 passed\n   - Check on your phone: what Shawn should try\n   - Next: S# · title of the next slice\n   ```\n4. Commit the code and both docs together as `feat(S#): <title>`. The Studio reads commit hashes from git, so no Commit line is needed.\n5. The Stop hook in `.claude/hooks/studio-check.cjs` won't let you end a turn while the last commit is `feat(S#)` and steps 2–4 aren't done for that slice.\n6. End the session with a Studio update block. Shawn pastes it into The Studio when it can't reach this folder (on his phone, say):\n   ```\n   Studio update · {{NAME}}\n   - [~] S# · Title\n   ## YYYY-MM-DD · S# · Title\n   - Built: …\n   - Tests: …\n   - Check on your phone: …\n   - Next: …\n   ```"}/*END_SETUP_JSON*/;
 function setupPrompt(p){
   const name = p && cleanRepo(p.repo) ? repoName(p.repo) : (p ? p.name : "my-app");
   return [
     `Set up The Studio's protocol in this repo (${name}) so The Studio can follow your progress. Do all five steps, then commit as "chore: add Studio protocol".`,
     "",
-    "1. Create docs/stories.md with this project's slices, riskiest first. Take them from docs/PRD.md if there is one; otherwise from what's built and what's planned. Use exactly this format, one line per slice:",
+    "1. Create docs/stories.md with this project's slices, riskiest first. Take them from docs/PRD.md if there is one; otherwise from what's built and what's planned. Use exactly this format: one line per slice, then, indented two spaces under it, the slice's story and acceptance criteria when docs/PRD.md has them. The Studio copies them into each slice's prompt.",
     "",
     "# " + name + " · slices",
     "",
     "## Must",
     "- [x] S0 · Walking skeleton",
     "- [ ] S1 · <title>",
+    "  As a <user>, I want <goal>, so that <reason>.",
+    "  - Given …, when …, then …",
     "",
     "## Should",
     "- [ ] S9 · <title>",
@@ -3023,7 +3110,7 @@ function setupPrompt(p){
     "- Built: where the project stands, in two sentences",
     "- Next: S# · <title of the next slice>",
     "",
-    "3. Add this section to CLAUDE.md (create the file if it doesn't exist):",
+    "3. In CLAUDE.md (create the file if it doesn't exist), add a \"## Commands\" section if there isn't one: the commands to install, run, test and deploy, one line each, from the repo (TBD for any you can't find). The Studio copies them into each slice's prompt. Then add this section:",
     "",
     SETUP.protocol.split("{{NAME}}").join(name),
     "",
@@ -3070,7 +3157,7 @@ function claudeMd(p, docs){
   return [`# ${p.name}`, "", ...(p.oneLiner.trim() ? [p.oneLiner.trim(), ""] : []),
     ...(reads.length ? [`Read ${andList(reads)} before changing anything.`, ""] : []),
     "## Stack", stack, "",
-    "## Commands", "TBD: Claude Code fills this in from the repo (install, dev, test, deploy).", "",
+    "## Commands", "TBD: Claude Code fills this in from the repo (install, dev, test, deploy), one line each. The Studio copies them into every slice prompt.", "",
     "## Setting up the app (S0)",
     "- S0 · Walking skeleton sets the app up in this folder, never in a subfolder: `npm create vite@latest .` (or the create tool docs/architecture.md names, run on `.`). Keep docs/, CLAUDE.md and .claude/ as they are.",
     "- S0 also deploys the empty app and gets CI green, so every later slice lands on a live URL.", "",
@@ -3231,10 +3318,11 @@ async function syncProject(p, manual){
   const slow = setTimeout(() => { if ((S.sync[p.id] || {}).kind === "reading") softRender(); }, 2600);
   try {
     const stories = await readFile(joinPath(repo, "docs", "stories.md"));
-    const [prog, head, reflog] = await Promise.allSettled([
+    const [prog, head, reflog, cmd] = await Promise.allSettled([
       readFile(joinPath(repo, "docs", "progress.md")),
       readFile(joinPath(repo, ".git", "HEAD")),
-      readFile(joinPath(repo, ".git", "logs", "HEAD"), 80)
+      readFile(joinPath(repo, ".git", "logs", "HEAD"), 80),
+      readFile(joinPath(repo, "CLAUDE.md"))   // S12: its Commands section goes into every slice prompt
     ]);
     const prev = S.syncs[p.id] || {}, slices = parseStories(stories), marks = {};
     for (const [id, at] of Object.entries(prev.marks || {})){ const s = slices.find(x => x.id === id); if (s && s.status !== "done") marks[id] = at; }
@@ -3244,6 +3332,7 @@ async function syncProject(p, manual){
       log: prog.status === "fulfilled" ? parseProgress(prog.value) : [],
       commits: reflog.status === "fulfilled" ? parseReflog(reflog.value) : []
     };
+    const ci = claudeInfo(cmd) || prev.claude; if (ci) snap.claude = ci;
     S.syncs[p.id] = snap;
     S.sync[p.id] = {kind:"ok", at:Date.now()};
     if (manual) toast(`Synced: ${slices.length} slices, ${snap.log.length} log entries.`);
@@ -3255,6 +3344,18 @@ async function syncProject(p, manual){
     clearTimeout(slow);
     softRender();
   }
+}
+/* S12: what the last sync learned from CLAUDE.md. found:false when the repo has none. Nothing when it couldn't be read for
+   another reason, so the previous snapshot's commands are kept. */
+function claudeInfo(r){
+  if (r.status === "fulfilled") return {found:true, cmds:commandsOf(r.value)};
+  const e = r.reason, msg = String((e && e.message) || "");
+  return e && e.code === "tool_error" && /ENOENT|no such file|not found|cannot find|does not exist/i.test(msg) ? {found:false, cmds:""} : null;
+}
+/* The Commands section, as written. Empty while every line is still TBD. */
+function commandsOf(md){
+  const lines = sectionOf(String(md || "").replace(/\r\n/g, "\n"), /^commands\b/i).split("\n").filter(l => l.trim()).slice(0, 20);
+  return lines.every(l => /^\s*(?:[-*+]\s+)?TBD\b/i.test(l)) ? "" : lines.join("\n").slice(0, 1500);
 }
 function maybeAutoSync(){
   if (S.route.view !== "project" || S.host !== "listed" || !S.online) return;
@@ -3307,7 +3408,7 @@ async function applyPaste(p){
   const slices = (prev.slices || []).map(s => ({...s}));
   for (const u of x.slices){
     const s = slices.find(y => y.id === u.id);
-    if (s){ s.status = u.status; if (u.title) s.title = u.title; }
+    if (s){ s.status = u.status; if (u.title) s.title = u.title; if (u.crit){ s.crit = u.crit; s.story = u.story; } }
     else slices.push({...u, group:slices.length ? slices[slices.length - 1].group : ""});
   }
   const key = e => [e.date, e.id, e.title].join("|"), have = new Set((prev.log || []).map(key));
@@ -3459,6 +3560,20 @@ document.addEventListener("click", async ev => {
       const ok = await copyText(el ? el.value : "", el);
       toast(ok ? "Copied. Paste it into Claude Code in that repo." : "Couldn't copy. The prompt is selected: press Ctrl+C.");
       if (!ok && el){ el.focus(); el.select(); }
+      break;
+    }
+    case "copyprompt": {   // S12
+      const snap = p && S.syncs[p.id], s = snap && sliceInfo(p).slices.find(x => x.id === t.dataset.id);
+      if (!s) break;
+      const ok = await copyPlain(slicePrompt(p, s, snap));
+      if (ok){ toast(`Copied the ${s.id} prompt. Paste it into Claude Code${cleanRepo(p.repo) ? " in " + cleanRepo(p.repo) : ""}.`); if (document.body.contains(t)) t.focus(); }
+      else { const tt = $(".toast"); if (tt) tt.remove(); S.overlayFor = p.id; S.promptFor = s.id; openOverlay("sliceprompt"); setTimeout(() => { const el = $("#sp-text"); if (el){ el.focus(); el.select(); } }, 0); }
+      break;
+    }
+    case "copyslice": {   // S12: the sheet after a refused copy
+      const el = $("#sp-text"), ok = await copyText(el ? el.value : "", el), q = proj(S.overlayFor);
+      if (ok){ closeOverlay(); toast(`Copied the ${S.promptFor} prompt. Paste it into Claude Code${q && cleanRepo(q.repo) ? " in " + cleanRepo(q.repo) : ""}.`); }
+      else { toast("Couldn't copy. The prompt is selected: press Ctrl+C."); if (el){ el.focus(); el.select(); } }
       break;
     }
     case "markdone": if (p) markDone(p, [t.dataset.id]); break;

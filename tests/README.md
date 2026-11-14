@@ -1,6 +1,6 @@
 # Browser tests
 
-Each script opens `src/index.html` in Chromium with a fake database, a fake Claude and (for S5 and S16) a fake laptop file server, then clicks through a slice's main journeys. Nothing touches your real data or uses your Claude plan.
+Each script opens `src/index.html` in Chromium with a fake database, a fake Claude and (for S5, S12 and S16) a fake laptop file server, then clicks through a slice's main journeys. Nothing touches your real data or uses your Claude plan.
 
 | Script | Slice | Checks |
 | --- | --- | --- |
@@ -12,6 +12,7 @@ Each script opens `src/index.html` in Chromium with a fake database, a fake Clau
 | `s7.py` | S7 · Tracked-changes approval | 46 |
 | `s9.py` | S9 · Rendered Mermaid diagrams | 37 |
 | `s10.py` | S10 · Claude Code handoff | 58 |
+| `s12.py` | S12 · Claude Code prompt per slice | 82 |
 | `s16.py` | S16 · Build monitor with progress sync | 26 |
 
 ## Run

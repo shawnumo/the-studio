@@ -12,8 +12,14 @@ Read docs/PRD.md, docs/design.md and docs/adr/ before changing anything.
 - If you (Claude Code) change `src/index.html`, say so clearly at the end of the session so it gets republished.
 - The setup prompt inside `src/index.html` embeds `.claude/hooks/studio-check.cjs`, `.claude/settings.json` and the Studio protocol section below. After changing any of them, run `python tools/embed_setup.py` so the prompt matches.
 
+## Commands
+- Install: `pip install playwright`, then `python -m playwright install chromium`
+- Test: `for f in tests/s*.py; do python "$f"; done` runs every suite (list in `tests/README.md`). `s9.py` needs Mermaid; offline, set `MERMAID_DIR` as that README says.
+- Embed: `python tools/embed_setup.py` after changing the hook, its settings or the Studio protocol
+- Deploy: republish `src/index.html` to the artifact from the claude.ai conversation (see Where changes happen)
+
 ## Studio protocol (every slice)
-The Studio reads `docs/stories.md`, `docs/progress.md`, `.git/HEAD` and `.git/logs/HEAD` from this folder. Keep the formats exact.
+The Studio reads `docs/stories.md`, `docs/progress.md`, the Commands section of `CLAUDE.md`, `.git/HEAD` and `.git/logs/HEAD` from this folder. Keep the formats exact.
 
 1. Work on one slice from `docs/stories.md` at a time, in the order listed.
 2. When it's built and tested, change its line to `- [~]` (built, check it on a phone). Only Shawn marks `- [x]`; The Studio does it when he presses Mark done.
