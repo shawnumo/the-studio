@@ -311,8 +311,8 @@ async def main():
         # 8. Ship opens on its checklist; Build stays the monitor; Discover stays the chat
         await d.goto(URL + '#p-ps'); await d.wait_for_selector('.shipmain', timeout=8000)
         ok('ship: checklist is the main view', await d.locator('.pmain .checks.big li').count() == 3 and await d.locator('.pside .checks').count() == 0 and 'Exit checklist' in await d.inner_text('.shipmain'))
-        await d.click('.shipmain .checks li:first-child label'); await d.wait_for_timeout(800)
-        ok('ship: tick saves', (await d.evaluate('window.__store["projects/ps"].checks.ship'))[0] is True)
+        await d.click('.shipmain .checks li:nth-child(2) label'); await d.wait_for_timeout(800)   # S14: the first item follows the launch checklist
+        ok('ship: tick saves', (await d.evaluate('window.__store["projects/ps"].checks.ship'))[1] is True)
         await d.fill('#p-live', 'https://mafia.pages.dev'); await d.click('.shipmain h2'); await d.wait_for_timeout(800)
         ok('ship: live URL saved, Open link', (await d.evaluate('window.__store["projects/ps"].liveUrl')) == 'https://mafia.pages.dev' and await d.locator('.liverow a[href="https://mafia.pages.dev"]').count() == 1)
         ok('ship: no sideways scroll, page layout', await d.evaluate('document.documentElement.scrollWidth <= innerWidth') and await d.query_selector('.app.fixed') is None)
