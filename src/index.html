@@ -1027,6 +1027,7 @@ function bumpVer(v){
 }
 const shippedList = () => S.projects.filter(p => !p.archived && p.completed.ship).sort((a, b) => ((b.versions[0] || {}).at || b.updatedAt) - ((a.versions[0] || {}).at || a.updatedAt));
 const archivedList = () => S.projects.filter(p => p.archived).sort((a, b) => b.archivedAt - a.archivedAt);   // S19: newest first
+const webUrl = u => /^https?:\/\/\S+$/i.test(String(u || "").trim());   // only web addresses become links
 const hostOf = u => String(u || "").replace(/^https?:\/\//i, "").replace(/\/$/, "").slice(0, 80);
 const inBacklog = (p, f) => !!(f.bl && p.backlog.some(b => b.id === f.bl));
 const nextText = p => p.nextStep.trim() || (p.phase === "build" && sliceInfo(p).total ? sliceInfo(p).next : PH[p.phase].next);
@@ -2292,7 +2293,7 @@ function releaseSec(p){
   return `<section aria-labelledby="rl-h"><h2 id="rl-h">Release</h2>
     <div class="liverow"><label class="field" for="p-live">Live URL<input class="input mono" id="p-live" data-field="liveUrl" value="${esc(p.liveUrl)}" placeholder="https://" spellcheck="false" autocomplete="off" inputmode="url"></label>${ok ? `<a class="btn" href="${esc(live)}" target="_blank" rel="noopener">Open</a>` : ""}</div>
     <label class="field" for="p-ver">Version<input class="input mono" id="p-ver" data-field="version" value="${esc(p.version)}" placeholder="1.0.0" maxlength="20" spellcheck="false" autocomplete="off"></label>
-    ${p.versions.length ? `<ul class="vlist" aria-label="Versions shipped">${p.versions.slice(0, 6).map(r => `<li><span class="mono">v${esc(r.v)}</span><span class="mono">${esc(shortDate(r.at))}</span>${r.url ? `<a class="mono" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(hostOf(r.url))}</a>` : ""}</li>`).join("")}</ul>`
+    ${p.versions.length ? `<ul class="vlist" aria-label="Versions shipped">${p.versions.slice(0, 6).map(r => `<li><span class="mono">v${esc(r.v)}</span><span class="mono">${esc(shortDate(r.at))}</span>${webUrl(r.url) ? `<a class="mono" href="${esc(r.url.trim())}" target="_blank" rel="noopener">${esc(hostOf(r.url))}</a>` : r.url ? `<span class="mono">${esc(hostOf(r.url))}</span>` : ""}</li>`).join("")}</ul>`
       : `<p class="hint">Finishing Ship records the version, the date and the live URL.</p>`}</section>`;
 }
 
@@ -3486,7 +3487,7 @@ function buildMain(p){
   const notice = pending.length ? `<div class="notice"><span>Marked done in The Studio: <b class="mono">${pending.map(esc).join(", ")}</b>. ${canSync && repo ? "Write it into docs/stories.md so Claude Code sees it." : "It goes into docs/stories.md when you press Write it on your laptop."}</span>${canSync && repo ? `<button type="button" class="btn" data-act="writemarks">Write it</button>` : ""}</div>` : "";
 
   const checks = si.checks;
-  const live = p.liveUrl ? `<a class="btn" href="${esc(p.liveUrl)}" target="_blank" rel="noopener">Open live URL</a>` : "";
+  const live = webUrl(p.liveUrl) ? `<a class="btn" href="${esc(p.liveUrl.trim())}" target="_blank" rel="noopener">Open live URL</a>` : "";
   let callout = "";
   if (checks.length === 1){
     const s = checks[0], e = (snap.log || []).find(x => x.id === s.id);
