@@ -1,4 +1,4 @@
-# The Studio v2: PRD (snapshot, 2026-11-13)
+# The Studio v2: PRD (snapshot, 2026-11-15)
 
 Source of truth with full acceptance criteria, NFRs and screens: https://claude.ai/artifact/TaqRxcnyLvmWs7spbZiHby
 
@@ -21,7 +21,7 @@ Shawn: a software engineering student in Lagos building solo on a $0 budget with
 5. Hand finished docs to Claude Code in one step.
 
 ## Non-goals (v2)
-Teams or sharing · command palette or terminal styling · running code inside The Studio · direct GitHub writes · cross-project analytics.
+Teams or sharing · command palette or terminal styling · running code inside The Studio · direct GitHub writes, unless a GitHub connector with write tools turns up · cross-project analytics.
 
 ## Success metric
 Shawn's next real project goes from capture to Ship entirely inside The Studio.
@@ -39,5 +39,10 @@ S1 board · S2 quick capture · S3 AI triage and inbox · S4 Discover coach with
 ## Should
 S9 rendered diagrams · S12 prompt per slice · S14 Ship checklist · S15 keyboard shortcuts.
 
+## Could
+S18 case study from a shipped project (a portfolio page, a technical write-up and a short summary) · S19 archive projects off the board.
+Parked, no ID: direct push to GitHub through a connector, if one with write tools becomes available (none on 15 Nov).
+
 ## Decided
 - Long chats: ask first (13 Nov, S4). When a coach chat nears the 256 KiB document limit, The Studio offers to trim the oldest messages and trims only after Shawn says yes. Claude's running notes keep what those messages said.
+- Case study and changelog live in Ship (15 Nov). The canvas's "Turn the log into" row in Build stays out, and there's no Commit summary.

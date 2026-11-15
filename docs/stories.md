@@ -32,7 +32,7 @@ Build order is riskiest first. Full stories and acceptance criteria are in the P
   - Given missing facts (who used it, numbers, what I'd do differently), when Claude drafts, then it writes TBD: lines instead of inventing them.
   - Given a draft, when I edit it, then it saves to my account, and Draft again asks before replacing my edits.
   - Given a case study, when I choose Copy, then I get it as Markdown; on a phone it's a full-screen tab with Copy at the bottom.
-- [~] S19 · Archive projects off the board
+- [x] S19 · Archive projects off the board
   As Shawn, I want to archive a project I've stopped or finished with so the board, the rail and Shipped show only live work.
   - Given any project, when I choose Archive in its side panel and confirm, then it leaves the board, the rail's project list and Shipped at once, and nothing in it is deleted.
   - Given archived projects, when I open the Archived group at the foot of Shipped, then each one shows its phase or version and when it was archived, with Restore.
