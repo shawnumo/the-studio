@@ -16,6 +16,7 @@ Each script opens `src/index.html` in Chromium with a fake database, a fake Clau
 | `s14.py` | S14 · Ship checklist, feedback and changelog | 107 |
 | `s16.py` | S16 · Build monitor with progress sync | 26 |
 | `s18.py` | S18 · Case study from a shipped project | 95 |
+| `s19.py` | S19 · Archive projects off the board | 49 |
 
 ## Run
 

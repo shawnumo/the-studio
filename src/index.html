@@ -292,6 +292,20 @@ table.slices tr.sdet.hl{background:var(--amber-tint)}
 .clacts{display:flex;flex-wrap:wrap;gap:8px}
 .clive{font-size:15px}
 .vlist li{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--text2)}
+/* S19: archived projects */
+.banner.arch{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-top:8px;padding-bottom:8px}
+.banner.arch .btn{height:32px}
+.projacts{display:flex;flex-wrap:wrap;gap:8px}
+.archsec .disc{min-height:34px;color:var(--text);font-size:16px;font-weight:700}
+.archsec .disc[aria-expanded="true"] .chev{transform:rotate(90deg);color:var(--text2)}
+.archsec .disc .mono{font-size:13px;font-weight:400;color:var(--text2)}
+.archsec h2{margin:0}
+.archsec .hint{margin:0;font-size:13px;color:var(--text3)}
+.archlist{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--line)}
+.archlist li{display:grid;grid-template-columns:minmax(0,1fr) 160px 150px auto;align-items:center;gap:4px 12px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.archlist a{color:var(--text);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.archlist .where,.archlist .when{font-size:13px;color:var(--text2)}
+.shiplink small{font-size:12px;color:var(--text3)}
 /* S18: the case study */
 .cssec{display:flex;flex-direction:column;gap:10px}
 .cssec > .errbox,.cssec > .gate{max-width:72ch}
@@ -716,6 +730,13 @@ dl.notes dd{margin:0;overflow-wrap:anywhere}
   .pbody.ship[data-stab="changelog"] .lsec,.pbody.ship[data-stab="changelog"] .fbsec,.pbody.ship[data-stab="changelog"] .blsec,.pbody.ship[data-stab="changelog"] .cssec,.pbody.ship[data-stab="changelog"] .goal,.pbody.ship[data-stab="changelog"] .pside{display:none}
   .pbody.ship[data-stab="case"] .lsec,.pbody.ship[data-stab="case"] .fbsec,.pbody.ship[data-stab="case"] .blsec,.pbody.ship[data-stab="case"] .clsec,.pbody.ship[data-stab="case"] .goal,.pbody.ship[data-stab="case"] .shipbar,.pbody.ship[data-stab="case"] .pside{display:none}
   .btabs.b4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .banner.arch .btn,.projacts .btn,.archlist .btn{height:44px}
+  .archsec .disc{min-height:44px}
+  .archlist li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n b" "w b" "t b";padding:10px 0}
+  .archlist a{grid-area:n}
+  .archlist .where{grid-area:w}
+  .archlist .when{grid-area:t}
+  .archlist .btn{grid-area:b}
   .btabs.b4 button{padding:0 2px;font-size:13px}
   .cssec .csbar{order:5;position:sticky;bottom:0;z-index:10;margin:0 -16px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--rail);border-top:1px solid var(--line)}
   .cssec .csbar .btn{flex:1 1 0;height:48px}
@@ -985,6 +1006,7 @@ function normalize(p){
   const cs = p.cases && typeof p.cases === "object" && !Array.isArray(p.cases) ? p.cases : {};   // S18: {portfolio, technical, summary} -> {text, at, by, editedAt, v, cut}
   p.cases = Object.fromEntries(CASES.map(c => [c.k, cs[c.k]]).filter(([, x]) => x && typeof x.text === "string")
     .map(([k, x]) => [k, {text:x.text.slice(0, CASE_MAX), at:+x.at || 0, by:x.by === "you" ? "you" : "claude", editedAt:+x.editedAt || 0, v:typeof x.v === "string" ? x.v.slice(0, 20) : "", cut:!!x.cut}]));
+  p.archived = !!p.archived; p.archivedAt = p.archived ? (+p.archivedAt || p.updatedAt || Date.now()) : 0;   // S19
   p.checks.ship[0] = launchDone(p);   // "The launch checklist passes" follows the launch checklist
   p.createdAt = p.createdAt || Date.now();
   p.updatedAt = p.updatedAt || p.createdAt;
@@ -1004,6 +1026,7 @@ function bumpVer(v){
   return n ? v.slice(0, n.index) + (+n[1] + 1) + v.slice(n.index + n[1].length) : v + ".1";
 }
 const shippedList = () => S.projects.filter(p => !p.archived && p.completed.ship).sort((a, b) => ((b.versions[0] || {}).at || b.updatedAt) - ((a.versions[0] || {}).at || a.updatedAt));
+const archivedList = () => S.projects.filter(p => p.archived).sort((a, b) => b.archivedAt - a.archivedAt);   // S19: newest first
 const hostOf = u => String(u || "").replace(/^https?:\/\//i, "").replace(/\/$/, "").slice(0, 80);
 const inBacklog = (p, f) => !!(f.bl && p.backlog.some(b => b.id === f.bl));
 const nextText = p => p.nextStep.trim() || (p.phase === "build" && sliceInfo(p).total ? sliceInfo(p).next : PH[p.phase].next);
@@ -1777,7 +1800,7 @@ function scrollKey(){ const r = S.route, v = routePhase(); return v ? [r.id, v, 
 
 function rail(){
   const r = S.route, inboxN = S.captures.filter(c => c.status === "new").length;
-  const sp = r.view === "project" ? proj(r.id) : null, shipCur = r.view === "shipped" || !!(sp && sp.completed.ship);   // S14
+  const sp = r.view === "project" ? proj(r.id) : null, shipCur = r.view === "shipped" || !!(sp && (sp.completed.ship || sp.archived));   // S14, S19
   const projects = active().map(p => `<a href="#p-${p.id}" ${(r.view === "project" || r.view === "handoff") && r.id === p.id ? 'aria-current="page"' : ""}><span>${esc(p.name)}</span><small>${PH[p.phase].name}</small></a>`).join("");
   const foot = S.backend === "db"
     ? `<span><i class="dot" style="background:var(--green)"></i><span style="color:var(--text)">Saved to your account</span></span><span>${S.host === "listed" ? "Repo sync on, through this laptop" : S.host === "none" ? "Repo sync runs in the Claude desktop app" : "Checking for repo sync…"}</span>`
@@ -1812,6 +1835,8 @@ function banners(){
   if (!S.online) out += `<div class="banner" role="status"><b>You're offline.</b> Edits save on this device and sync when you reconnect.</div>`;
   if (S.backend === "loading" && S.loadNote) out += `<div class="banner err" role="alert"><b>Your projects can't be reached yet.</b> ${esc(S.loadNote)}</div>`;
   if (S.backend === "local") out += `<div class="banner" role="status"><b>Saving in this browser only.</b> ${esc(S.loadNote)}</div>`;
+  const ap = (S.route.view === "project" || S.route.view === "handoff") && proj(S.route.id);   // S19
+  if (ap && ap.archived) out += `<div class="banner arch" role="status"><span><b>Archived</b> on <span class="mono">${esc(shortDate(ap.archivedAt))}</span>. It's off the ${ap.completed.ship ? "Shipped list" : "board"}, and nothing in it was deleted.</span><button type="button" class="btn" data-act="restore">Restore</button></div>`;
   return out;
 }
 function loadingView(){
@@ -1947,7 +1972,7 @@ function boardTop(){
 
 function boardView(){
   const ps = active();
-  if (!ps.length && !S.captures.length) return boardTop() + firstRun() + (shippedList().length ? `<section class="block mob-only">${shipLink()}</section>` : "");
+  if (!ps.length && !S.captures.length) return boardTop() + firstRun() + (shipLink() ? `<section class="block mob-only">${shipLink()}</section>` : "");
   const needs = ps.map(needOf).sort((a, b) => a.g - b.g || b.t - a.t);
   const needsHtml = needs.length ? `<ol class="needs">${needs.map((n, i) => {
       const ra = n.rid ? ` data-act="openreview" data-id="${n.rid}"` : "";
@@ -2183,7 +2208,9 @@ function projectView(){
   const nextPh = isBuild && si.next ? si.next : ph.next;
   const nextSec = `<section><h2>Next step</h2><label class="field" for="p-next"><span class="sr">Next step</span><input class="input" id="p-next" data-field="nextStep" value="${esc(p.nextStep)}" placeholder="${esc(nextPh)}"></label><span style="font-size:12px;color:var(--text3)">Shown on the board under Needs you.${isBuild && si.total ? " Leave it empty to follow the slices." : ""}</span></section>`;
   const checkSec = `<section><h2>Exit checklist <span class="mono" style="font-size:13px;font-weight:400;color:var(--text2)">${d}/${t}</span></h2><ul class="checks">${checks}</ul>${gate}</section>`;
-  const delBtn = `<button type="button" class="btn ghost" data-act="${S.confirm === "delete" ? "delete" : "askdelete"}" style="${S.confirm === "delete" ? "color:var(--red);border-color:var(--red-line)" : ""}">${S.confirm === "delete" ? "Delete for good?" : "Delete project"}</button>`;
+  const delBtn = S.confirm === "archive"   // S19: Archive beside Delete project, with a confirm
+    ? `<div class="gate" role="group" aria-label="Archive ${esc(p.name)}"><b>Archive ${esc(p.name)}?</b><span>It leaves the ${p.completed.ship ? "Shipped list" : "board and the project list"}. Nothing in it is deleted; Restore brings it back, here or from Archived at the foot of Shipped.</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" data-act="archive">Archive</button><button type="button" class="btn ghost" data-act="cancelarch">Keep it</button></span></div>`
+    : `<span class="projacts">${p.archived ? `<button type="button" class="btn" data-act="restore">Restore</button>` : `<button type="button" class="btn ghost" data-act="askarchive">Archive</button>`}<button type="button" class="btn ghost" data-act="${S.confirm === "delete" ? "delete" : "askdelete"}" style="${S.confirm === "delete" ? "color:var(--red);border-color:var(--red-line)" : ""}">${S.confirm === "delete" ? "Delete for good?" : "Delete project"}</button></span>`;
   const delSec = `<section>${delBtn}</section>`;
 
   if (isBuild){
@@ -2571,7 +2598,7 @@ function backlogContext(p){
 /* ---------- Shipped (S14) ---------- */
 function shippedView(){
   const ps = shippedList(), top = `<div class="top"><h1>Shipped</h1></div>`;
-  if (!ps.length) return top + `<section class="block"><div class="caught"><b>Nothing shipped yet</b><span style="font-size:13px;color:var(--text2)">Finish Ship on a project and it lands here with its version, date and live URL. Its feedback still goes on its Ship page.</span></div></section>`;
+  if (!ps.length) return top + `<section class="block"><div class="caught"><b>Nothing shipped yet</b><span style="font-size:13px;color:var(--text2)">Finish Ship on a project and it lands here with its version, date and live URL. Its feedback still goes on its Ship page.</span></div></section>` + archivedSec();
   const rec = p => p.versions.find(r => r.v === verOf(p)) || p.versions[0] || {v:verOf(p), at:p.updatedAt, url:p.liveUrl.trim()};
   const link = r => r.url && /^https?:\/\//i.test(r.url) ? `<a class="mono" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(hostOf(r.url))}</a>` : `<span style="color:var(--text3)">No live URL</span>`;
   return top + `<section class="block" aria-label="Shipped projects">
@@ -2579,9 +2606,17 @@ function shippedView(){
     <div class="scroll desk-only"><table class="ships"><colgroup><col style="width:24%"><col style="width:12%"><col style="width:12%"><col><col style="width:11%"><col style="width:11%"></colgroup>
       <thead><tr><th scope="col">Project</th><th scope="col">Version</th><th scope="col">Shipped</th><th scope="col">Live URL</th><th scope="col" class="num">Feedback</th><th scope="col" class="num">Backlog</th></tr></thead>
       <tbody>${ps.map(p => { const r = rec(p); return `<tr><th scope="row"><a href="#p-${p.id}-ship">${esc(p.name)}</a></th><td class="mono">v${esc(r.v)}</td><td class="mono">${esc(shortDate(r.at))}</td><td>${link(r)}</td><td class="num mono">${p.feedback.length}</td><td class="num mono">${p.backlog.length}</td></tr>`; }).join("")}</tbody></table></div>
-    <ul class="mrows mob-only">${ps.map(p => { const r = rec(p); return `<li><a href="#p-${p.id}-ship"><span class="r1"><b>${esc(p.name)}</b><span class="mono">v${esc(r.v)} · ${esc(shortDate(r.at))}</span></span><span class="sess">${r.url ? esc(hostOf(r.url)) : "No live URL"} · ${p.feedback.length} feedback · ${p.backlog.length} in backlog</span></a></li>`; }).join("")}</ul></section>`;
+    <ul class="mrows mob-only">${ps.map(p => { const r = rec(p); return `<li><a href="#p-${p.id}-ship"><span class="r1"><b>${esc(p.name)}</b><span class="mono">v${esc(r.v)} · ${esc(shortDate(r.at))}</span></span><span class="sess">${r.url ? esc(hostOf(r.url)) : "No live URL"} · ${p.feedback.length} feedback · ${p.backlog.length} in backlog</span></a></li>`; }).join("")}</ul></section>` + archivedSec();
 }
-const shipLink = () => { const n = shippedList().length; return n ? `<a class="shiplink mob-only" href="#shipped"><span>Shipped</span><span class="mono">${n}</span></a>` : ""; };
+/* S19: archived projects, collapsed at the foot of Shipped, each with Restore */
+function archivedSec(){
+  const ps = archivedList();
+  if (!ps.length) return `<section class="block archsec" aria-label="Archived"><p class="hint">Archived projects land here. Archive one from its side panel to take it off the board; nothing in it is deleted.</p></section>`;
+  const where = p => p.completed.ship ? `<span class="mono">v${esc(verOf(p))}</span> · shipped` : PH[p.phase].name;
+  return `<section class="block archsec" aria-labelledby="arch-h"><h2 id="arch-h"><button type="button" class="disc" data-act="togglearch" aria-expanded="${!!S.archOpen}" aria-controls="arch-list">${CHEV}Archived <span class="mono">${ps.length}</span></button></h2>
+    <ul class="archlist" id="arch-list" ${S.archOpen ? "" : "hidden"}>${ps.map(p => `<li><a href="#p-${p.id}">${esc(p.name)}</a><span class="where">${where(p)}</span><span class="when">Archived <span class="mono">${esc(shortDate(p.archivedAt))}</span></span><button type="button" class="btn" data-act="restore" data-id="${esc(p.id)}" aria-label="Restore ${esc(p.name)}">Restore</button></li>`).join("")}</ul></section>`;
+}
+const shipLink = () => { const n = shippedList().length, a = archivedList().length; return n || a ? `<a class="shiplink mob-only" href="#shipped"><span>Shipped${a ? ` <small>· ${a} archived</small>` : ""}</span><span class="mono">${n}</span></a>` : ""; };
 
 /* ---------- Define and Design: documents first (S5) ---------- */
 function docView(p, phase, x){
@@ -4331,6 +4366,24 @@ document.addEventListener("click", async ev => {
     }
     case "reopen": { if (!p) break; const key = S.route.phase || p.phase; delete p.completed[key]; p.phase = key; saveProject(p, true); render(); break; }
     case "askdelete": S.confirm = "delete"; render(); break;
+    /* S19: archive and restore */
+    case "askarchive": { S.confirm = "archive"; render(); const b = [...document.querySelectorAll('.gate [data-act="archive"]')].find(x => x.offsetParent); if (b) b.focus(); break; }
+    case "cancelarch": { S.confirm = null; render(); const b = [...document.querySelectorAll('[data-act="askarchive"]')].find(x => x.offsetParent); if (b) b.focus(); break; }
+    case "archive": {
+      if (!p) break;
+      p.archived = true; p.archivedAt = Date.now(); S.confirm = null; saveProject(p, true); render();
+      toast(`Archived ${p.name}. It's off the ${p.completed.ship ? "Shipped list" : "board"}; Restore brings it back.`);
+      const b = $('.banner.arch [data-act="restore"]'); if (b) b.focus();
+      break;
+    }
+    case "restore": {
+      const q = t.dataset.id ? proj(t.dataset.id) : p; if (!q || !q.archived) break;
+      q.archived = false; q.archivedAt = 0; S.confirm = null; saveProject(q, true); render();
+      toast(q.completed.ship ? `Restored ${q.name} to Shipped.` : `Restored ${q.name} to the board, in ${PH[q.phase].name}.`);
+      const b = [...document.querySelectorAll('[data-act="togglearch"], [data-act="askarchive"]')].find(x => x.offsetParent); if (b) b.focus();
+      break;
+    }
+    case "togglearch": { S.archOpen = !S.archOpen; render(); const b = $('[data-act="togglearch"]'); if (b) b.focus(); break; }
     case "delete": {
       if (!p) break; S.projects = S.projects.filter(x => x.id !== p.id); S.confirm = null; go("board");
       try { await store.del("projects", p.id); toast("Project deleted."); } catch(e){ toast(dbErr(e)); }
